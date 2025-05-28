@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  user-select: none; /* Disable text selection */
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-protest: "Protest Riot", cursive;
+  --main-color: #115099; /* Menambahkan warna utama untuk progress bar */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  scrollbar-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  @apply overflow-auto;
+}
+
+.font-protest {
+  font-family: var(--font-protest);
+}
+
+@media print {
+  body {
+    display: none;
+  }
+}
+
+.transition-fade {
+  transition: all 0.3s ease-in-out;
+}
