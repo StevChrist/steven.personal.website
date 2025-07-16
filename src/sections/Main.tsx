@@ -220,7 +220,7 @@ export default function Main() {
         </div>
       </div>
 
-      {/* Debug info */}
+      {/* Debug info
       <p style={{ 
         position: 'fixed', 
         top: '10px', 
@@ -234,7 +234,7 @@ export default function Main() {
         Model: {getModelSize()}<br/>
         Greeting: {getGreetingSize()}<br/>
         TypedText: {getTypedTextSize()}
-      </p>
+      </p> */}
       
     </section>
   )
