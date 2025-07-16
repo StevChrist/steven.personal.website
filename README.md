@@ -10,7 +10,7 @@ Hi! I'm Steven, and this is the repository for the source code of my personal we
 - Styled using Tailwind CSS for rapid UI development.
 - Includes a custom 3D avatar model viewer.
 - Features animated typed text effects.
-- Uses Ai to help create this website.
+- Uses Ai to help create this website. The Ai that i use is Perplexity with model Sonet Claude 4.0 and GPT-4.1 [(https://www.perplexity.ai/)]
 
 ## ✨ Key Features
 
@@ -20,7 +20,7 @@ Hi! I'm Steven, and this is the repository for the source code of my personal we
 ## 🚀 Visit My Website
 
 Curious to see it in action? You can view the live version of my website here:
-➡️ **(https://YOUR-WEBSITE-URL.com)**
+➡️ **[(https://stevchrist.vercel.app/)]**
 
 ---
 

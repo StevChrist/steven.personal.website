@@ -1,0 +1,1 @@
+1. Fix animated scroll (useScrollAnimation) for all device (Responsive)

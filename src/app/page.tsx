@@ -5,6 +5,7 @@ import About from '@/sections/About'
 import Skills from '@/sections/Skills'
 import Project from '@/sections/Project'
 import Contact from '@/sections/Contact'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
@@ -24,14 +25,7 @@ export default function Home() {
       <Skills />
       <Project />
       <Contact />
-      {/* Footer */}
-      <footer className="bg-black text-white py-6">
-        <div className="flex justify-center items-center max-w-screen-xl mx-auto">
-          <p className="text-sm">
-            Copyright © 2025 by Steven | All Rights Reserved
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   )
 }
