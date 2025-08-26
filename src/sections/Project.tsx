@@ -226,7 +226,7 @@ const Project = () => {
         '/image/Design/5.png',
         '/image/Design/6.png',
         '/image/Design/7.jpg',
-        '/image/Design/8.png',
+        // '/image/Design/8.png',
         '/image/Design/9.png',
         // '/image/Design/10.png',
     ]
