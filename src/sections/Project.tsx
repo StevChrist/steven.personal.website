@@ -10,7 +10,7 @@ import Lenis from '@studio-freight/lenis'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const categories = ['Design', 'Code', 'Photo', 'Video']
+const categories = ['Design', 'Code', 'Photo'] //, 'Video'
 
 const Project = () => {
     const [activeCategory, setActiveCategory] = useState('Design')
