@@ -239,22 +239,22 @@ const Project = () => {
         // '/image/Photo/3.jpg',
     ]
 
-    // UNTUK MENAMBAHKAN VIDEO LANDSCAPE: Tambahkan path video ke array videoLandscape
-    const videoLandscape = [
-        '/image/Video/Landscape/land 1.mp4', 
-        '/image/Video/Landscape/land 2.mp4', 
-        '/image/Video/Landscape/land 3.mp4', 
-        '/image/Video/Landscape/land 4.mp4'
-        // TAMBAHKAN VIDEO LANDSCAPE BARU DI SINI:
-        // '/image/Video/Landscape/land 5.mp4',
-    ]
+    // // UNTUK MENAMBAHKAN VIDEO LANDSCAPE: Tambahkan path video ke array videoLandscape
+    // const videoLandscape = [
+    //     '/image/Video/Landscape/land 1.mp4', 
+    //     '/image/Video/Landscape/land 2.mp4', 
+    //     '/image/Video/Landscape/land 3.mp4', 
+    //     '/image/Video/Landscape/land 4.mp4'
+    //     // TAMBAHKAN VIDEO LANDSCAPE BARU DI SINI:
+    //     // '/image/Video/Landscape/land 5.mp4',
+    // ]
 
-    // UNTUK MENAMBAHKAN VIDEO PORTRAIT: Tambahkan path video ke array videoPotrait
-    const videoPotrait = [
-        'image/Video/Potrait/pot 1.mp4'
-        // TAMBAHKAN VIDEO PORTRAIT BARU DI SINI:
-        // 'image/Video/Potrait/pot 2.mp4',
-    ]
+    // // UNTUK MENAMBAHKAN VIDEO PORTRAIT: Tambahkan path video ke array videoPotrait
+    // const videoPotrait = [
+    //     'image/Video/Potrait/pot 1.mp4'
+    //     // TAMBAHKAN VIDEO PORTRAIT BARU DI SINI:
+    //     // 'image/Video/Potrait/pot 2.mp4',
+    // ]
 
     // UNTUK MENAMBAHKAN PROJECT CODE: Tambahkan object baru ke array codeProjects
     const codeProjects = [
@@ -281,8 +281,8 @@ const Project = () => {
 
     ]
 
-    // State untuk mengatur apakah video diperbesar atau tidak
-    const [isVideoFullscreen] = useState(false)
+    // // State untuk mengatur apakah video diperbesar atau tidak
+    // const [isVideoFullscreen] = useState(false)
 
     const imageSize = getImageSize()
     const imageLimit = getImageLimit()
@@ -436,89 +436,89 @@ const Project = () => {
                         </div>
                     </motion.div>
                 )
-            case 'Video':
-                return (
-                    <motion.div
-                        key="video"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className="gsap-fade-up"
-                        style={{
-                            marginLeft: getContentMargin(),
-                            marginRight: getContentMargin()
-                        }}
-                    >
-                        {/* Landscape Videos */}
-                        <div 
-                            className="grid justify-center mb-[30px]"
-                            style={{
-                                gridTemplateColumns: isMobileLayout() ? '1fr' : 'repeat(2, 1fr)',
-                                gap: getImageGap(),
-                                maxWidth: '1200px',
-                                margin: '0 auto'
-                            }}
-                        >
-                            {videoLandscape.slice(0, isMobileLayout() ? 2 : 4).map((src, i) => (
-                                <div 
-                                    key={i} 
-                                    className="bg-gray-600 rounded-[10px] overflow-hidden"
-                                    style={{
-                                        width: isMobileLayout() ? '100%' : '300px',
-                                        height: isMobileLayout() ? '200px' : '169px'
-                                    }}
-                                >
-                                    <video
-                                        width="100%"
-                                        height="100%"
-                                        autoPlay
-                                        loop
-                                        muted
-                                    >
-                                        <source src={src} type="video/mp4" />
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                            ))}
-                        </div>
+            // case 'Video':
+            //     return (
+            //         <motion.div
+            //             key="video"
+            //             initial={{ opacity: 0, y: 20 }}
+            //             animate={{ opacity: 1, y: 0 }}
+            //             exit={{ opacity: 0, y: -20 }}
+            //             transition={{ duration: 0.3 }}
+            //             className="gsap-fade-up"
+            //             style={{
+            //                 marginLeft: getContentMargin(),
+            //                 marginRight: getContentMargin()
+            //             }}
+            //         >
+            //             {/* Landscape Videos */}
+            //             <div 
+            //                 className="grid justify-center mb-[30px]"
+            //                 style={{
+            //                     gridTemplateColumns: isMobileLayout() ? '1fr' : 'repeat(2, 1fr)',
+            //                     gap: getImageGap(),
+            //                     maxWidth: '1200px',
+            //                     margin: '0 auto'
+            //                 }}
+            //             >
+            //                 {videoLandscape.slice(0, isMobileLayout() ? 2 : 4).map((src, i) => (
+            //                     <div 
+            //                         key={i} 
+            //                         className="bg-gray-600 rounded-[10px] overflow-hidden"
+            //                         style={{
+            //                             width: isMobileLayout() ? '100%' : '300px',
+            //                             height: isMobileLayout() ? '200px' : '169px'
+            //                         }}
+            //                     >
+            //                         <video
+            //                             width="100%"
+            //                             height="100%"
+            //                             autoPlay
+            //                             loop
+            //                             muted
+            //                         >
+            //                             <source src={src} type="video/mp4" />
+            //                             Your browser does not support the video tag.
+            //                         </video>
+            //                     </div>
+            //                 ))}
+            //             </div>
                         
-                        {/* Portrait Videos */}
-                        <div 
-                            className="grid justify-center"
-                            style={{
-                                gridTemplateColumns: isMobileLayout() ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-                                gap: getImageGap(),
-                                maxWidth: '800px',
-                                margin: '0 auto'
-                            }}
-                        >
-                            {videoPotrait.slice(0, isMobileLayout() ? 2 : 6).map((src, i) => (
-                                <div
-                                    key={i}
-                                    className={`bg-gray-600 rounded-[10px] overflow-hidden ${
-                                        isVideoFullscreen ? 'w-[80%] h-[80%]' : ''
-                                    }`}
-                                    style={{
-                                        width: isMobileLayout() ? '150px' : '200px',
-                                        height: isMobileLayout() ? '267px' : '350px'
-                                    }}
-                                >
-                                    <video
-                                        width="100%"
-                                        height="100%"
-                                        autoPlay
-                                        loop
-                                        muted
-                                    >
-                                        <source src={src} type="video/mp4" />
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-                )
+            //             {/* Portrait Videos */}
+            //             <div 
+            //                 className="grid justify-center"
+            //                 style={{
+            //                     gridTemplateColumns: isMobileLayout() ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+            //                     gap: getImageGap(),
+            //                     maxWidth: '800px',
+            //                     margin: '0 auto'
+            //                 }}
+            //             >
+            //                 {videoPotrait.slice(0, isMobileLayout() ? 2 : 6).map((src, i) => (
+            //                     <div
+            //                         key={i}
+            //                         className={`bg-gray-600 rounded-[10px] overflow-hidden ${
+            //                             isVideoFullscreen ? 'w-[80%] h-[80%]' : ''
+            //                         }`}
+            //                         style={{
+            //                             width: isMobileLayout() ? '150px' : '200px',
+            //                             height: isMobileLayout() ? '267px' : '350px'
+            //                         }}
+            //                     >
+            //                         <video
+            //                             width="100%"
+            //                             height="100%"
+            //                             autoPlay
+            //                             loop
+            //                             muted
+            //                         >
+            //                             <source src={src} type="video/mp4" />
+            //                             Your browser does not support the video tag.
+            //                         </video>
+            //                     </div>
+            //                 ))}
+            //             </div>
+            //         </motion.div>
+            //     )
             default:
                 return null
         }
