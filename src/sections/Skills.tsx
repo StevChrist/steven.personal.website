@@ -26,20 +26,16 @@ const Skills = () => {
 
   // Animasi untuk counter skill
   const animateCounter = (element: HTMLElement, endValue: number) => {
-    gsap.fromTo(
-      element,
-      { innerText: '0' }, // Mulai dari 0
-      {
-        innerText: endValue,
-        duration: 2, // Durasi animasi
-        ease: 'power2.out', // Ease out untuk animasi yang lebih halus
-        snap: { innerText: 1 }, // Pastikan nilai angka tidak terputus
-        // Menambahkan callback untuk memastikan angka berhenti pada nilai akhir
-        onUpdate: () => {
-          element.innerText = Math.ceil(Number(element.innerText)).toString() + '%'
-        },
-      }
-    )
+    // Tween nilai numerik terpisah, bukan innerText
+    const obj = { val: 0 }
+    gsap.to(obj, {
+      val: endValue,
+      duration: 2,
+      ease: 'power2.out',
+      onUpdate: () => {
+        element.textContent = `${Math.round(obj.val)}%`
+      },
+    })
   }
 
   // Store refs for each counter
@@ -52,14 +48,17 @@ const Skills = () => {
 
   // When section comes into view, trigger the counter animations
   useEffect(() => {
-    if (inView) {
-      counterRefs.current.forEach((counter, index) => {
-        if (counter) {
-          const skillPercent = [70, 70, 40, 70, 60, 60, 75, 82, 82, 70, 85, 80][index]
-          animateCounter(counter, skillPercent)
-        }
-      })
-    }
+    if (!inView) return
+
+    // susun urutan target persentase sesuai DOM yg tampil
+    const targetPercents = [...column1Skills, ...column2Skills].map(s => s.percent)
+
+    // pastikan panjang refs sama
+    counterRefs.current.length = targetPercents.length
+
+    counterRefs.current.forEach((el, i) => {
+      if (el) animateCounter(el, targetPercents[i])
+    })
   }, [inView])
 
   // Function untuk ukuran judul berdasarkan device
@@ -177,16 +176,16 @@ const Skills = () => {
 
   // Split skills untuk 2 kolom
   const column1Skills = [
-    { title: 'HTML', percent: 70 },
-    { title: 'CSS', percent: 70 },
-    { title: 'JavaScript', percent: 40 },
+    { title: 'HTML', percent: 65 },
+    { title: 'CSS', percent: 65 },
+    { title: 'JavaScript', percent: 20 },
     { title: 'Python', percent: 70 },
-    { title: 'GoLanguage', percent: 60 },
-    { title: 'SQL', percent: 60 },
+    { title: 'GoLanguage', percent: 50 },
+    { title: 'SQL', percent: 70 },
   ]
 
   const column2Skills = [
-    { title: 'Data Science / Data Analysis / Machine Learning', percent: 75 },
+    { title: 'Data Science / Data Analysis / Machine Learning', percent: 78 },
     { title: 'Data Visualization', percent: 82 },
     { title: 'Figma', percent: 82 },
     { title: 'Adobe Photoshop & Adobe Illustrator', percent: 70 },

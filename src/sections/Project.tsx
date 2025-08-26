@@ -226,9 +226,8 @@ const Project = () => {
         '/image/Design/5.png',
         '/image/Design/6.png',
         '/image/Design/7.jpg',
-        '/image/Design/8.png'
-        // TAMBAHKAN GAMBAR DESIGN BARU DI SINI:
-        // '/image/Design/9.png',
+        '/image/Design/8.png',
+        '/image/Design/9.png',
         // '/image/Design/10.png',
     ]
 
@@ -273,13 +272,13 @@ const Project = () => {
             title: 'Project Building Workflow for data analysis from CSV', 
             description: 'It provides a complete workflow for data analysis, from CSV file upload and preprocessing (handling missing values, normalization, outlier removal) to three core machine learning tasks: prediction (Random Forest and MLP), anomaly detection (Isolation Forest), and segmentation (K-Means clustering).',
             link: 'https://github.com/StevChrist/LumenAlyze'    
+        },
+        { 
+            title: 'Sentiment Analysis with C-LSTM models', 
+            description: 'This project implements sentiment analysis using a Convolutional Long Short-Term Memory (C-LSTM) architecture on text data. It covers the entire pipeline, from preprocessing and model building to training and evaluation, and then prediction.',
+            link: 'https://github.com/StevChrist/Sentiment-Analyst-C-LSTM'    
         }
-        // TAMBAHKAN PROJECT CODE BARU DI SINI:
-        // { 
-        //     title: 'Project Title', 
-        //     description: 'Project description here...',
-        //     link: 'https://github.com/username/repo' 
-        // },
+
     ]
 
     // State untuk mengatur apakah video diperbesar atau tidak
