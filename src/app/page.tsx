@@ -2,6 +2,7 @@
 
 import Main from '@/sections/Main'
 import About from '@/sections/About'
+import Experience from '@/sections/Experience'
 import Skills from '@/sections/Skills'
 import Project from '@/sections/Project'
 import Contact from '@/sections/Contact'
@@ -22,6 +23,7 @@ export default function Home() {
     >
       <Main />
       <About />
+      <Experience />
       <Skills />
       <Project />
       <Contact />
