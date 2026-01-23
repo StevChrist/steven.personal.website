@@ -10,10 +10,10 @@ import Lenis from '@studio-freight/lenis'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const categories = ['Design', 'Code', 'Photo'] //, 'Video'
+const categories = ['Code', 'Design']
 
 const Project = () => {
-    const [activeCategory, setActiveCategory] = useState('Design')
+    const [activeCategory, setActiveCategory] = useState('Code')
     const [screenWidth, setScreenWidth] = useState(0)
     const sectionRef = useRef<HTMLDivElement>(null)
 
@@ -226,63 +226,40 @@ const Project = () => {
         '/image/Design/5.png',
         '/image/Design/6.png',
         '/image/Design/7.jpg',
-        // '/image/Design/8.png',
+        '/image/Design/8.png',
         '/image/Design/9.png',
         // '/image/Design/10.png',
-    ]
-
-    // UNTUK MENAMBAHKAN GAMBAR PHOTO: Tambahkan path gambar ke array photoImages
-    const photoImages = [
         '/image/Photo/1.jpg'
-        // TAMBAHKAN GAMBAR PHOTO BARU DI SINI:
-        // '/image/Photo/2.jpg',
-        // '/image/Photo/3.jpg',
     ]
-
-    // // UNTUK MENAMBAHKAN VIDEO LANDSCAPE: Tambahkan path video ke array videoLandscape
-    // const videoLandscape = [
-    //     '/image/Video/Landscape/land 1.mp4', 
-    //     '/image/Video/Landscape/land 2.mp4', 
-    //     '/image/Video/Landscape/land 3.mp4', 
-    //     '/image/Video/Landscape/land 4.mp4'
-    //     // TAMBAHKAN VIDEO LANDSCAPE BARU DI SINI:
-    //     // '/image/Video/Landscape/land 5.mp4',
-    // ]
-
-    // // UNTUK MENAMBAHKAN VIDEO PORTRAIT: Tambahkan path video ke array videoPotrait
-    // const videoPotrait = [
-    //     'image/Video/Potrait/pot 1.mp4'
-    //     // TAMBAHKAN VIDEO PORTRAIT BARU DI SINI:
-    //     // 'image/Video/Potrait/pot 2.mp4',
-    // ]
 
     // UNTUK MENAMBAHKAN PROJECT CODE: Tambahkan object baru ke array codeProjects
+    // PENTING: Ganti siteLink dengan URL website live yang sebenarnya
     const codeProjects = [
         { 
             title: 'Project Capstone Water Potability', 
             description: 'This project aims to develop a machine learning-based system that is able to predict the level of potable water quality based on various physical and chemical quality parameters.',
-            link: 'https://github.com/StevChrist/water-potability-prediction' 
+            link: 'https://github.com/StevChrist/water-potability-prediction',
+            siteLink: 'https://your-water-potability-site.com' // Ganti dengan URL site yang sebenarnya
         },
         { 
             title: 'Project Building Website with NoSQL Database', 
             description: 'Flixzy is a project aimed at building a modern movie streaming platform prototype with advanced search and recommendation capabilities. It leverages a multimodal database system, combining document and vector databases, to provide a rich user experience.',
-            link: 'https://github.com/StevChrist/flixzy' 
+            link: 'https://github.com/StevChrist/flixzy',
+            siteLink: 'https://your-flixzy-site.com' // Ganti dengan URL site yang sebenarnya
         },
         { 
             title: 'Project Building Workflow for data analysis from CSV', 
             description: 'It provides a complete workflow for data analysis, from CSV file upload and preprocessing (handling missing values, normalization, outlier removal) to three core machine learning tasks: prediction (Random Forest and MLP), anomaly detection (Isolation Forest), and segmentation (K-Means clustering).',
-            link: 'https://github.com/StevChrist/LumenAlyze'    
+            link: 'https://github.com/StevChrist/LumenAlyze',
+            siteLink: 'https://your-lumenalyze-site.com' // Ganti dengan URL site yang sebenarnya
         },
         { 
             title: 'Sentiment Analysis with C-LSTM models', 
             description: 'This project implements sentiment analysis using a Convolutional Long Short-Term Memory (C-LSTM) architecture on text data. It covers the entire pipeline, from preprocessing and model building to training and evaluation, and then prediction.',
-            link: 'https://github.com/StevChrist/Sentiment-Analyst-C-LSTM'    
+            link: 'https://github.com/StevChrist/Sentiment-Analyst-C-LSTM',
+            siteLink: 'https://your-sentiment-analyst-site.com' // Ganti dengan URL site yang sebenarnya
         }
-
     ]
-
-    // // State untuk mengatur apakah video diperbesar atau tidak
-    // const [isVideoFullscreen] = useState(false)
 
     const imageSize = getImageSize()
     const imageLimit = getImageLimit()
@@ -370,155 +347,52 @@ const Project = () => {
                                         <p className="text-[14px] text-white text-center mb-[25px] px-[20px]"> 
                                             {project.description}
                                         </p>
-                                        <button
-                                            className="text-center mt-4"
+                                        {/* Container untuk kedua button */}
+                                        <div 
+                                            className="flex mt-4"
                                             style={{
-                                                fontFamily: "'Protest Riot', cursive",
-                                                background: '#115099',
-                                                color: 'white',
-                                                padding: '6px 14px',
-                                                borderRadius: '30px',
-                                                fontSize: '12px',
-                                                border: 'none',
-                                                cursor: 'pointer',
+                                                gap: '12px',
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
                                             }}
-                                            onClick={() => window.open(project.link, '_blank')}
                                         >
-                                            See More
-                                        </button>
+                                            <button
+                                                style={{
+                                                    fontFamily: "'Protest Riot', cursive",
+                                                    background: '#115099',
+                                                    color: 'white',
+                                                    padding: '6px 14px',
+                                                    borderRadius: '30px',
+                                                    fontSize: '12px',
+                                                    border: 'none',
+                                                    cursor: 'pointer',
+                                                }}
+                                                onClick={() => window.open(project.link, '_blank')}
+                                            >
+                                                See More
+                                            </button>
+                                            <button
+                                                style={{
+                                                    fontFamily: "'Protest Riot', cursive",
+                                                    background: '#115099',
+                                                    color: 'white',
+                                                    padding: '6px 14px',
+                                                    borderRadius: '30px',
+                                                    fontSize: '12px',
+                                                    border: 'none',
+                                                    cursor: 'pointer',
+                                                }}
+                                                onClick={() => window.open(project.siteLink, '_blank')}
+                                            >
+                                                Visit Site
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </motion.div>
                 )
-            case 'Photo':
-                return (
-                    <motion.div
-                        key="photo"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className="gsap-fade-up"
-                        style={{
-                            marginLeft: isMobileLayout() ? getContentMargin() : '0',
-                            marginRight: isMobileLayout() ? getContentMargin() : '0'
-                        }}
-                    >
-                        <div 
-                            className="grid justify-center"
-                            style={{
-                                gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
-                                gap: getImageGap(),
-                                maxWidth: isMobileLayout() ? '100%' : '1200px',
-                                margin: '0 auto'
-                            }}
-                        >
-                            {photoImages.slice(0, imageLimit).map((src, i) => (
-                                <div 
-                                    key={i} 
-                                    className="bg-gray-600 rounded-[10px] overflow-hidden"
-                                    style={{
-                                        width: imageSize.width,
-                                        height: imageSize.height
-                                    }}
-                                >
-                                    <Image
-                                        src={src}
-                                        alt={`Photo Project ${i + 1}`}
-                                        width={parseInt(imageSize.width)}
-                                        height={parseInt(imageSize.height)}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-                )
-            // case 'Video':
-            //     return (
-            //         <motion.div
-            //             key="video"
-            //             initial={{ opacity: 0, y: 20 }}
-            //             animate={{ opacity: 1, y: 0 }}
-            //             exit={{ opacity: 0, y: -20 }}
-            //             transition={{ duration: 0.3 }}
-            //             className="gsap-fade-up"
-            //             style={{
-            //                 marginLeft: getContentMargin(),
-            //                 marginRight: getContentMargin()
-            //             }}
-            //         >
-            //             {/* Landscape Videos */}
-            //             <div 
-            //                 className="grid justify-center mb-[30px]"
-            //                 style={{
-            //                     gridTemplateColumns: isMobileLayout() ? '1fr' : 'repeat(2, 1fr)',
-            //                     gap: getImageGap(),
-            //                     maxWidth: '1200px',
-            //                     margin: '0 auto'
-            //                 }}
-            //             >
-            //                 {videoLandscape.slice(0, isMobileLayout() ? 2 : 4).map((src, i) => (
-            //                     <div 
-            //                         key={i} 
-            //                         className="bg-gray-600 rounded-[10px] overflow-hidden"
-            //                         style={{
-            //                             width: isMobileLayout() ? '100%' : '300px',
-            //                             height: isMobileLayout() ? '200px' : '169px'
-            //                         }}
-            //                     >
-            //                         <video
-            //                             width="100%"
-            //                             height="100%"
-            //                             autoPlay
-            //                             loop
-            //                             muted
-            //                         >
-            //                             <source src={src} type="video/mp4" />
-            //                             Your browser does not support the video tag.
-            //                         </video>
-            //                     </div>
-            //                 ))}
-            //             </div>
-                        
-            //             {/* Portrait Videos */}
-            //             <div 
-            //                 className="grid justify-center"
-            //                 style={{
-            //                     gridTemplateColumns: isMobileLayout() ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-            //                     gap: getImageGap(),
-            //                     maxWidth: '800px',
-            //                     margin: '0 auto'
-            //                 }}
-            //             >
-            //                 {videoPotrait.slice(0, isMobileLayout() ? 2 : 6).map((src, i) => (
-            //                     <div
-            //                         key={i}
-            //                         className={`bg-gray-600 rounded-[10px] overflow-hidden ${
-            //                             isVideoFullscreen ? 'w-[80%] h-[80%]' : ''
-            //                         }`}
-            //                         style={{
-            //                             width: isMobileLayout() ? '150px' : '200px',
-            //                             height: isMobileLayout() ? '267px' : '350px'
-            //                         }}
-            //                     >
-            //                         <video
-            //                             width="100%"
-            //                             height="100%"
-            //                             autoPlay
-            //                             loop
-            //                             muted
-            //                         >
-            //                             <source src={src} type="video/mp4" />
-            //                             Your browser does not support the video tag.
-            //                         </video>
-            //                     </div>
-            //                 ))}
-            //             </div>
-            //         </motion.div>
-            //     )
             default:
                 return null
         }
