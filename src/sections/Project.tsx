@@ -239,25 +239,25 @@ const Project = () => {
             title: 'Project Capstone Water Potability', 
             description: 'This project aims to develop a machine learning-based system that is able to predict the level of potable water quality based on various physical and chemical quality parameters.',
             link: 'https://github.com/StevChrist/water-potability-prediction',
-            siteLink: 'https://your-water-potability-site.com' // Ganti dengan URL site yang sebenarnya
+            siteLink: 'https://water-potability-capstone.streamlit.app/' // Ganti dengan URL site yang sebenarnya
         },
         { 
-            title: 'Project Building Website with NoSQL Database', 
-            description: 'Flixzy is a project aimed at building a modern movie streaming platform prototype with advanced search and recommendation capabilities. It leverages a multimodal database system, combining document and vector databases, to provide a rich user experience.',
+            title: 'Peninemate', 
+            description: 'PenineMate is a non-commercial academic AI-powered movie assistant developed for educational and portfolio purposes. The application uses the TMDb API to retrieve movie metadata, cast information, and popularity data to support movie Q&A and semantic-based recommendation features.',
             link: 'https://github.com/StevChrist/flixzy',
-            siteLink: 'https://your-flixzy-site.com' // Ganti dengan URL site yang sebenarnya
+            siteLink: 'https://peninemate.stevchrist.site' // Ganti dengan URL site yang sebenarnya
         },
         { 
             title: 'Project Building Workflow for data analysis from CSV', 
             description: 'It provides a complete workflow for data analysis, from CSV file upload and preprocessing (handling missing values, normalization, outlier removal) to three core machine learning tasks: prediction (Random Forest and MLP), anomaly detection (Isolation Forest), and segmentation (K-Means clustering).',
             link: 'https://github.com/StevChrist/LumenAlyze',
-            siteLink: 'https://your-lumenalyze-site.com' // Ganti dengan URL site yang sebenarnya
+            siteLink: 'https://lumenalyze.vercel.app/' // Ganti dengan URL site yang sebenarnya
         },
         { 
             title: 'Sentiment Analysis with C-LSTM models', 
             description: 'This project implements sentiment analysis using a Convolutional Long Short-Term Memory (C-LSTM) architecture on text data. It covers the entire pipeline, from preprocessing and model building to training and evaluation, and then prediction.',
             link: 'https://github.com/StevChrist/Sentiment-Analyst-C-LSTM',
-            siteLink: 'https://your-sentiment-analyst-site.com' // Ganti dengan URL site yang sebenarnya
+            siteLink: 'https://sentimentanalyst-c-lstm.streamlit.app/' // Ganti dengan URL site yang sebenarnya
         }
     ]
 

@@ -1,16 +1,15 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useScrollAnimations } from '@/hooks/useScrollAnimations'
-// import ShootingStars from '@/components/ShootingStars'
 import TypedText from '@/components/TypedText'
 import ModelViewer from '@/components/ModelViewer'
 
 export default function Main() {
-  const sectionRef = useRef(null)
+  const sectionRef = useRef<HTMLDivElement | null>(null)
   const [screenWidth, setScreenWidth] = useState(0)
 
-  // Hook untuk scroll animation dan Lenis
   useScrollAnimations(sectionRef)
 
   useEffect(() => {
@@ -23,123 +22,107 @@ export default function Main() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Function untuk ukuran logo (px)
+  // ===== LOGO SIZE =====
   const getLogoSize = () => {
-    if (screenWidth >= 2560) return '28px'      // 4xl
-    if (screenWidth >= 1920) return '28px'      // 3xl
-    if (screenWidth >= 1536) return '22px'      // 2xl
-    if (screenWidth >= 1280) return '22px'      // xl
-    if (screenWidth >= 1024) return '22px'      // lg
-    if (screenWidth >= 768) return '20px'       // md (small tablet)
-    if (screenWidth >= 640) return '18px'       // sm
-    return '18px'                               // xs
+    if (screenWidth >= 2560) return 28
+    if (screenWidth >= 1920) return 24
+    if (screenWidth >= 1536) return 20
+    if (screenWidth >= 1280) return 18
+    if (screenWidth >= 1024) return 16
+    if (screenWidth >= 768) return 14
+    if (screenWidth >= 640) return 10
+    return 8  
   }
 
-  // Function untuk posisi logo (px)
+  // ===== LOGO POSITION =====
   const getLogoPosition = () => {
-    if (screenWidth >= 2560) {
-      return { top: '40px', left: '60px' }      // 4xl
-    } else if (screenWidth >= 1920) {
-      return { top: '35px', left: '55px' }      // 3xl
-    } else if (screenWidth >= 1536) {
-      return { top: '30px', left: '50px' }      // 2xl
-    } else if (screenWidth >= 1280) {
-      return { top: '30px', left: '50px' }      // xl (Desktop)
-    } else if (screenWidth >= 1024) {
-      return { top: '25px', left: '40px' }      // lg
-    } else if (screenWidth >= 768) {
-      return { top: '22px', left: '35px' }      // md (small tablet)
-    } else if (screenWidth >= 640) {
-      return { top: '18px', left: '25px' }      // sm
-    } else {
-      return { top: '16px', left: '20px' }      // xs
-    }
+    if (screenWidth >= 2560) return { top: '40px', left: '60px' }
+    if (screenWidth >= 1920) return { top: '35px', left: '55px' }
+    if (screenWidth >= 1536) return { top: '30px', left: '50px' }
+    if (screenWidth >= 1280) return { top: '30px', left: '50px' }
+    if (screenWidth >= 1024) return { top: '25px', left: '40px' }
+    if (screenWidth >= 768) return { top: '22px', left: '35px' }
+    if (screenWidth >= 640) return { top: '18px', left: '25px' }
+    return { top: '16px', left: '20px' }
   }
 
-  // Function untuk ukuran model (px) - DIPERBAIKI UNTUK NEXUS 7
+  // ===== MODEL SIZE =====
   const getModelSize = () => {
-    if (screenWidth >= 2560) return '800px'    // 4xl
-    if (screenWidth >= 2560) return '550px'    // 4xl
-    if (screenWidth >= 1920) return '500px'    // 3xl
-    if (screenWidth >= 1536) return '430px'    // 2xl
-    if (screenWidth >= 1280) return '350px'    // xl (Desktop)
-    if (screenWidth >= 1024) return '350px'    // lg
-    if (screenWidth >= 800) return '400px'     // md (Nexus 7 specific - 800px width)
-    if (screenWidth >= 768) return '380px'     // md (iPad mini)
-    if (screenWidth >= 640) return '320px'     // sm (large mobile)
-    return '220px'                             // xs (small mobile)
+    if (screenWidth >= 2560) return '800px'
+    if (screenWidth >= 1920) return '500px'
+    if (screenWidth >= 1536) return '430px'
+    if (screenWidth >= 1280) return '350px'
+    if (screenWidth >= 1024) return '350px'
+    if (screenWidth >= 800) return '400px'
+    if (screenWidth >= 768) return '380px'
+    if (screenWidth >= 640) return '320px'
+    return '220px'
   }
 
-  // Function untuk margin bottom model (px) - DIPERBAIKI UNTUK NEXUS 7
   const getModelMarginBottom = () => {
-    if (screenWidth >= 2560) return '32px'     // 4xl
-    if (screenWidth >= 1920) return '28px'     // 3xl
-    if (screenWidth >= 1536) return '24px'     // 2xl
-    if (screenWidth >= 1280) return '24px'     // xl (Desktop)
-    if (screenWidth >= 1024) return '20px'     // lg
-    if (screenWidth >= 800) return '16px'      // md (Nexus 7 specific)
-    if (screenWidth >= 768) return '20px'      // md (iPad mini)
-    if (screenWidth >= 640) return '6px'       // sm
-    return '2px'                               // xs
+    if (screenWidth >= 2560) return '32px'
+    if (screenWidth >= 1920) return '28px'
+    if (screenWidth >= 1536) return '24px'
+    if (screenWidth >= 1280) return '24px'
+    if (screenWidth >= 1024) return '20px'
+    if (screenWidth >= 800) return '16px'
+    if (screenWidth >= 768) return '20px'
+    if (screenWidth >= 640) return '6px'
+    return '2px'
   }
 
-  // Function untuk ukuran text "Hi, I'm Steven" (px) - DIPERBAIKI UNTUK NEXUS 7
   const getGreetingSize = () => {
-    if (screenWidth >= 2560) return '40px'     // 4xl
-    if (screenWidth >= 1920) return '38px'     // 3xl
-    if (screenWidth >= 1536) return '35px'     // 2xl
-    if (screenWidth >= 1280) return '35px'     // xl (Desktop)
-    if (screenWidth >= 1024) return '30px'     // lg
-    if (screenWidth >= 800) return '26px'      // md (Nexus 7 specific)
-    if (screenWidth >= 768) return '28px'      // md (iPad mini)
-    if (screenWidth >= 640) return '22px'      // sm
-    return '18px'                              // xs
+    if (screenWidth >= 2560) return '40px'
+    if (screenWidth >= 1920) return '38px'
+    if (screenWidth >= 1536) return '35px'
+    if (screenWidth >= 1280) return '35px'
+    if (screenWidth >= 1024) return '30px'
+    if (screenWidth >= 800) return '26px'
+    if (screenWidth >= 768) return '28px'
+    if (screenWidth >= 640) return '22px'
+    return '18px'
   }
 
-  // Function untuk margin bottom greeting (px) - DIPERBAIKI UNTUK NEXUS 7
   const getGreetingMarginBottom = () => {
-    if (screenWidth >= 2560) return '16px'     // 4xl
-    if (screenWidth >= 1920) return '14px'     // 3xl
-    if (screenWidth >= 1536) return '12px'     // 2xl
-    if (screenWidth >= 1280) return '12px'     // xl (Desktop)
-    if (screenWidth >= 1024) return '10px'     // lg
-    if (screenWidth >= 800) return '8px'       // md (Nexus 7 specific)
-    if (screenWidth >= 768) return '10px'      // md (iPad mini)
-    if (screenWidth >= 640) return '4px'       // sm
-    return '1px'                               // xs
+    if (screenWidth >= 2560) return '16px'
+    if (screenWidth >= 1920) return '14px'
+    if (screenWidth >= 1536) return '12px'
+    if (screenWidth >= 1280) return '12px'
+    if (screenWidth >= 1024) return '10px'
+    if (screenWidth >= 800) return '8px'
+    if (screenWidth >= 768) return '10px'
+    if (screenWidth >= 640) return '4px'
+    return '1px'
   }
 
-  // Function untuk ukuran TypedText (px) - DIPERBAIKI UNTUK NEXUS 7
   const getTypedTextSize = () => {
-    if (screenWidth >= 2560) return '65px'     // 4xl
-    if (screenWidth >= 1920) return '62px'     // 3xl
-    if (screenWidth >= 1536) return '60px'     // 2xl
-    if (screenWidth >= 1280) return '60px'     // xl (Desktop)
-    if (screenWidth >= 1024) return '50px'     // lg
-    if (screenWidth >= 800) return '32px'      // md (Nexus 7 specific)
-    if (screenWidth >= 768) return '38px'      // md (iPad mini)
-    if (screenWidth >= 640) return '28px'      // sm
-    return '24px'                              // xs
+    if (screenWidth >= 2560) return '65px'
+    if (screenWidth >= 1920) return '62px'
+    if (screenWidth >= 1536) return '60px'
+    if (screenWidth >= 1280) return '60px'
+    if (screenWidth >= 1024) return '50px'
+    if (screenWidth >= 800) return '32px'
+    if (screenWidth >= 768) return '38px'
+    if (screenWidth >= 640) return '28px'
+    return '24px'
   }
 
-  // Function untuk max width TypedText (px) - DIPERBAIKI UNTUK NEXUS 7
   const getTypedTextMaxWidth = () => {
-    if (screenWidth >= 2560) return '80%'      // 4xl
-    if (screenWidth >= 1920) return '75%'      // 3xl
-    if (screenWidth >= 1536) return '70%'      // 2xl
-    if (screenWidth >= 1280) return '65%'      // xl (Desktop)
-    if (screenWidth >= 1024) return '60%'      // lg
-    if (screenWidth >= 800) return '75%'       // md (Nexus 7 specific)
-    if (screenWidth >= 768) return '70%'       // md (iPad mini)
-    if (screenWidth >= 640) return '90%'       // sm
-    return '85%'                               // xs
+    if (screenWidth >= 2560) return '80%'
+    if (screenWidth >= 1920) return '75%'
+    if (screenWidth >= 1536) return '70%'
+    if (screenWidth >= 1280) return '65%'
+    if (screenWidth >= 1024) return '60%'
+    if (screenWidth >= 800) return '75%'
+    if (screenWidth >= 768) return '70%'
+    if (screenWidth >= 640) return '90%'
+    return '85%'
   }
 
-  // Function untuk padding container
   const getContainerPadding = () => {
-    if (screenWidth >= 768) return '0'         // md ke atas
-    if (screenWidth >= 640) return '0 20px'    // sm
-    return '0 16px'                            // xs
+    if (screenWidth >= 768) return '0'
+    if (screenWidth >= 640) return '0 20px'
+    return '0 16px'
   }
 
   return (
@@ -148,22 +131,24 @@ export default function Main() {
       ref={sectionRef}
       className="relative min-h-screen bg-black text-white overflow-hidden"
     >
-      {/* <ShootingStars /> */}
-
-      {/* 1. Logo Steven. di kiri atas */}
+      {/* ===== LOGO IMAGE ===== */}
       <div
-        className="absolute select-none cursor-default z-30 gsap-fade-up"
+        className="absolute z-30 select-none gsap-fade-up"
         style={{
-          fontSize: getLogoSize(),
-          ...getLogoPosition(),
-          fontWeight: 'bold'
+          ...getLogoPosition()
         }}
       >
-        Steven.
+        <Image
+          src="/image/Logo PEN White.png"
+          alt="Steven Logo"
+          width={getLogoSize() * 2.5}
+          height={getLogoSize()}
+          priority
+        />
       </div>
 
-      {/* Container utama untuk konten tengah */}
-      <div 
+      {/* ===== MAIN CONTENT ===== */}
+      <div
         className="absolute z-10 flex flex-col items-center justify-center"
         style={{
           top: '50%',
@@ -174,10 +159,8 @@ export default function Main() {
           padding: getContainerPadding()
         }}
       >
-        
-        {/* 2. Model Viewer - DIPERBAIKI UNTUK NEXUS 7 */}
-        <div 
-          className="overflow-hidden gsap-fade-up model-viewer-container"
+        <div
+          className="overflow-hidden gsap-fade-up"
           style={{
             width: getModelSize(),
             height: getModelSize(),
@@ -187,7 +170,6 @@ export default function Main() {
           <ModelViewer />
         </div>
 
-        {/* 3. Text "Hi, I'm Steven" - DIPERBAIKI UNTUK NEXUS 7 */}
         <p
           style={{
             fontSize: getGreetingSize(),
@@ -198,9 +180,8 @@ export default function Main() {
           Hi, I am Steven
         </p>
 
-        {/* 4. TypedText - DIPERBAIKI UNTUK NEXUS 7 */}
-        <div 
-          className="font-bold text-white gsap-fade-up typed-text-trigger"
+        <div
+          className="font-bold text-white gsap-fade-up"
           style={{
             fontSize: getTypedTextSize(),
             textAlign: 'center',
@@ -211,31 +192,16 @@ export default function Main() {
         >
           <TypedText
             strings={[
-              'I am a Data Science Student',
+              'I am a Data Sciencist',
               'I am a Graphic Designer',
               'I am a Video Editor and Animation',
-              'I am a sleep lover'
+              'I am a sleep lover',
+              'I am a music listener',
+              'I like to code'
             ]}
           />
         </div>
       </div>
-
-      {/* Debug info
-      <p style={{ 
-        position: 'fixed', 
-        top: '10px', 
-        right: '10px', 
-        fontSize: '12px',
-        backgroundColor: 'rgba(0,0,0,0.7)',
-        padding: '6px',
-        borderRadius: '4px'
-      }}>
-        Screen: {screenWidth}px<br/>
-        Model: {getModelSize()}<br/>
-        Greeting: {getGreetingSize()}<br/>
-        TypedText: {getTypedTextSize()}
-      </p> */}
-      
     </section>
   )
 }
