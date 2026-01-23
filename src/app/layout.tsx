@@ -31,20 +31,23 @@ const pacifico = Pacifico({
 // Metadata export (tanpa viewport)
 export const metadata: Metadata = {
   title: 'Steven | Personal Website',
-  description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Science Student at Telkom University',
+  description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Sciencetist',
+  icons: {
+    icon: '/image/Logo PEN White 1x1.png',
+  },
   keywords: 'Steven Immanuel, Data Science, Portfolio, Web Developer, Machine Learning, Telkom University',
   authors: [{ name: 'Steven Immanuel C. Girsang' }],
   creator: 'Steven Immanuel C. Girsang',
   openGraph: {
     title: 'Steven | Personal Website',
-    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Science Student',
+    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Sciencetist',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Steven | Personal Website',
-    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Science Student',
+    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Sciencetist',
     creator: '@_Stevchris',
   },
   robots: {
