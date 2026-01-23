@@ -31,7 +31,7 @@ const pacifico = Pacifico({
 // Metadata export (tanpa viewport)
 export const metadata: Metadata = {
   title: 'Steven | Personal Website',
-  description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Sciencetist',
+  description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Scientist',
   icons: {
     icon: '/image/Logo PEN White 1x1.png',
   },
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
   creator: 'Steven Immanuel C. Girsang',
   openGraph: {
     title: 'Steven | Personal Website',
-    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Sciencetist',
+    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Scientist',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Steven | Personal Website',
-    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Sciencetist',
+    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Scientist',
     creator: '@_Stevchris',
   },
   robots: {

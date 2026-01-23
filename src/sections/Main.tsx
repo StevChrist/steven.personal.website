@@ -192,7 +192,7 @@ export default function Main() {
         >
           <TypedText
             strings={[
-              'I am a Data Sciencist',
+              'I am a Data Scientist',
               'I am a Graphic Designer',
               'I am a Video Editor and Animation',
               'I am a sleep lover',
