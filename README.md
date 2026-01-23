@@ -20,7 +20,7 @@ Hi! I'm Steven, and this is the repository for the source code of my personal we
 ## 🚀 Visit My Website
 
 Curious to see it in action? You can view the live version of my website here:
-➡️ **[(https://stevchrist.vercel.app/)]**
+➡️ **[(https://stevchrist.site/)]**
 
 ---
 
