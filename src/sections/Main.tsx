@@ -171,6 +171,7 @@ export default function Main() {
         </div>
 
         <p
+          className="gsap-fade-up"
           style={{
             fontSize: getGreetingSize(),
             marginBottom: getGreetingMarginBottom(),
@@ -180,14 +181,17 @@ export default function Main() {
           Hi, I am Steven
         </p>
 
+        {/* TYPED TEXT - TANPA gsap-fade-up */}
         <div
-          className="font-bold text-white gsap-fade-up"
+          className="font-bold text-white"
           style={{
             fontSize: getTypedTextSize(),
             textAlign: 'center',
             minHeight: '80px',
             maxWidth: getTypedTextMaxWidth(),
-            lineHeight: '1.2'
+            lineHeight: '1.2',
+            opacity: 1, // Selalu visible
+            transform: 'none' // Tidak ada transform
           }}
         >
           <TypedText
