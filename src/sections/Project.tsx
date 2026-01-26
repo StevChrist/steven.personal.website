@@ -6,7 +6,6 @@ import AnimatedText from '@/components/AnimatedText'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
-import Lenis from '@studio-freight/lenis'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -27,32 +26,17 @@ const Project = () => {
         return () => window.removeEventListener('resize', handleResize)
     }, [])
 
-    // Initialize Lenis ONCE (tidak bergantung pada category)
-    useEffect(() => {
-        const lenis = new Lenis({
-            lerp: 0.1,
-        })
-
-        function raf(time: number) {
-            lenis.raf(time)
-            requestAnimationFrame(raf)
-        }
-        requestAnimationFrame(raf)
-
-        lenis.on('scroll', ScrollTrigger.update)
-
-        return () => {
-            lenis.destroy()
-        }
-    }, [])
+    // REMOVE LENIS - Lenis sudah ada di SmoothScrollWrapper
+    // Tidak perlu initialize lagi di sini
 
     // Setup GSAP animations - RE-INITIALIZE saat category berubah
     useEffect(() => {
         if (!sectionRef.current) return
 
-        // Kill ALL ScrollTrigger instances in this section
+        // Kill ONLY ScrollTrigger instances in this section
         const triggers = ScrollTrigger.getAll()
         triggers.forEach(trigger => {
+            // Check if trigger belongs to this section
             if (trigger.vars.trigger && sectionRef.current?.contains(trigger.vars.trigger as HTMLElement)) {
                 trigger.kill(true)
             }
@@ -62,7 +46,8 @@ const Project = () => {
         const timer = setTimeout(() => {
             if (!sectionRef.current) return
 
-            const elements = gsap.utils.toArray<HTMLElement>('.gsap-fade-up')
+            // PENTING: Query elements HANYA dalam sectionRef
+            const elements = sectionRef.current.querySelectorAll<HTMLElement>('.gsap-fade-up')
             
             elements.forEach((element) => {
                 // Set initial state
@@ -72,7 +57,7 @@ const Project = () => {
                     scale: 0.95
                 })
 
-                // Create animation
+                // Create animation with scoped context
                 gsap.to(element, {
                     opacity: 1,
                     y: 0,
@@ -85,14 +70,16 @@ const Project = () => {
                         end: 'top 10%',
                         toggleActions: 'play none none reverse',
                         scrub: 0.5,
+                        // Tambahkan scroller untuk memastikan tidak conflict
+                        scroller: undefined, // Default to window
                         // markers: true, // Uncomment untuk debugging
                     },
                 })
             })
 
-            // Force refresh
+            // Refresh hanya setelah semua animation di-setup
             ScrollTrigger.refresh()
-        }, 350) // Increase delay to 350ms
+        }, 350)
 
         return () => {
             clearTimeout(timer)
@@ -489,7 +476,7 @@ const Project = () => {
             <div className="flex flex-col justify-center items-center">
                 <AnimatedText
                     text="Projet_"
-                    className="text-center font-bold gsap-fade-up"
+                    className="text-center font-bold"
                     style={{ 
                         fontFamily: "'Pacifico', cursive", 
                         fontSize: getTitleSize(),
@@ -511,7 +498,7 @@ const Project = () => {
                     <motion.span
                         key={category}
                         onClick={() => setActiveCategory(category)}
-                        className={`gsap-fade-up cursor-pointer font-bold transition-all duration-200 ${
+                        className={`cursor-pointer font-bold transition-all duration-200 ${
                             activeCategory === category ? 'underline text-white' : 'text-gray-400'
                         }`}
                         style={{ 
