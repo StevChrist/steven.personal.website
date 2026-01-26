@@ -75,8 +75,6 @@ const Skills = () => {
     return '28px'                               // xs (very small mobile)
   }
 
-
-
   // Function untuk ukuran skill title
   const getSkillTitleSize = () => {
     if (screenWidth >= 2560) return '16px'      // 4xl

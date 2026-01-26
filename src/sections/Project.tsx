@@ -27,10 +27,8 @@ const Project = () => {
         return () => window.removeEventListener('resize', handleResize)
     }, [])
 
-    // Initialize GSAP scroll animations
+    // Initialize Lenis ONCE (tidak bergantung pada category)
     useEffect(() => {
-        if (!sectionRef.current) return
-
         const lenis = new Lenis({
             lerp: 0.1,
         })
@@ -43,181 +41,197 @@ const Project = () => {
 
         lenis.on('scroll', ScrollTrigger.update)
 
-        const ctx = gsap.context(() => {
-            const elements = gsap.utils.toArray<HTMLElement>('.gsap-fade-up')
-
-            gsap.fromTo(
-                elements,
-                { opacity: 0, y: 50, scale: 0.9 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 0.5,
-                    ease: 'power3.out',
-                    stagger: 0.15,
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: 'top 95%',
-                        end: 'bottom 60%',
-                        toggleActions: 'restart none restart none',
-                        //markers: true,
-                    },
-                }
-            )
-        }, sectionRef)
-
         return () => {
-            ctx.revert()
             lenis.destroy()
         }
     }, [])
 
+    // Setup GSAP animations - RE-INITIALIZE saat category berubah
+    useEffect(() => {
+        if (!sectionRef.current) return
+
+        // Kill ALL ScrollTrigger instances in this section
+        const triggers = ScrollTrigger.getAll()
+        triggers.forEach(trigger => {
+            if (trigger.vars.trigger && sectionRef.current?.contains(trigger.vars.trigger as HTMLElement)) {
+                trigger.kill(true)
+            }
+        })
+
+        // Delay untuk AnimatePresence
+        const timer = setTimeout(() => {
+            if (!sectionRef.current) return
+
+            const elements = gsap.utils.toArray<HTMLElement>('.gsap-fade-up')
+            
+            elements.forEach((element) => {
+                // Set initial state
+                gsap.set(element, { 
+                    opacity: 0, 
+                    y: 80,
+                    scale: 0.95
+                })
+
+                // Create animation
+                gsap.to(element, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 90%',
+                        end: 'top 10%',
+                        toggleActions: 'play none none reverse',
+                        scrub: 0.5,
+                        // markers: true, // Uncomment untuk debugging
+                    },
+                })
+            })
+
+            // Force refresh
+            ScrollTrigger.refresh()
+        }, 350) // Increase delay to 350ms
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [activeCategory])
+
     // Function untuk ukuran judul berdasarkan device
     const getTitleSize = () => {
-        if (screenWidth >= 2560) return '80px'      // 4xl
-        if (screenWidth >= 1920) return '75px'      // 3xl
-        if (screenWidth >= 1536) return '70px'      // 2xl
-        if (screenWidth >= 1280) return '70px'      // xl (Desktop)
-        if (screenWidth >= 1024) return '65px'      // lg
-        if (screenWidth >= 800) return '50px'       // md (Nexus 7)
-        if (screenWidth >= 768) return '55px'       // md (iPad mini)
-        if (screenWidth >= 640) return '45px'       // sm (large mobile)
-        if (screenWidth >= 568) return '32px'       // iPhone 5/5s
-        return '28px'                               // xs (very small mobile)
+        if (screenWidth >= 2560) return '80px'
+        if (screenWidth >= 1920) return '75px'
+        if (screenWidth >= 1536) return '70px'
+        if (screenWidth >= 1280) return '70px'
+        if (screenWidth >= 1024) return '65px'
+        if (screenWidth >= 800) return '50px'
+        if (screenWidth >= 768) return '55px'
+        if (screenWidth >= 640) return '45px'
+        if (screenWidth >= 568) return '32px'
+        return '28px'
     }
 
-    // Function untuk margin bottom judul
     const getTitleMargin = () => {
-        if (screenWidth >= 2560) return '60px'      // 4xl
-        if (screenWidth >= 1920) return '55px'      // 3xl
-        if (screenWidth >= 1536) return '50px'      // 2xl
-        if (screenWidth >= 1280) return '50px'      // xl (Desktop)
-        if (screenWidth >= 1024) return '45px'      // lg
-        if (screenWidth >= 800) return '30px'       // md (Nexus 7)
-        if (screenWidth >= 768) return '35px'       // md (iPad mini)
-        if (screenWidth >= 640) return '25px'       // sm (large mobile)
-        if (screenWidth >= 568) return '18px'       // iPhone 5/5s
-        return '15px'                               // xs (very small mobile)
+        if (screenWidth >= 2560) return '60px'
+        if (screenWidth >= 1920) return '55px'
+        if (screenWidth >= 1536) return '50px'
+        if (screenWidth >= 1280) return '50px'
+        if (screenWidth >= 1024) return '45px'
+        if (screenWidth >= 800) return '30px'
+        if (screenWidth >= 768) return '35px'
+        if (screenWidth >= 640) return '25px'
+        if (screenWidth >= 568) return '18px'
+        return '15px'
     }
 
-    // Function untuk ukuran category text
     const getCategorySize = () => {
-        if (screenWidth >= 2560) return '24px'      // 4xl
-        if (screenWidth >= 1920) return '22px'      // 3xl
-        if (screenWidth >= 1536) return '20px'      // 2xl
-        if (screenWidth >= 1280) return '20px'      // xl (Desktop)
-        if (screenWidth >= 1024) return '18px'      // lg
-        if (screenWidth >= 800) return '16px'       // md (Nexus 7)
-        if (screenWidth >= 768) return '17px'       // md (iPad mini)
-        if (screenWidth >= 640) return '14px'       // sm (large mobile)
-        if (screenWidth >= 568) return '12px'       // iPhone 5/5s
-        return '10px'                               // xs (very small mobile)
+        if (screenWidth >= 2560) return '24px'
+        if (screenWidth >= 1920) return '22px'
+        if (screenWidth >= 1536) return '20px'
+        if (screenWidth >= 1280) return '20px'
+        if (screenWidth >= 1024) return '18px'
+        if (screenWidth >= 800) return '16px'
+        if (screenWidth >= 768) return '17px'
+        if (screenWidth >= 640) return '14px'
+        if (screenWidth >= 568) return '12px'
+        return '10px'
     }
 
-    // Function untuk gap antar category
     const getCategoryGap = () => {
-        if (screenWidth >= 2560) return '60px'      // 4xl
-        if (screenWidth >= 1920) return '55px'      // 3xl
-        if (screenWidth >= 1536) return '50px'      // 2xl
-        if (screenWidth >= 1280) return '50px'      // xl (Desktop)
-        if (screenWidth >= 1024) return '40px'      // lg
-        if (screenWidth >= 800) return '30px'       // md (Nexus 7)
-        if (screenWidth >= 768) return '35px'       // md (iPad mini)
-        if (screenWidth >= 640) return '25px'       // sm (large mobile)
-        if (screenWidth >= 568) return '20px'       // iPhone 5/5s
-        return '15px'                               // xs (very small mobile)
+        if (screenWidth >= 2560) return '60px'
+        if (screenWidth >= 1920) return '55px'
+        if (screenWidth >= 1536) return '50px'
+        if (screenWidth >= 1280) return '50px'
+        if (screenWidth >= 1024) return '40px'
+        if (screenWidth >= 800) return '30px'
+        if (screenWidth >= 768) return '35px'
+        if (screenWidth >= 640) return '25px'
+        if (screenWidth >= 568) return '20px'
+        return '15px'
     }
 
-    // Function untuk padding section
     const getSectionPadding = () => {
-        if (screenWidth >= 2560) return '60px'      // 4xl
-        if (screenWidth >= 1920) return '55px'      // 3xl
-        if (screenWidth >= 1536) return '50px'      // 2xl
-        if (screenWidth >= 1280) return '50px'      // xl (Desktop)
-        if (screenWidth >= 1024) return '45px'      // lg
-        if (screenWidth >= 800) return '30px'       // md (Nexus 7)
-        if (screenWidth >= 768) return '35px'       // md (iPad mini)
-        if (screenWidth >= 640) return '25px'       // sm (large mobile)
-        if (screenWidth >= 568) return '15px'       // iPhone 5/5s
-        return '12px'                               // xs (very small mobile)
+        if (screenWidth >= 2560) return '60px'
+        if (screenWidth >= 1920) return '55px'
+        if (screenWidth >= 1536) return '50px'
+        if (screenWidth >= 1280) return '50px'
+        if (screenWidth >= 1024) return '45px'
+        if (screenWidth >= 800) return '30px'
+        if (screenWidth >= 768) return '35px'
+        if (screenWidth >= 640) return '25px'
+        if (screenWidth >= 568) return '15px'
+        return '12px'
     }
 
-    // Function untuk margin content (batas kiri-kanan)
     const getContentMargin = () => {
-        if (screenWidth >= 2560) return '70px'      // 4xl
-        if (screenWidth >= 1920) return '65px'      // 3xl
-        if (screenWidth >= 1536) return '60px'      // 2xl
-        if (screenWidth >= 1280) return '70px'      // xl (Desktop)
-        if (screenWidth >= 1024) return '55px'      // lg
-        if (screenWidth >= 800) return '40px'       // md (Nexus 7)
-        if (screenWidth >= 768) return '45px'       // md (iPad mini)
-        if (screenWidth >= 640) return '30px'       // sm (large mobile)
-        if (screenWidth >= 568) return '20px'       // iPhone 5/5s
-        return '15px'                               // xs (very small mobile)
+        if (screenWidth >= 2560) return '70px'
+        if (screenWidth >= 1920) return '65px'
+        if (screenWidth >= 1536) return '60px'
+        if (screenWidth >= 1280) return '70px'
+        if (screenWidth >= 1024) return '55px'
+        if (screenWidth >= 800) return '40px'
+        if (screenWidth >= 768) return '45px'
+        if (screenWidth >= 640) return '30px'
+        if (screenWidth >= 568) return '20px'
+        return '15px'
     }
 
-    // Function untuk menentukan jumlah gambar berdasarkan device
     const getImageLimit = () => {
-        if (screenWidth >= 2560) return 12          // 4xl - 6 per row, 2 rows
-        if (screenWidth >= 1920) return 12          // 3xl - 6 per row, 2 rows  
-        if (screenWidth >= 1536) return 12          // 2xl - 6 per row, 2 rows
-        if (screenWidth >= 1280) return 12          // xl (Desktop) - 6 per row, 2 rows
-        if (screenWidth >= 1024) return 10          // lg (Laptop) - 5 per row, 2 rows
-        if (screenWidth >= 800) return 8            // md (Nexus 7) - 4 per row, 2 rows
-        if (screenWidth >= 768) return 8            // md (iPad mini) - 4 per row, 2 rows
-        if (screenWidth >= 640) return 6            // sm - 3 per row, 2 rows
-        return 6                                     // xs - 2 per row, 3 rows
+        if (screenWidth >= 2560) return 12
+        if (screenWidth >= 1920) return 12
+        if (screenWidth >= 1536) return 12
+        if (screenWidth >= 1280) return 12
+        if (screenWidth >= 1024) return 10
+        if (screenWidth >= 800) return 8
+        if (screenWidth >= 768) return 8
+        if (screenWidth >= 640) return 6
+        return 6
     }
 
-    // Function untuk menentukan layout grid
     const getGridLayout = () => {
-        if (screenWidth >= 2560) return 6           // 4xl - 6 per row
-        if (screenWidth >= 1920) return 6           // 3xl - 6 per row
-        if (screenWidth >= 1536) return 6           // 2xl - 6 per row
-        if (screenWidth >= 1280) return 6           // xl (Desktop) - 6 per row
-        if (screenWidth >= 1024) return 5           // lg (Laptop) - 5 per row
-        if (screenWidth >= 800) return 4            // md (Nexus 7) - 4 per row
-        if (screenWidth >= 768) return 4            // md (iPad mini) - 4 per row
-        if (screenWidth >= 640) return 3            // sm - 3 per row
-        return 2                                     // xs - 2 per row
+        if (screenWidth >= 2560) return 6
+        if (screenWidth >= 1920) return 6
+        if (screenWidth >= 1536) return 6
+        if (screenWidth >= 1280) return 6
+        if (screenWidth >= 1024) return 5
+        if (screenWidth >= 800) return 4
+        if (screenWidth >= 768) return 4
+        if (screenWidth >= 640) return 3
+        return 2
     }
 
-    // Function untuk ukuran gambar - DIPERBAIKI UNTUK DESKTOP
     const getImageSize = () => {
-        if (screenWidth >= 2560) return { width: '200px', height: '250px' }    // 4xl (diperbesar)
-        if (screenWidth >= 1920) return { width: '190px', height: '237px' }    // 3xl (diperbesar)
-        if (screenWidth >= 1536) return { width: '180px', height: '225px' }    // 2xl (diperbesar)
-        if (screenWidth >= 1280) return { width: '170px', height: '212px' }    // xl (Desktop) - diperbesar
-        if (screenWidth >= 1024) return { width: '160px', height: '200px' }    // lg (Laptop)
-        if (screenWidth >= 800) return { width: '140px', height: '175px' }     // md (Nexus 7)
-        if (screenWidth >= 768) return { width: '150px', height: '187px' }     // md (iPad mini)
-        if (screenWidth >= 640) return { width: '140px', height: '175px' }     // sm (large mobile)
-        if (screenWidth >= 568) return { width: '120px', height: '150px' }     // iPhone 5/5s
-        return { width: '110px', height: '137px' }                             // xs (very small mobile)
+        if (screenWidth >= 2560) return { width: '200px', height: '250px' }
+        if (screenWidth >= 1920) return { width: '190px', height: '237px' }
+        if (screenWidth >= 1536) return { width: '180px', height: '225px' }
+        if (screenWidth >= 1280) return { width: '170px', height: '212px' }
+        if (screenWidth >= 1024) return { width: '160px', height: '200px' }
+        if (screenWidth >= 800) return { width: '140px', height: '175px' }
+        if (screenWidth >= 768) return { width: '150px', height: '187px' }
+        if (screenWidth >= 640) return { width: '140px', height: '175px' }
+        if (screenWidth >= 568) return { width: '120px', height: '150px' }
+        return { width: '110px', height: '137px' }
     }
 
-    // Function untuk gap antar gambar - DISESUAIKAN UNTUK DESKTOP
     const getImageGap = () => {
-        if (screenWidth >= 2560) return '25px'      // 4xl (dikurangi sedikit)
-        if (screenWidth >= 1920) return '22px'      // 3xl (dikurangi sedikit)
-        if (screenWidth >= 1536) return '20px'      // 2xl
-        if (screenWidth >= 1280) return '18px'      // xl (Desktop) - dikurangi untuk memberi ruang gambar lebih besar
-        if (screenWidth >= 1024) return '25px'      // lg (Laptop)
-        if (screenWidth >= 800) return '20px'       // md (Nexus 7)
-        if (screenWidth >= 768) return '22px'       // md (iPad mini)
-        if (screenWidth >= 640) return '20px'       // sm (large mobile)
-        if (screenWidth >= 568) return '15px'       // iPhone 5/5s
-        return '12px'                               // xs (very small mobile)
+        if (screenWidth >= 2560) return '25px'
+        if (screenWidth >= 1920) return '22px'
+        if (screenWidth >= 1536) return '20px'
+        if (screenWidth >= 1280) return '18px'
+        if (screenWidth >= 1024) return '25px'
+        if (screenWidth >= 800) return '20px'
+        if (screenWidth >= 768) return '22px'
+        if (screenWidth >= 640) return '20px'
+        if (screenWidth >= 568) return '15px'
+        return '12px'
     }
 
-    // Function untuk menentukan apakah layout mobile
     const isMobileLayout = () => {
-        return screenWidth < 1024  // Layout mobile untuk tablet dan mobile (< 1024px)
+        return screenWidth < 1024
     }
 
-    // Assets arrays
-    // UNTUK MENAMBAHKAN GAMBAR DESIGN: Tambahkan path gambar ke array designImages
     const designImages = [
         '/image/Design/1.png', 
         '/image/Design/2.png', 
@@ -228,11 +242,9 @@ const Project = () => {
         '/image/Design/7.jpg',
         '/image/Design/8.png',
         '/image/Design/9.png',
-        // '/image/Design/10.png',
         '/image/Photo/1.jpg'
     ]
 
-    // UNTUK MENAMBAHKAN PROJECT CODE: Tambahkan object baru ke array codeProjects
     const codeProjects = [
         { 
             title: 'PenineMate', 
@@ -241,7 +253,7 @@ const Project = () => {
             siteLink: 'https://peninemate.stevchrist.site',
             previewImage: '/web_preview/peninemate.png'
         },
-                { 
+        { 
             title: 'Data Warehouse and Business Intelligence', 
             description: 'This project focuses on designing and implementing a Data Warehouse (DW) and Business Intelligence (BI) system to support monitoring, evaluation, and decision-making for Kerja Praktik (KP) activities at the faculty level.',
             link: 'https://github.com/StevChrist/dw_bi',
@@ -269,7 +281,7 @@ const Project = () => {
             siteLink: 'https://sentimentanalyst-c-lstm.streamlit.app/',
             previewImage: '/web_preview/sentiment_C-LSTM.png'
         },
-                { 
+        { 
             title: 'LumenAlyze', 
             description: 'It provides a complete workflow for data analysis, from CSV file upload and preprocessing (handling missing values, normalization, outlier removal) to three core machine learning tasks: prediction (Random Forest and MLP), anomaly detection (Isolation Forest), and segmentation (K-Means clustering).',
             link: 'https://github.com/StevChrist/LumenAlyze',
@@ -292,7 +304,6 @@ const Project = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="gsap-fade-up"
                         style={{
                             marginLeft: isMobileLayout() ? getContentMargin() : '0',
                             marginRight: isMobileLayout() ? getContentMargin() : '0'
@@ -310,7 +321,7 @@ const Project = () => {
                             {designImages.slice(0, imageLimit).map((src, i) => (
                                 <div 
                                     key={i} 
-                                    className="bg-gray-600 rounded-[10px] overflow-hidden"
+                                    className="bg-gray-600 rounded-[10px] overflow-hidden gsap-fade-up"
                                     style={{
                                         width: imageSize.width,
                                         height: imageSize.height
@@ -336,7 +347,6 @@ const Project = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="gsap-fade-up"
                         style={{
                             marginLeft: getContentMargin(),
                             marginRight: getContentMargin()
@@ -355,7 +365,7 @@ const Project = () => {
                             {codeProjects.map((project, index) => (
                                 <div
                                     key={index}
-                                    className="flex flex-col shadow-lg"
+                                    className="flex flex-col shadow-lg gsap-fade-up"
                                     style={{ 
                                         backgroundColor: 'rgba(51, 51, 51, 0.5)', 
                                         borderRadius: '30px', 
@@ -397,7 +407,7 @@ const Project = () => {
                                         className="bg-gray-600 rounded-lg w-[100%] flex flex-col"
                                         style={{ 
                                             marginTop: '100px',
-                                            padding: '20px 16px 16px 4px',
+                                            padding: '20px 16px 16px 16px',
                                             flex: 1,
                                             display: 'flex',
                                             flexDirection: 'column',

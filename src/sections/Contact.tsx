@@ -3,14 +3,17 @@
 import { useRef, useState, useEffect } from 'react'
 import AnimatedText from '@/components/AnimatedText'
 import { FaLinkedin, FaInstagram, FaTwitter, FaTiktok, FaGithub, FaGoogleDrive } from 'react-icons/fa'
-import { useScrollAnimations } from '@/hooks/useScrollAnimations'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+
+// Register ScrollTrigger
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 const Contact = () => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [screenWidth, setScreenWidth] = useState(0)
-
-  // Apply scroll animations (excluding the title)
-  useScrollAnimations(sectionRef)
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,116 +25,150 @@ const Contact = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // GSAP Scroll Animations
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      const elements = gsap.utils.toArray<HTMLElement>('.gsap-fade-up')
+
+      elements.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { 
+            opacity: 0, 
+            y: 50, 
+            scale: 0.9 
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top 85%',
+              end: 'bottom 20%',
+              toggleActions: 'play none none reverse',
+              // markers: true, // Uncomment untuk debugging
+            },
+          }
+        )
+      })
+
+      // Force refresh after setup
+      ScrollTrigger.refresh()
+    }, sectionRef)
+
+    return () => {
+      ctx.revert()
+    }
+  }, [])
+
   // Function untuk ukuran judul berdasarkan device
   const getTitleSize = () => {
-    if (screenWidth >= 2560) return '80px'      // 4xl
-    if (screenWidth >= 1920) return '75px'      // 3xl
-    if (screenWidth >= 1536) return '70px'      // 2xl
-    if (screenWidth >= 1280) return '70px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '65px'      // lg
-    if (screenWidth >= 800) return '50px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '55px'       // md (iPad mini)
-    if (screenWidth >= 640) return '45px'       // sm (large mobile)
-    if (screenWidth >= 568) return '32px'       // iPhone 5/5s
-    return '28px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '80px'
+    if (screenWidth >= 1920) return '75px'
+    if (screenWidth >= 1536) return '70px'
+    if (screenWidth >= 1280) return '70px'
+    if (screenWidth >= 1024) return '65px'
+    if (screenWidth >= 800) return '50px'
+    if (screenWidth >= 768) return '55px'
+    if (screenWidth >= 640) return '45px'
+    if (screenWidth >= 568) return '32px'
+    return '28px'
   }
 
-  // Function untuk margin bottom judul
   const getTitleMargin = () => {
-    if (screenWidth >= 2560) return '60px'      // 4xl
-    if (screenWidth >= 1920) return '55px'      // 3xl
-    if (screenWidth >= 1536) return '50px'      // 2xl
-    if (screenWidth >= 1280) return '50px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '45px'      // lg
-    if (screenWidth >= 800) return '30px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '35px'       // md (iPad mini)
-    if (screenWidth >= 640) return '25px'       // sm (large mobile)
-    if (screenWidth >= 568) return '18px'       // iPhone 5/5s
-    return '15px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '60px'
+    if (screenWidth >= 1920) return '55px'
+    if (screenWidth >= 1536) return '50px'
+    if (screenWidth >= 1280) return '50px'
+    if (screenWidth >= 1024) return '45px'
+    if (screenWidth >= 800) return '30px'
+    if (screenWidth >= 768) return '35px'
+    if (screenWidth >= 640) return '25px'
+    if (screenWidth >= 568) return '18px'
+    return '15px'
   }
 
-  // Function untuk ukuran text berdasarkan device
   const getTextSize = () => {
-    if (screenWidth >= 2560) return '26px'      // 4xl
-    if (screenWidth >= 1920) return '24px'      // 3xl
-    if (screenWidth >= 1536) return '22px'      // 2xl
-    if (screenWidth >= 1280) return '20px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '18px'      // lg
-    if (screenWidth >= 800) return '16px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '17px'       // md (iPad mini)
-    if (screenWidth >= 640) return '14px'       // sm (large mobile)
-    if (screenWidth >= 568) return '12px'       // iPhone 5/5s
-    return '11px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '26px'
+    if (screenWidth >= 1920) return '24px'
+    if (screenWidth >= 1536) return '22px'
+    if (screenWidth >= 1280) return '20px'
+    if (screenWidth >= 1024) return '18px'
+    if (screenWidth >= 800) return '16px'
+    if (screenWidth >= 768) return '17px'
+    if (screenWidth >= 640) return '14px'
+    if (screenWidth >= 568) return '12px'
+    return '11px'
   }
 
-  // Function untuk margin bottom text
   const getTextMargin = () => {
-    if (screenWidth >= 2560) return '50px'      // 4xl
-    if (screenWidth >= 1920) return '45px'      // 3xl
-    if (screenWidth >= 1536) return '40px'      // 2xl
-    if (screenWidth >= 1280) return '40px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '35px'      // lg
-    if (screenWidth >= 800) return '28px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '32px'       // md (iPad mini)
-    if (screenWidth >= 640) return '22px'       // sm (large mobile)
-    if (screenWidth >= 568) return '20px'       // iPhone 5/5s
-    return '18px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '50px'
+    if (screenWidth >= 1920) return '45px'
+    if (screenWidth >= 1536) return '40px'
+    if (screenWidth >= 1280) return '40px'
+    if (screenWidth >= 1024) return '35px'
+    if (screenWidth >= 800) return '28px'
+    if (screenWidth >= 768) return '32px'
+    if (screenWidth >= 640) return '22px'
+    if (screenWidth >= 568) return '20px'
+    return '18px'
   }
 
-  // Function untuk ukuran icon berdasarkan device
   const getIconSize = () => {
-    if (screenWidth >= 2560) return '36px'      // 4xl
-    if (screenWidth >= 1920) return '34px'      // 3xl
-    if (screenWidth >= 1536) return '32px'      // 2xl
-    if (screenWidth >= 1280) return '30px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '28px'      // lg
-    if (screenWidth >= 800) return '24px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '26px'       // md (iPad mini)
-    if (screenWidth >= 640) return '22px'       // sm (large mobile)
-    if (screenWidth >= 568) return '20px'       // iPhone 5/5s
-    return '18px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '36px'
+    if (screenWidth >= 1920) return '34px'
+    if (screenWidth >= 1536) return '32px'
+    if (screenWidth >= 1280) return '30px'
+    if (screenWidth >= 1024) return '28px'
+    if (screenWidth >= 800) return '24px'
+    if (screenWidth >= 768) return '26px'
+    if (screenWidth >= 640) return '22px'
+    if (screenWidth >= 568) return '20px'
+    return '18px'
   }
 
-  // Function untuk gap antar icon
   const getIconGap = () => {
-    if (screenWidth >= 2560) return '30px'      // 4xl
-    if (screenWidth >= 1920) return '28px'      // 3xl
-    if (screenWidth >= 1536) return '25px'      // 2xl
-    if (screenWidth >= 1280) return '20px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '18px'      // lg
-    if (screenWidth >= 800) return '16px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '17px'       // md (iPad mini)
-    if (screenWidth >= 640) return '15px'       // sm (large mobile)
-    if (screenWidth >= 568) return '12px'       // iPhone 5/5s
-    return '10px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '30px'
+    if (screenWidth >= 1920) return '28px'
+    if (screenWidth >= 1536) return '25px'
+    if (screenWidth >= 1280) return '20px'
+    if (screenWidth >= 1024) return '18px'
+    if (screenWidth >= 800) return '16px'
+    if (screenWidth >= 768) return '17px'
+    if (screenWidth >= 640) return '15px'
+    if (screenWidth >= 568) return '12px'
+    return '10px'
   }
 
-  // Function untuk padding section
   const getSectionPadding = () => {
-    if (screenWidth >= 2560) return '60px'      // 4xl
-    if (screenWidth >= 1920) return '55px'      // 3xl
-    if (screenWidth >= 1536) return '50px'      // 2xl
-    if (screenWidth >= 1280) return '50px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '45px'      // lg
-    if (screenWidth >= 800) return '30px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '35px'       // md (iPad mini)
-    if (screenWidth >= 640) return '25px'       // sm (large mobile)
-    if (screenWidth >= 568) return '15px'       // iPhone 5/5s
-    return '12px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '60px'
+    if (screenWidth >= 1920) return '55px'
+    if (screenWidth >= 1536) return '50px'
+    if (screenWidth >= 1280) return '50px'
+    if (screenWidth >= 1024) return '45px'
+    if (screenWidth >= 800) return '30px'
+    if (screenWidth >= 768) return '35px'
+    if (screenWidth >= 640) return '25px'
+    if (screenWidth >= 568) return '15px'
+    return '12px'
   }
 
-  // Function untuk margin text content (batas kiri-kanan)
   const getContentMargin = () => {
-    if (screenWidth >= 2560) return '70px'      // 4xl
-    if (screenWidth >= 1920) return '65px'      // 3xl
-    if (screenWidth >= 1536) return '60px'      // 2xl
-    if (screenWidth >= 1280) return '70px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '55px'      // lg
-    if (screenWidth >= 800) return '40px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '45px'       // md (iPad mini)
-    if (screenWidth >= 640) return '30px'       // sm (large mobile)
-    if (screenWidth >= 568) return '20px'       // iPhone 5/5s
-    return '15px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '70px'
+    if (screenWidth >= 1920) return '65px'
+    if (screenWidth >= 1536) return '60px'
+    if (screenWidth >= 1280) return '70px'
+    if (screenWidth >= 1024) return '55px'
+    if (screenWidth >= 800) return '40px'
+    if (screenWidth >= 768) return '45px'
+    if (screenWidth >= 640) return '30px'
+    if (screenWidth >= 568) return '20px'
+    return '15px'
   }
 
   return (
