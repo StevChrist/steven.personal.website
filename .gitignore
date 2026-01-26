@@ -40,8 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/public/cv/
-/public/image/
-/public/models/
-/public/web_preview/
-/public/src/styles/aboutOutline.css.d.ts
+public/
+public/src/styles/aboutOutline.css.d.ts
