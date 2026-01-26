@@ -233,32 +233,49 @@ const Project = () => {
     ]
 
     // UNTUK MENAMBAHKAN PROJECT CODE: Tambahkan object baru ke array codeProjects
-    // PENTING: Ganti siteLink dengan URL website live yang sebenarnya
     const codeProjects = [
+        { 
+            title: 'PenineMate', 
+            description: 'PenineMate is a non-commercial academic AI-powered movie assistant developed for educational and portfolio purposes. The application uses the TMDb API to retrieve movie metadata, cast information, and popularity data to support movie Q&A and semantic-based recommendation features.',
+            link: 'https://github.com/StevChrist/flixzy',
+            siteLink: 'https://peninemate.stevchrist.site',
+            previewImage: '/web_preview/peninemate.png'
+        },
+                { 
+            title: 'Data Warehouse and Business Intelligence', 
+            description: 'This project focuses on designing and implementing a Data Warehouse (DW) and Business Intelligence (BI) system to support monitoring, evaluation, and decision-making for Kerja Praktik (KP) activities at the faculty level.',
+            link: 'https://github.com/StevChrist/dw_bi',
+            siteLink: 'https://app.powerbi.com/view?r=eyJrIjoiYjgxODQxNWYtYzRkNi00YWFjLWI1NzktMGMxNzgyOWRiMDgwIiwidCI6IjkwYWZmZTBmLWMyYTMtNDEwOC1iYjk4LTZjZWI0ZTk0ZWYxNSIsImMiOjEwfQ%3D%3D',
+            previewImage: '/web_preview/DW_Bi_1.png'
+        },
+        { 
+            title: 'Social Sentiment', 
+            description: 'This project is ongoing.',
+            link: 'https://github.com/StevChrist/social-sentiment',
+            siteLink: '#',
+            previewImage: '/web_preview/social_sentiment.png'
+        },
         { 
             title: 'Project Capstone Water Potability', 
             description: 'This project aims to develop a machine learning-based system that is able to predict the level of potable water quality based on various physical and chemical quality parameters.',
             link: 'https://github.com/StevChrist/water-potability-prediction',
-            siteLink: 'https://water-potability-capstone.streamlit.app/' // Ganti dengan URL site yang sebenarnya
-        },
-        { 
-            title: 'Peninemate', 
-            description: 'PenineMate is a non-commercial academic AI-powered movie assistant developed for educational and portfolio purposes. The application uses the TMDb API to retrieve movie metadata, cast information, and popularity data to support movie Q&A and semantic-based recommendation features.',
-            link: 'https://github.com/StevChrist/flixzy',
-            siteLink: 'https://peninemate.stevchrist.site' // Ganti dengan URL site yang sebenarnya
-        },
-        { 
-            title: 'Project Building Workflow for data analysis from CSV', 
-            description: 'It provides a complete workflow for data analysis, from CSV file upload and preprocessing (handling missing values, normalization, outlier removal) to three core machine learning tasks: prediction (Random Forest and MLP), anomaly detection (Isolation Forest), and segmentation (K-Means clustering).',
-            link: 'https://github.com/StevChrist/LumenAlyze',
-            siteLink: 'https://lumenalyze.vercel.app/' // Ganti dengan URL site yang sebenarnya
+            siteLink: 'https://water-potability-capstone.streamlit.app/',
+            previewImage: '/web_preview/aqua_check.png'
         },
         { 
             title: 'Sentiment Analysis with C-LSTM models', 
             description: 'This project implements sentiment analysis using a Convolutional Long Short-Term Memory (C-LSTM) architecture on text data. It covers the entire pipeline, from preprocessing and model building to training and evaluation, and then prediction.',
             link: 'https://github.com/StevChrist/Sentiment-Analyst-C-LSTM',
-            siteLink: 'https://sentimentanalyst-c-lstm.streamlit.app/' // Ganti dengan URL site yang sebenarnya
-        }
+            siteLink: 'https://sentimentanalyst-c-lstm.streamlit.app/',
+            previewImage: '/web_preview/sentiment_C-LSTM.png'
+        },
+                { 
+            title: 'LumenAlyze', 
+            description: 'It provides a complete workflow for data analysis, from CSV file upload and preprocessing (handling missing values, normalization, outlier removal) to three core machine learning tasks: prediction (Random Forest and MLP), anomaly detection (Isolation Forest), and segmentation (K-Means clustering).',
+            link: 'https://github.com/StevChrist/LumenAlyze',
+            siteLink: 'https://lumenalyze.vercel.app/',
+            previewImage: '/web_preview/lumenalyze.png'
+        },
     ]
 
     const imageSize = getImageSize()
@@ -326,34 +343,86 @@ const Project = () => {
                         }}
                     >
                         <div 
-                            className="grid gap-[40px] mx-auto max-w-6xl"
+                            className="grid mx-auto"
                             style={{
-                                gridTemplateColumns: isMobileLayout() ? '1fr' : 'repeat(2, 1fr)'
+                                gridTemplateColumns: isMobileLayout() ? '1fr' : 'repeat(2, 1fr)',
+                                rowGap: '60px',
+                                columnGap: '40px',
+                                paddingTop: '60px',
+                                maxWidth: '1200px'
                             }}
                         >
                             {codeProjects.map((project, index) => (
                                 <div
                                     key={index}
-                                    className="flex flex-col items-center shadow-lg"
+                                    className="flex flex-col shadow-lg"
                                     style={{ 
                                         backgroundColor: 'rgba(51, 51, 51, 0.5)', 
                                         borderRadius: '30px', 
                                         border: 'none', 
-                                        width: '100%' 
+                                        width: '100%',
+                                        position: 'relative',
+                                        overflow: 'visible',
+                                        zIndex: 2
                                     }}
                                 >
-                                    <div className="bg-gray-600 p-[16px] rounded-lg w-[100%] flex flex-col items-center">
-                                        <h3 className="text-[16px] font-bold text-white text-center mb-[0px]">{project.title}</h3>
-                                        <p className="text-[14px] text-white text-center mb-[25px] px-[20px]"> 
-                                            {project.description}
-                                        </p>
-                                        {/* Container untuk kedua button */}
+                                    {/* Preview Image */}
+                                    <div 
+                                        style={{
+                                            position: 'absolute',
+                                            top: '-30px',
+                                            left: '0',
+                                            right: '0',
+                                            width: '100%',
+                                            height: '140px',
+                                            borderRadius: '30px 30px 0 0',
+                                            overflow: 'hidden',
+                                            zIndex: -1
+                                        }}
+                                    >
+                                        <Image
+                                            src={project.previewImage}
+                                            alt={`${project.title} Preview`}
+                                            width={700}
+                                            height={140}
+                                            className="w-full h-full object-cover"
+                                            style={{
+                                                filter: 'blur(1.5px)'
+                                            }}
+                                        />
+                                    </div>
+
+                                    {/* Card Content */}
+                                    <div 
+                                        className="bg-gray-600 rounded-lg w-[100%] flex flex-col"
+                                        style={{ 
+                                            marginTop: '100px',
+                                            padding: '20px 16px 16px 4px',
+                                            flex: 1,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between'
+                                        }}
+                                    >
+                                        {/* Content Section */}
+                                        <div>
+                                            <h3 className="text-[16px] font-bold text-white text-center mb-[8px]">
+                                                {project.title}
+                                            </h3>
+                                            <p className="text-[14px] text-white leading-relaxed" style={{textAlign: 'center', padding: '0 20px'}}>
+                                                {project.description}
+                                            </p>
+                                        </div>
+
+                                        {/* Button Section */}
                                         <div 
-                                            className="flex mt-4"
+                                            className="flex"
                                             style={{
                                                 gap: '12px',
                                                 justifyContent: 'center',
-                                                alignItems: 'center'
+                                                alignItems: 'center',
+                                                marginTop: '16px',
+                                                paddingBottom: '4px'
                                             }}
                                         >
                                             <button

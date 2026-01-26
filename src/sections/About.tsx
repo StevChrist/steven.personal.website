@@ -218,7 +218,7 @@ const About = () => {
               }}
             >
               Hello, My name is Steven Immanuel C. Girsang, <br />
-              I am a Data Science undergraduate student at Telkom University, Bandung.
+              I am a fresh graduate Data Science from Telkom University, Bandung.
               I am passionate about technology and fascinated by how data can uncover insights and solve real-world problems. This interest led me to pursue data science, focusing on areas like machine learning and data analysis.
               I have been involved in student organizations, where I developed leadership, teamwork, and communication skills.
               <br />

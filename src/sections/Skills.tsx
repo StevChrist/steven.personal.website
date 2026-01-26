@@ -75,47 +75,7 @@ const Skills = () => {
     return '28px'                               // xs (very small mobile)
   }
 
-  // Function untuk margin bottom judul
-  const getTitleMargin = () => {
-    if (screenWidth >= 2560) return '60px'      // 4xl
-    if (screenWidth >= 1920) return '55px'      // 3xl
-    if (screenWidth >= 1536) return '50px'      // 2xl
-    if (screenWidth >= 1280) return '50px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '45px'      // lg
-    if (screenWidth >= 800) return '30px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '35px'       // md (iPad mini)
-    if (screenWidth >= 640) return '25px'       // sm (large mobile)
-    if (screenWidth >= 568) return '18px'       // iPhone 5/5s
-    return '15px'                               // xs (very small mobile)
-  }
 
-  // Function untuk ukuran text berdasarkan device
-  const getTextSize = () => {
-    if (screenWidth >= 2560) return '22px'      // 4xl
-    if (screenWidth >= 1920) return '21px'      // 3xl
-    if (screenWidth >= 1536) return '20px'      // 2xl
-    if (screenWidth >= 1280) return '20px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '18px'      // lg
-    if (screenWidth >= 800) return '16px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '17px'       // md (iPad mini)
-    if (screenWidth >= 640) return '14px'       // sm (large mobile)
-    if (screenWidth >= 568) return '11px'       // iPhone 5/5s
-    return '10px'                               // xs (very small mobile)
-  }
-
-  // Function untuk margin bottom text
-  const getTextMargin = () => {
-    if (screenWidth >= 2560) return '50px'      // 4xl
-    if (screenWidth >= 1920) return '45px'      // 3xl
-    if (screenWidth >= 1536) return '40px'      // 2xl
-    if (screenWidth >= 1280) return '40px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '35px'      // lg
-    if (screenWidth >= 800) return '28px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '32px'       // md (iPad mini)
-    if (screenWidth >= 640) return '22px'       // sm (large mobile)
-    if (screenWidth >= 568) return '25px'       // iPhone 5/5s
-    return '22px'                               // xs
-  }
 
   // Function untuk ukuran skill title
   const getSkillTitleSize = () => {
@@ -211,26 +171,11 @@ const Skills = () => {
           className="text-center font-bold gsap-fade-up"
           style={{ 
             fontFamily: "'Pacifico', cursive", 
-            fontSize: getTitleSize(),
-            marginBottom: getTitleMargin()
+            fontSize: getTitleSize()
           }}
           delayStep={0.05}
           triggerOnce={false}
         />
-
-        <p 
-          className="text-center font-light gsap-fade-up" 
-          style={{ 
-            fontFamily: "'Roboto'",
-            fontSize: getTextSize(),
-            marginBottom: getTextMargin(),
-            marginLeft: isDesktopLayout() ? '0' : getContentMargin(),
-            marginRight: isDesktopLayout() ? '0' : getContentMargin(),
-            maxWidth: '900px'
-          }}
-        >
-          Far far away, behind the lines of perfect code, beyond the lands of Syntax and Semicolon, lies the elusive 100% mastery.
-        </p>
 
         {/* Conditional Layout: 2 kolom untuk desktop, 1 kolom untuk mobile */}
         {isDesktopLayout() ? (

@@ -7,6 +7,7 @@ import Skills from '@/sections/Skills'
 import Project from '@/sections/Project'
 import Contact from '@/sections/Contact'
 import Footer from '@/components/Footer'
+import Education from '@/sections/Education'
 
 export default function Home() {
   return (
@@ -23,8 +24,9 @@ export default function Home() {
     >
       <Main />
       <About />
-      <Experience />
+      <Education/>
       <Skills />
+      <Experience />
       <Project />
       <Contact />
       <Footer />
