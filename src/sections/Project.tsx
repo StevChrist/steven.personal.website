@@ -15,7 +15,6 @@ const Project = () => {
     const [activeCategory, setActiveCategory] = useState('Code')
     const [screenWidth, setScreenWidth] = useState(0)
     const sectionRef = useRef<HTMLDivElement>(null)
-    const scrollTriggersRef = useRef<ScrollTrigger[]>([]) // Track ScrollTriggers
 
     useEffect(() => {
         const handleResize = () => {
@@ -27,15 +26,18 @@ const Project = () => {
         return () => window.removeEventListener('resize', handleResize)
     }, [])
 
-    // Setup GSAP animations with proper cleanup
+    // Setup GSAP animations - RE-INITIALIZE saat category berubah
     useEffect(() => {
         if (!sectionRef.current) return
 
-        // AGGRESSIVE CLEANUP: Kill ALL previous ScrollTriggers from this component
-        scrollTriggersRef.current.forEach(trigger => {
-            if (trigger) trigger.kill(true)
+        // Kill ONLY ScrollTrigger instances with our unique data attribute
+        const triggers = ScrollTrigger.getAll()
+        triggers.forEach(trigger => {
+            // Only kill triggers that belong to this component
+            if (trigger.vars.id && trigger.vars.id.startsWith('project-card-')) {
+                trigger.kill(true)
+            }
         })
-        scrollTriggersRef.current = []
 
         // Delay untuk AnimatePresence
         const timer = setTimeout(() => {
@@ -49,62 +51,38 @@ const Project = () => {
                 gsap.set(element, { 
                     opacity: 0, 
                     y: 80,
-                    scale: 0.95,
-                    clearProps: 'all' // Clear previous props
+                    scale: 0.95
                 })
 
-                // Create animation
-                const tween = gsap.to(element, {
+                // Create animation with unique ID
+                gsap.to(element, {
                     opacity: 1,
                     y: 0,
                     scale: 1,
                     duration: 0.8,
                     ease: 'power2.out',
                     scrollTrigger: {
-                        id: `project-card-${activeCategory}-${index}`, // Include category in ID
+                        id: `project-card-${index}`, // Unique ID untuk setiap trigger
                         trigger: element,
                         start: 'top 90%',
                         end: 'top 10%',
                         toggleActions: 'play none none reverse',
                         scrub: 0.5,
-                        invalidateOnRefresh: true, // Recalculate on refresh
-                        // markers: true,
+                        // markers: true, // Uncomment untuk debugging
                     },
                 })
-
-                // Store ScrollTrigger reference
-                if (tween.scrollTrigger) {
-                    scrollTriggersRef.current.push(tween.scrollTrigger)
-                }
             })
 
-            // Refresh after setup
+            // Refresh hanya setelah semua animation di-setup
             ScrollTrigger.refresh()
         }, 350)
 
-        // Cleanup function
         return () => {
             clearTimeout(timer)
-            // Kill all ScrollTriggers created by this effect
-            scrollTriggersRef.current.forEach(trigger => {
-                if (trigger) trigger.kill(true)
-            })
-            scrollTriggersRef.current = []
         }
     }, [activeCategory])
 
-    // Cleanup on unmount
-    useEffect(() => {
-        return () => {
-            // Kill ALL ScrollTriggers when component unmounts
-            scrollTriggersRef.current.forEach(trigger => {
-                if (trigger) trigger.kill(true)
-            })
-            scrollTriggersRef.current = []
-        }
-    }, [])
-
-    // ... (rest of your helper functions - getTitleSize, etc.)
+    // Function untuk ukuran judul berdasarkan device
     const getTitleSize = () => {
         if (screenWidth >= 2560) return '80px'
         if (screenWidth >= 1920) return '75px'
@@ -381,6 +359,7 @@ const Project = () => {
                                         zIndex: 2
                                     }}
                                 >
+                                    {/* Preview Image */}
                                     <div 
                                         style={{
                                             position: 'absolute',
@@ -406,6 +385,7 @@ const Project = () => {
                                         />
                                     </div>
 
+                                    {/* Card Content */}
                                     <div 
                                         className="bg-gray-600 rounded-lg w-[100%] flex flex-col"
                                         style={{ 
@@ -417,6 +397,7 @@ const Project = () => {
                                             justifyContent: 'space-between'
                                         }}
                                     >
+                                        {/* Content Section */}
                                         <div>
                                             <h3 className="text-[16px] font-bold text-white text-center mb-[8px]">
                                                 {project.title}
@@ -426,6 +407,7 @@ const Project = () => {
                                             </p>
                                         </div>
 
+                                        {/* Button Section */}
                                         <div 
                                             className="flex"
                                             style={{
@@ -501,6 +483,7 @@ const Project = () => {
                 />
             </div>
 
+            {/* Kategori with responsive design */}
             <div 
                 className="flex justify-center pb-[25px]"
                 style={{
@@ -526,6 +509,7 @@ const Project = () => {
                 ))}
             </div>
 
+            {/* Konten Projek with animation */}
             <div className="flex justify-center mt-6">
                 <AnimatePresence mode="wait">
                     {renderProjects()}
