@@ -26,18 +26,15 @@ const Project = () => {
         return () => window.removeEventListener('resize', handleResize)
     }, [])
 
-    // REMOVE LENIS - Lenis sudah ada di SmoothScrollWrapper
-    // Tidak perlu initialize lagi di sini
-
     // Setup GSAP animations - RE-INITIALIZE saat category berubah
     useEffect(() => {
         if (!sectionRef.current) return
 
-        // Kill ONLY ScrollTrigger instances in this section
+        // Kill ONLY ScrollTrigger instances with our unique data attribute
         const triggers = ScrollTrigger.getAll()
         triggers.forEach(trigger => {
-            // Check if trigger belongs to this section
-            if (trigger.vars.trigger && sectionRef.current?.contains(trigger.vars.trigger as HTMLElement)) {
+            // Only kill triggers that belong to this component
+            if (trigger.vars.id && trigger.vars.id.startsWith('project-card-')) {
                 trigger.kill(true)
             }
         })
@@ -46,10 +43,10 @@ const Project = () => {
         const timer = setTimeout(() => {
             if (!sectionRef.current) return
 
-            // PENTING: Query elements HANYA dalam sectionRef
-            const elements = sectionRef.current.querySelectorAll<HTMLElement>('.gsap-fade-up')
+            // Query ONLY elements with unique class inside this section
+            const elements = sectionRef.current.querySelectorAll<HTMLElement>('.project-card-animate')
             
-            elements.forEach((element) => {
+            elements.forEach((element, index) => {
                 // Set initial state
                 gsap.set(element, { 
                     opacity: 0, 
@@ -57,7 +54,7 @@ const Project = () => {
                     scale: 0.95
                 })
 
-                // Create animation with scoped context
+                // Create animation with unique ID
                 gsap.to(element, {
                     opacity: 1,
                     y: 0,
@@ -65,13 +62,12 @@ const Project = () => {
                     duration: 0.8,
                     ease: 'power2.out',
                     scrollTrigger: {
+                        id: `project-card-${index}`, // Unique ID untuk setiap trigger
                         trigger: element,
                         start: 'top 90%',
                         end: 'top 10%',
                         toggleActions: 'play none none reverse',
                         scrub: 0.5,
-                        // Tambahkan scroller untuk memastikan tidak conflict
-                        scroller: undefined, // Default to window
                         // markers: true, // Uncomment untuk debugging
                     },
                 })
@@ -308,7 +304,7 @@ const Project = () => {
                             {designImages.slice(0, imageLimit).map((src, i) => (
                                 <div 
                                     key={i} 
-                                    className="bg-gray-600 rounded-[10px] overflow-hidden gsap-fade-up"
+                                    className="bg-gray-600 rounded-[10px] overflow-hidden project-card-animate"
                                     style={{
                                         width: imageSize.width,
                                         height: imageSize.height
@@ -352,7 +348,7 @@ const Project = () => {
                             {codeProjects.map((project, index) => (
                                 <div
                                     key={index}
-                                    className="flex flex-col shadow-lg gsap-fade-up"
+                                    className="flex flex-col shadow-lg project-card-animate"
                                     style={{ 
                                         backgroundColor: 'rgba(51, 51, 51, 0.5)', 
                                         borderRadius: '30px', 
