@@ -258,7 +258,7 @@ const Project = () => {
             description: 'This project focuses on designing and implementing a Data Warehouse (DW) and Business Intelligence (BI) system to support monitoring, evaluation, and decision-making for Kerja Praktik (KP) activities at the faculty level.',
             link: 'https://github.com/StevChrist/dw_bi',
             siteLink: 'https://app.powerbi.com/view?r=eyJrIjoiYjgxODQxNWYtYzRkNi00YWFjLWI1NzktMGMxNzgyOWRiMDgwIiwidCI6IjkwYWZmZTBmLWMyYTMtNDEwOC1iYjk4LTZjZWI0ZTk0ZWYxNSIsImMiOjEwfQ%3D%3D',
-            previewImage: '/web_preview/DW_Bi_1.png'
+            previewImage: '/web_preview/Dw_Bi_1.png'
         },
         { 
             title: 'Social Sentiment', 
@@ -286,7 +286,7 @@ const Project = () => {
             description: 'It provides a complete workflow for data analysis, from CSV file upload and preprocessing (handling missing values, normalization, outlier removal) to three core machine learning tasks: prediction (Random Forest and MLP), anomaly detection (Isolation Forest), and segmentation (K-Means clustering).',
             link: 'https://github.com/StevChrist/LumenAlyze',
             siteLink: 'https://lumenalyze.vercel.app/',
-            previewImage: '/web_preview/lumenalyze.png'
+            previewImage: '/web_preview/Lumenalyze.png'
         },
     ]
 
