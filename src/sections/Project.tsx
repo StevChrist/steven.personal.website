@@ -279,7 +279,7 @@ const Project = () => {
             previewImage: '/web_preview/TBH-price.png'
         },
         { 
-            title: 'Project is ongoing.', 
+            title: 'Unknown Project', 
             description: 'Project is ongoing.',
             link: '#',
             siteLink: '#',
