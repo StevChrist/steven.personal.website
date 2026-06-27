@@ -245,9 +245,9 @@ const Project = () => {
         },
         { 
             title: 'Social Sentiment', 
-            description: 'This project is ongoing.',
+            description: 'SocialSentiment is an AI-powered web application that analyzes the sentiment of YouTube video comments in real time. By simply pasting a YouTube video URL, the platform automatically fetches public comments and classifies each one as Positive, Neutral, or Negative.',
             link: 'https://github.com/StevChrist/social-sentiment',
-            siteLink: '#',
+            siteLink: 'https://social-sentiment.stevchrist.site/',
             previewImage: '/web_preview/social_sentiment.png'
         },
         { 
@@ -270,6 +270,20 @@ const Project = () => {
             link: 'https://github.com/StevChrist/LumenAlyze',
             siteLink: 'https://lumenalyze.vercel.app/',
             previewImage: '/web_preview/Lumenalyze.png'
+        },
+        { 
+            title: 'TBH-Pricing', 
+            description: 'Project is ongoing.',
+            link: 'https://github.com/StevChrist/tbh-pricing',
+            siteLink: '#',
+            previewImage: '/web_preview/TBH-price.png'
+        },
+        { 
+            title: 'Project is ongoing.', 
+            description: 'Project is ongoing.',
+            link: '#',
+            siteLink: '#',
+            previewImage: '/image/background.png'
         },
     ]
 
