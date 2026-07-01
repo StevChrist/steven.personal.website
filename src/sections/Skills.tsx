@@ -134,21 +134,21 @@ const Skills = () => {
 
   // Split skills untuk 2 kolom
   const column1Skills = [
-    { title: 'HTML', percent: 65 },
-    { title: 'CSS', percent: 65 },
-    { title: 'JavaScript', percent: 20 },
-    { title: 'Python', percent: 70 },
-    { title: 'GoLanguage', percent: 50 },
-    { title: 'SQL', percent: 70 },
+    { title: 'Python', percent: 85 },
+    { title: 'SQL', percent: 85 },
+    { title: 'Machine Learning', percent: 85 },
+    { title: 'Deep Learning', percent: 80 },
+    { title: 'Data Analysis', percent: 85},
+    { title: 'Data Visualization', percent: 85 },
   ]
 
   const column2Skills = [
-    { title: 'Data Science / Data Analysis / Machine Learning', percent: 78 },
-    { title: 'Data Visualization', percent: 82 },
-    { title: 'Figma', percent: 82 },
-    { title: 'Adobe Photoshop & Adobe Illustrator', percent: 70 },
-    { title: 'Adobe After Effect & Premier Pro', percent: 85 },
-    { title: 'Photography & Videography', percent: 80 },
+    { title: 'ETL / Data Processing', percent: 80 },
+    { title: 'Power BI', percent: 80 },
+    { title: 'Database Design & Management', percent: 80 },
+    { title: 'Version Control (Git)', percent: 65 },
+    { title: 'Frontend (HTML/CSS/Next.js/Tailwind CSS)', percent: 55 },
+    { title: 'UI/UX Design', percent: 75 },
   ]
 
   // All skills dalam 1 array untuk single column
