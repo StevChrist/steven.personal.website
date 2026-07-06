@@ -275,13 +275,13 @@ const Project = () => {
             title: 'TBH-Pricing', 
             description: 'Project is ongoing.',
             link: 'https://github.com/StevChrist/tbh-pricing',
-            siteLink: '#',
+            siteLink: 'https://tbh-price.stevchrist.site/',
             previewImage: '/web_preview/TBH-price.png'
         },
         { 
-            title: 'Unknown Project', 
+            title: 'Food Order', 
             description: 'Project is ongoing.',
-            link: '#',
+            link: 'https://github.com/StevChrist/Food-Order',
             siteLink: '#',
             previewImage: '/image/background.png'
         },
