@@ -130,7 +130,20 @@ export default function Main() {
       id="home"
       ref={sectionRef}
       className="relative min-h-screen bg-black text-white overflow-hidden"
+      itemScope
+      itemType="https://schema.org/Person"
     >
+      {/* ===== SEO: Hidden H1 with full name - visible to Google, not disrupting design ===== */}
+      <h1
+        className="sr-only"
+        itemProp="name"
+      >
+        Steven Immanuel C. Girsang - Data Scientist Portfolio
+      </h1>
+      <meta itemProp="url" content="https://stevchrist.site" />
+      <meta itemProp="jobTitle" content="Data Scientist" />
+      <meta itemProp="alumniOf" content="Telkom University" />
+
       {/* ===== LOGO IMAGE ===== */}
       <div
         className="absolute z-30 select-none gsap-fade-up"

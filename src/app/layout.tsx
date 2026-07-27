@@ -2,6 +2,7 @@ import './globals.css'
 import { Roboto } from 'next/font/google'
 import { Protest_Riot, Pacifico } from 'next/font/google'
 import { SmoothScrollWrapper } from '@/components/SmoothScrollWrapper'
+import JsonLd from '@/components/JsonLd'
 import type { Metadata, Viewport } from 'next'
 
 // Load font Roboto
@@ -30,25 +31,61 @@ const pacifico = Pacifico({
 
 // Metadata export (tanpa viewport)
 export const metadata: Metadata = {
-  title: 'Steven | Personal Website',
-  description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Scientist',
+  metadataBase: new URL('https://stevchrist.site'),
+  title: 'Steven Immanuel C. Girsang | Personal Website',
+  description: 'Personal portfolio of Steven Immanuel C. Girsang (StevenChrist / StevChrist) — Data Scientist, fresh graduate from Telkom University Bandung. Specializing in Machine Learning, Data Analysis, and Web Development.',
   icons: {
     icon: '/image/Logo PEN White 1x1.png',
+    shortcut: '/image/Logo PEN White 1x1.png',
+    apple: '/image/Logo PEN White 1x1.png',
   },
-  keywords: 'Steven Immanuel, Data Science, Portfolio, Web Developer, Machine Learning, Telkom University',
-  authors: [{ name: 'Steven Immanuel C. Girsang' }],
+  keywords: [
+    'Steven Girsang',
+    'Steven Immanuel',
+    'Steven Immanuel C Girsang',
+    'Steven Immanuel Christiano Girsang',
+    'Steven I C G',
+    'Steven Christiano',
+    'StevenChrist',
+    'StevChrist',
+    'StevChris',
+    'Data Scientist',
+    'Portfolio',
+    'Web Developer',
+    'Machine Learning',
+    'Data Analysis',
+    'Telkom University',
+    'Bandung',
+    'stevchrist.site',
+  ],
+  authors: [{ name: 'Steven Immanuel C. Girsang', url: 'https://stevchrist.site' }],
   creator: 'Steven Immanuel C. Girsang',
+  publisher: 'Steven Immanuel C. Girsang',
+  alternates: {
+    canonical: 'https://stevchrist.site',
+  },
   openGraph: {
-    title: 'Steven | Personal Website',
-    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Scientist',
+    title: 'Steven Immanuel C. Girsang | Personal Website',
+    description: 'Personal portfolio of Steven Immanuel C. Girsang — Data Scientist from Telkom University Bandung.',
+    url: 'https://stevchrist.site',
+    siteName: 'Steven Immanuel C. Girsang',
     type: 'website',
     locale: 'en_US',
+    images: [
+      {
+        url: '/image/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Steven Immanuel C. Girsang — Data Scientist Portfolio',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Steven | Personal Website',
-    description: 'Personal portfolio of Steven Immanuel C. Girsang - Data Scientist',
+    title: 'Steven Immanuel C. Girsang | Personal Website',
+    description: 'Personal portfolio of Steven Immanuel C. Girsang — Data Scientist from Telkom University Bandung.',
     creator: '@_Stevchris',
+    images: ['/image/og-image.png'],
   },
   robots: {
     index: true,
@@ -89,6 +126,7 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
       </head>
       <body className={`${roboto.className} antialiased`}>
+        <JsonLd />
         <SmoothScrollWrapper>
           {children}
         </SmoothScrollWrapper>

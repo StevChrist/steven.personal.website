@@ -1,5 +1,3 @@
-'use client'
-
 import Main from '@/sections/Main'
 import About from '@/sections/About'
 import Experience from '@/sections/Experience'

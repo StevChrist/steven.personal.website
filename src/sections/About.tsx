@@ -192,7 +192,7 @@ const About = () => {
             <div className="relative w-full h-full rounded-[20px] z-10 overflow-hidden">
               <Image
                 src="/image/about-me.png"
-                alt="About Me"
+                alt="Steven Immanuel C. Girsang - Data Scientist, fresh graduate from Telkom University Bandung"
                 width={parseInt(imageSize.width)}
                 height={parseInt(imageSize.height)}
                 className="rounded-[20px] w-full h-full"
