@@ -1,6 +1,6 @@
 'use client'
 
-import {useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -45,11 +45,11 @@ const Project = () => {
 
             // Query ONLY elements with unique class inside this section
             const elements = sectionRef.current.querySelectorAll<HTMLElement>('.project-card-animate')
-            
+
             elements.forEach((element, index) => {
                 // Set initial state
-                gsap.set(element, { 
-                    opacity: 0, 
+                gsap.set(element, {
+                    opacity: 0,
                     y: 80,
                     scale: 0.95
                 })
@@ -216,8 +216,8 @@ const Project = () => {
     }
 
     const designImages = [
-        '/image/Design/1.png', 
-        '/image/Design/2.png', 
+        '/image/Design/1.png',
+        '/image/Design/2.png',
         '/image/Design/3.png',
         '/image/Design/4.png',
         '/image/Design/5.png',
@@ -229,59 +229,59 @@ const Project = () => {
     ]
 
     const codeProjects = [
-        { 
-            title: 'PenineMate', 
+        {
+            title: 'PenineMate',
             description: 'PenineMate is a non-commercial academic AI-powered movie assistant developed for educational and portfolio purposes. The application uses the TMDb API to retrieve movie metadata, cast information, and popularity data to support movie Q&A and semantic-based recommendation features.',
             link: 'https://github.com/StevChrist/flixzy',
             siteLink: 'https://peninemate.stevchrist.site',
             previewImage: '/web_preview/peninemate.png'
         },
-        { 
-            title: 'Data Warehouse and Business Intelligence', 
+        {
+            title: 'Data Warehouse and Business Intelligence',
             description: 'This project focuses on designing and implementing a Data Warehouse (DW) and Business Intelligence (BI) system to support monitoring, evaluation, and decision-making for Kerja Praktik (KP) activities at the faculty level.',
             link: 'https://github.com/StevChrist/dw_bi',
             siteLink: 'https://app.powerbi.com/view?r=eyJrIjoiYjgxODQxNWYtYzRkNi00YWFjLWI1NzktMGMxNzgyOWRiMDgwIiwidCI6IjkwYWZmZTBmLWMyYTMtNDEwOC1iYjk4LTZjZWI0ZTk0ZWYxNSIsImMiOjEwfQ%3D%3D',
             previewImage: '/web_preview/Dw_Bi_1.png'
         },
-        { 
-            title: 'Social Sentiment', 
+        {
+            title: 'Social Sentiment',
             description: 'SocialSentiment is an AI-powered web application that analyzes the sentiment of YouTube video comments in real time. By simply pasting a YouTube video URL, the platform automatically fetches public comments and classifies each one as Positive, Neutral, or Negative.',
             link: 'https://github.com/StevChrist/social-sentiment',
             siteLink: 'https://social-sentiment.stevchrist.site/',
             previewImage: '/web_preview/social_sentiment.png'
         },
-        { 
-            title: 'Project Capstone Water Potability', 
+        {
+            title: 'Project Capstone Water Potability',
             description: 'This project aims to develop a machine learning-based system that is able to predict the level of potable water quality based on various physical and chemical quality parameters.',
             link: 'https://github.com/StevChrist/water-potability-prediction',
             siteLink: 'https://water-potability-capstone.streamlit.app/',
             previewImage: '/web_preview/aqua_check.png'
         },
-        { 
-            title: 'Sentiment Analysis with C-LSTM models', 
+        {
+            title: 'Sentiment Analysis with C-LSTM models',
             description: 'This project implements sentiment analysis using a Convolutional Long Short-Term Memory (C-LSTM) architecture on text data. It covers the entire pipeline, from preprocessing and model building to training and evaluation, and then prediction.',
             link: 'https://github.com/StevChrist/Sentiment-Analyst-C-LSTM',
             siteLink: 'https://sentimentanalyst-c-lstm.streamlit.app/',
             previewImage: '/web_preview/sentiment_C-LSTM.png'
         },
-        { 
-            title: 'LumenAlyze', 
+        {
+            title: 'LumenAlyze',
             description: 'It provides a complete workflow for data analysis, from CSV file upload and preprocessing (handling missing values, normalization, outlier removal) to three core machine learning tasks: prediction (Random Forest and MLP), anomaly detection (Isolation Forest), and segmentation (K-Means clustering).',
             link: 'https://github.com/StevChrist/LumenAlyze',
             siteLink: 'https://lumenalyze.vercel.app/',
             previewImage: '/web_preview/Lumenalyze.png'
         },
-        { 
-            title: 'TBH-Pricing', 
-            description: 'Project is ongoing.',
+        {
+            title: 'TBH-Pricing',
+            description: 'TBH Inventory Price Tracker helps Task Bar Hero players monitor, value, and track their in-game item portfolios against the Steam Community Market. It provides real-time price updates in both IDR (Rupiah) and USD, calculates portfolio value, and notifies users when prices hit their configured thresholds.',
             link: 'https://github.com/StevChrist/tbh-pricing',
             siteLink: 'https://tbh-price.stevchrist.site/',
             previewImage: '/web_preview/TBH-price.png'
         },
-        { 
-            title: 'Food Order', 
+        {
+            title: 'Coming Soon',
             description: 'Project is ongoing.',
-            link: 'https://github.com/StevChrist/Food-Order',
+            link: '#',
             siteLink: '#',
             previewImage: '/image/background.png'
         },
@@ -306,7 +306,7 @@ const Project = () => {
                             marginRight: isMobileLayout() ? getContentMargin() : '0'
                         }}
                     >
-                        <div 
+                        <div
                             className="grid justify-center"
                             style={{
                                 gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
@@ -316,8 +316,8 @@ const Project = () => {
                             }}
                         >
                             {designImages.slice(0, imageLimit).map((src, i) => (
-                                <div 
-                                    key={i} 
+                                <div
+                                    key={i}
                                     className="bg-gray-600 rounded-[10px] overflow-hidden project-card-animate"
                                     style={{
                                         width: imageSize.width,
@@ -344,12 +344,8 @@ const Project = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        style={{
-                            marginLeft: getContentMargin(),
-                            marginRight: getContentMargin()
-                        }}
                     >
-                        <div 
+                        <div
                             className="grid mx-auto"
                             style={{
                                 gridTemplateColumns: isMobileLayout() ? '1fr' : 'repeat(2, 1fr)',
@@ -363,10 +359,10 @@ const Project = () => {
                                 <div
                                     key={index}
                                     className="flex flex-col shadow-lg project-card-animate"
-                                    style={{ 
-                                        backgroundColor: 'rgba(51, 51, 51, 0.5)', 
-                                        borderRadius: '30px', 
-                                        border: 'none', 
+                                    style={{
+                                        backgroundColor: 'rgba(51, 51, 51, 0.5)',
+                                        borderRadius: '30px',
+                                        border: 'none',
                                         width: '100%',
                                         position: 'relative',
                                         overflow: 'visible',
@@ -374,7 +370,7 @@ const Project = () => {
                                     }}
                                 >
                                     {/* Preview Image */}
-                                    <div 
+                                    <div
                                         style={{
                                             position: 'absolute',
                                             top: '-30px',
@@ -400,9 +396,9 @@ const Project = () => {
                                     </div>
 
                                     {/* Card Content */}
-                                    <div 
+                                    <div
                                         className="bg-gray-600 rounded-lg w-[100%] flex flex-col"
-                                        style={{ 
+                                        style={{
                                             marginTop: '100px',
                                             padding: '20px 16px 16px 16px',
                                             flex: 1,
@@ -416,13 +412,13 @@ const Project = () => {
                                             <h3 className="text-[16px] font-bold text-white text-center mb-[8px]">
                                                 {project.title}
                                             </h3>
-                                            <p className="text-[14px] text-white leading-relaxed" style={{textAlign: 'center', padding: '0 20px'}}>
+                                            <p className="text-[14px] text-white leading-relaxed" style={{ textAlign: 'center', padding: '0 20px' }}>
                                                 {project.description}
                                             </p>
                                         </div>
 
                                         {/* Button Section */}
-                                        <div 
+                                        <div
                                             className="flex"
                                             style={{
                                                 gap: '12px',
@@ -432,7 +428,10 @@ const Project = () => {
                                                 paddingBottom: '4px'
                                             }}
                                         >
-                                            <button
+                                            <motion.button
+                                                whileHover={{ scale: 1.08, backgroundColor: '#1a66bf', boxShadow: '0px 4px 12px rgba(17, 80, 153, 0.6)' }}
+                                                whileTap={{ scale: 0.95 }}
+                                                transition={{ duration: 0.2 }}
                                                 style={{
                                                     fontFamily: "'Protest Riot', cursive",
                                                     background: '#115099',
@@ -446,8 +445,11 @@ const Project = () => {
                                                 onClick={() => window.open(project.link, '_blank')}
                                             >
                                                 See More
-                                            </button>
-                                            <button
+                                            </motion.button>
+                                            <motion.button
+                                                whileHover={{ scale: 1.08, backgroundColor: '#1a66bf', boxShadow: '0px 4px 12px rgba(17, 80, 153, 0.6)' }}
+                                                whileTap={{ scale: 0.95 }}
+                                                transition={{ duration: 0.2 }}
                                                 style={{
                                                     fontFamily: "'Protest Riot', cursive",
                                                     background: '#115099',
@@ -461,7 +463,7 @@ const Project = () => {
                                                 onClick={() => window.open(project.siteLink, '_blank')}
                                             >
                                                 Visit Site
-                                            </button>
+                                            </motion.button>
                                         </div>
                                     </div>
                                 </div>
@@ -475,9 +477,9 @@ const Project = () => {
     }
 
     return (
-        <section 
-            id="projects" 
-            className="skills min-h-[100vh] bg-black text-white" 
+        <section
+            id="projects"
+            className="skills min-h-[100vh] bg-black text-white"
             ref={sectionRef}
             style={{
                 padding: `40px ${getSectionPadding()} 0`
@@ -487,8 +489,8 @@ const Project = () => {
                 <AnimatedText
                     text="Projet_"
                     className="text-center font-bold"
-                    style={{ 
-                        fontFamily: "'Pacifico', cursive", 
+                    style={{
+                        fontFamily: "'Pacifico', cursive",
                         fontSize: getTitleSize(),
                         marginBottom: getTitleMargin()
                     }}
@@ -498,7 +500,7 @@ const Project = () => {
             </div>
 
             {/* Kategori with responsive design */}
-            <div 
+            <div
                 className="flex justify-center pb-[25px]"
                 style={{
                     gap: getCategoryGap()
@@ -508,10 +510,9 @@ const Project = () => {
                     <motion.span
                         key={category}
                         onClick={() => setActiveCategory(category)}
-                        className={`cursor-pointer font-bold transition-all duration-200 ${
-                            activeCategory === category ? 'underline text-white' : 'text-gray-400'
-                        }`}
-                        style={{ 
+                        className={`cursor-pointer font-bold transition-all duration-200 ${activeCategory === category ? 'underline text-white' : 'text-gray-400'
+                            }`}
+                        style={{
                             fontFamily: "'Pacifico', cursive",
                             fontSize: getCategorySize()
                         }}

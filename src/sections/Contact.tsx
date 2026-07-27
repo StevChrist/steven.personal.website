@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import AnimatedText from '@/components/AnimatedText'
-import { FaLinkedin, FaInstagram, FaTwitter, FaTiktok, FaGithub, FaGoogleDrive } from 'react-icons/fa'
+import { FaLinkedin, FaInstagram, FaTwitter, FaTiktok, FaGithub, FaGoogleDrive, FaDiscord } from 'react-icons/fa'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 
@@ -35,10 +35,10 @@ const Contact = () => {
       elements.forEach((element) => {
         gsap.fromTo(
           element,
-          { 
-            opacity: 0, 
-            y: 50, 
-            scale: 0.9 
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.9
           },
           {
             opacity: 1,
@@ -172,9 +172,9 @@ const Contact = () => {
   }
 
   return (
-    <section 
-      ref={sectionRef} 
-      id="contact" 
+    <section
+      ref={sectionRef}
+      id="contact"
       className="bg-black text-white h-screen"
       style={{
         padding: `0 ${getSectionPadding()}`
@@ -184,8 +184,8 @@ const Contact = () => {
         <AnimatedText
           text="Contact_"
           className="text-center font-bold gsap-fade-up"
-          style={{ 
-            fontFamily: "'Pacifico', cursive", 
+          style={{
+            fontFamily: "'Pacifico', cursive",
             fontSize: getTitleSize(),
             marginBottom: getTitleMargin()
           }}
@@ -196,9 +196,9 @@ const Contact = () => {
         {/* Text Paragraph with Scroll Animation */}
         <p
           className="text-center max-w-[900px] gsap-fade-up"
-          style={{ 
-            fontFamily: "'Roboto', sans-serif", 
-            fontWeight: 300, 
+          style={{
+            fontFamily: "'Roboto', sans-serif",
+            fontWeight: 300,
             lineHeight: '1.5',
             fontSize: getTextSize(),
             marginBottom: getTextMargin(),
@@ -206,13 +206,13 @@ const Contact = () => {
             marginRight: getContentMargin()
           }}
         >
-          You can contact me if you want to get to know me 
+          You can contact me if you want to get to know me
           <br />or if you want to see more of my projects,
           <br />you can see my social media or my drive below.
         </p>
 
         {/* Social media icons with Scroll Animation */}
-        <div 
+        <div
           className="flex justify-center items-center gsap-fade-up"
           style={{
             gap: getIconGap(),
@@ -220,38 +220,44 @@ const Contact = () => {
           }}
         >
           <a href="https://www.linkedin.com/in/stevenchristiano" target="_blank" rel="noopener noreferrer">
-            <FaLinkedin 
-              className="text-white hover:text-blue-700 transition-all duration-200" 
+            <FaLinkedin
+              className="text-white hover:text-blue-700 transition-all duration-200"
               style={{ fontSize: getIconSize() }}
             />
           </a>
           <a href="https://www.instagram.com/_stev.chris/" target="_blank" rel="noopener noreferrer">
-            <FaInstagram 
-              className="text-white hover:text-pink-500 transition-all duration-200" 
+            <FaInstagram
+              className="text-white hover:text-pink-500 transition-all duration-200"
               style={{ fontSize: getIconSize() }}
             />
           </a>
           <a href="https://www.tiktok.com/@stev.chris" target="_blank" rel="noopener noreferrer">
-            <FaTiktok 
-              className="text-white hover:text-black transition-all duration-200" 
+            <FaTiktok
+              className="text-white hover:text-black transition-all duration-200"
               style={{ fontSize: getIconSize() }}
             />
           </a>
           <a href="https://x.com/_Stevchris" target="_blank" rel="noopener noreferrer">
-            <FaTwitter 
-              className="text-white hover:text-blue-500 transition-all duration-200" 
+            <FaTwitter
+              className="text-white hover:text-blue-500 transition-all duration-200"
               style={{ fontSize: getIconSize() }}
             />
           </a>
           <a href="https://github.com/StevChrist" target="_blank" rel="noopener noreferrer">
-            <FaGithub 
-              className="text-white hover:text-gray-500 transition-all duration-200" 
+            <FaGithub
+              className="text-white hover:text-gray-500 transition-all duration-200"
               style={{ fontSize: getIconSize() }}
             />
           </a>
           <a href="https://drive.google.com/drive/folders/17HalLkOAlIIFtseBj3yCCh20KLkB-rdW?usp=sharing" target="_blank" rel="noopener noreferrer">
-            <FaGoogleDrive 
-              className="text-white hover:text-green-400 transition-all duration-200" 
+            <FaGoogleDrive
+              className="text-white hover:text-green-400 transition-all duration-200"
+              style={{ fontSize: getIconSize() }}
+            />
+          </a>
+          <a href="https://discord.gg/znVHgPk5Pw" target="_blank" rel="noopener noreferrer">
+            <FaDiscord
+              className="text-white hover:text-[#5865F2] transition-all duration-200"
               style={{ fontSize: getIconSize() }}
             />
           </a>
