@@ -276,7 +276,7 @@ const Project = () => {
             description: 'TBH Inventory Price Tracker helps Task Bar Hero players monitor, value, and track their in-game item portfolios against the Steam Community Market. It provides real-time price updates in both IDR (Rupiah) and USD, calculates portfolio value, and notifies users when prices hit their configured thresholds.',
             link: 'https://github.com/StevChrist/tbh-pricing',
             siteLink: 'https://tbh-price.stevchrist.site/',
-            previewImage: '/web_preview/TBH-price.png'
+            previewImage: '/web_preview/TBH-Price.png'
         },
         {
             title: 'Coming Soon',
