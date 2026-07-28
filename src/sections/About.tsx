@@ -3,15 +3,17 @@
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
-import { useScrollAnimations } from '@/hooks/useScrollAnimations'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
 import '@/styles/aboutOutline.css'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 const About = () => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [screenWidth, setScreenWidth] = useState(0)
-
-  // Call the useScrollAnimations hook to apply scroll animations
-  useScrollAnimations(sectionRef)
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,230 +25,232 @@ const About = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Function untuk ukuran judul berdasarkan device
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      const titleEl = sectionRef.current?.querySelector('.about-title-wrapper')
+      const profileCard = sectionRef.current?.querySelector('.profile-card')
+      const passionCard = sectionRef.current?.querySelector('.passion-card')
+      const interestsCard = sectionRef.current?.querySelector('.interests-card')
+
+      if (!titleEl || !profileCard || !passionCard || !interestsCard) return
+
+      // Explicit initial hidden state for cards
+      gsap.set([profileCard, passionCard, interestsCard], {
+        opacity: 0,
+        y: 40,
+      })
+
+      // Explicit initial hidden state for title
+      gsap.set(titleEl, {
+        opacity: 0,
+        y: 30,
+      })
+
+      // Pinned ScrollTrigger Timeline
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=2200',
+          pin: true,
+          scrub: 1.5,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          fastScrollEnd: true,
+          preventOverlaps: true,
+        },
+      })
+
+      // Entry buffer for smooth locking from top
+      tl.to({}, { duration: 0.4 })
+
+      // Step 1: Scroll reveals Title "About me_"
+      .to(titleEl, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+      })
+      // Step 2: Scroll reveals Profile Image Card
+      .to(profileCard, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+      })
+      // Step 3: Scroll reveals Description (Background & Passion Card)
+      .to(passionCard, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+      })
+      // Step 4: Scroll reveals Interest (Interests & Fun Fact Card)
+      .to(interestsCard, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+      })
+      // Exit buffer for smooth locking when scrolling up from bottom section
+      .to({}, { duration: 0.8 })
+    }, sectionRef)
+
+    return () => {
+      ctx.revert()
+    }
+  }, [])
+
   const getTitleSize = () => {
-    if (screenWidth >= 2560) return '80px'      // 4xl
-    if (screenWidth >= 1920) return '75px'      // 3xl
-    if (screenWidth >= 1536) return '70px'      // 2xl
-    if (screenWidth >= 1280) return '70px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '65px'      // lg
-    if (screenWidth >= 800) return '50px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '55px'       // md (iPad mini)
-    if (screenWidth >= 640) return '45px'       // sm (large mobile)
-    if (screenWidth >= 568) return '32px'       // iPhone 5/5s (320x568)
-    return '28px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '80px'
+    if (screenWidth >= 1920) return '75px'
+    if (screenWidth >= 1536) return '70px'
+    if (screenWidth >= 1280) return '65px'
+    if (screenWidth >= 1024) return '58px'
+    if (screenWidth >= 800) return '48px'
+    if (screenWidth >= 768) return '45px'
+    if (screenWidth >= 640) return '40px'
+    if (screenWidth >= 414) return '34px'
+    return '30px'
   }
 
-  // Function untuk margin bottom judul
+  // Tighter bottom margin to reduce vertical gap below title
   const getTitleMargin = () => {
-    if (screenWidth >= 2560) return '60px'      // 4xl
-    if (screenWidth >= 1920) return '55px'      // 3xl
-    if (screenWidth >= 1536) return '50px'      // 2xl
-    if (screenWidth >= 1280) return '50px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '45px'      // lg
-    if (screenWidth >= 800) return '30px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '35px'       // md (iPad mini)
-    if (screenWidth >= 640) return '25px'       // sm (large mobile)
-    if (screenWidth >= 568) return '18px'       // iPhone 5/5s
-    return '15px'                               // xs (very small mobile)
+    if (screenWidth >= 2560) return '30px'
+    if (screenWidth >= 1920) return '25px'
+    if (screenWidth >= 1536) return '22px'
+    if (screenWidth >= 1280) return '20px'
+    if (screenWidth >= 1024) return '18px'
+    if (screenWidth >= 768) return '16px'
+    if (screenWidth >= 640) return '14px'
+    return '12px'
   }
 
-  // Function untuk ukuran gambar berdasarkan device
-  const getImageSize = () => {
-    if (screenWidth >= 2560) return { width: '280px', height: '440px' }  // 4xl
-    if (screenWidth >= 1920) return { width: '260px', height: '410px' }  // 3xl
-    if (screenWidth >= 1536) return { width: '242px', height: '378px' }  // 2xl
-    if (screenWidth >= 1280) return { width: '242px', height: '378px' }  // xl (Desktop)
-    if (screenWidth >= 1024) return { width: '220px', height: '344px' }  // lg
-    if (screenWidth >= 800) return { width: '180px', height: '280px' }   // md (Nexus 7)
-    if (screenWidth >= 768) return { width: '200px', height: '312px' }   // md (iPad mini)
-    if (screenWidth >= 640) return { width: '160px', height: '250px' }   // sm (large mobile)
-    if (screenWidth >= 568) return { width: '130px', height: '204px' }   // iPhone 5/5s
-    return { width: '120px', height: '188px' }                          // xs (very small mobile)
-  }
-
-  // Function untuk margin bottom gambar
-  const getImageMargin = () => {
-    if (screenWidth >= 2560) return '50px'      // 4xl
-    if (screenWidth >= 1920) return '45px'      // 3xl
-    if (screenWidth >= 1536) return '40px'      // 2xl
-    if (screenWidth >= 1280) return '40px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '35px'      // lg
-    if (screenWidth >= 800) return '28px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '32px'       // md (iPad mini)
-    if (screenWidth >= 640) return '22px'       // sm (large mobile)
-    if (screenWidth >= 568) return '25px'       // iPhone 5/5s
-    return '22px'                               // xs
-  }
-
-  // Function untuk ukuran text berdasarkan device
-  const getTextSize = () => {
-    if (screenWidth >= 2560) return '22px'      // 4xl
-    if (screenWidth >= 1920) return '21px'      // 3xl
-    if (screenWidth >= 1536) return '20px'      // 2xl
-    if (screenWidth >= 1280) return '20px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '18px'      // lg
-    if (screenWidth >= 800) return '16px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '17px'       // md (iPad mini)
-    if (screenWidth >= 640) return '14px'       // sm (large mobile)
-    if (screenWidth >= 568) return '11px'       // iPhone 5/5s
-    return '10px'                               // xs (very small mobile)
-  }
-
-  // Function untuk ukuran button berdasarkan device
-  const getButtonSize = () => {
-    if (screenWidth >= 2560) return { fontSize: '20px', padding: '12px 24px' }  // 4xl
-    if (screenWidth >= 1920) return { fontSize: '19px', padding: '11px 22px' }  // 3xl
-    if (screenWidth >= 1536) return { fontSize: '18px', padding: '10px 20px' }  // 2xl
-    if (screenWidth >= 1280) return { fontSize: '18px', padding: '10px 20px' }  // xl (Desktop)
-    if (screenWidth >= 1024) return { fontSize: '16px', padding: '9px 18px' }   // lg
-    if (screenWidth >= 800) return { fontSize: '14px', padding: '8px 16px' }    // md (Nexus 7)
-    if (screenWidth >= 768) return { fontSize: '15px', padding: '8px 16px' }    // md (iPad mini)
-    if (screenWidth >= 640) return { fontSize: '13px', padding: '7px 14px' }    // sm (large mobile)
-    if (screenWidth >= 568) return { fontSize: '11px', padding: '5px 10px' }    // iPhone 5/5s
-    return { fontSize: '10px', padding: '4px 8px' }                            // xs (very small mobile)
-  }
-
-  // Function untuk margin top button
-  const getButtonMargin = () => {
-    if (screenWidth >= 2560) return '35px'      // 4xl
-    if (screenWidth >= 1920) return '32px'      // 3xl
-    if (screenWidth >= 1536) return '30px'      // 2xl
-    if (screenWidth >= 1280) return '30px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '25px'      // lg
-    if (screenWidth >= 800) return '20px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '22px'       // md (iPad mini)
-    if (screenWidth >= 640) return '18px'       // sm (large mobile)
-    if (screenWidth >= 568) return '15px'       // iPhone 5/5s
-    return '12px'                               // xs (very small mobile)
-  }
-
-  // Function untuk padding section
   const getSectionPadding = () => {
-    if (screenWidth >= 2560) return '60px'      // 4xl
-    if (screenWidth >= 1920) return '55px'      // 3xl
-    if (screenWidth >= 1536) return '50px'      // 2xl
-    if (screenWidth >= 1280) return '50px'      // xl (Desktop)
-    if (screenWidth >= 1024) return '45px'      // lg
-    if (screenWidth >= 800) return '30px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '35px'       // md (iPad mini)
-    if (screenWidth >= 640) return '25px'       // sm (large mobile)
-    if (screenWidth >= 568) return '15px'       // iPhone 5/5s
-    return '12px'                               // xs (very small mobile)
+    if (screenWidth >= 1536) return '60px'
+    if (screenWidth >= 1280) return '40px'
+    if (screenWidth >= 1024) return '30px'
+    if (screenWidth >= 768) return '24px'
+    return '16px'
   }
-
-  // Function untuk margin text (batas kiri-kanan) - DITAMBAHKAN
-  const getTextMargin = () => {
-    if (screenWidth >= 2560) return '70px'      // 4xl (seperti contoh Anda)
-    if (screenWidth >= 1920) return '65px'      // 3xl
-    if (screenWidth >= 1536) return '60px'      // 2xl
-    if (screenWidth >= 1280) return '70px'      // xl (Desktop) - seperti contoh Anda
-    if (screenWidth >= 1024) return '55px'      // lg
-    if (screenWidth >= 800) return '40px'       // md (Nexus 7)
-    if (screenWidth >= 768) return '45px'       // md (iPad mini)
-    if (screenWidth >= 640) return '30px'       // sm (large mobile)
-    if (screenWidth >= 568) return '20px'       // iPhone 5/5s
-    return '15px'                               // xs (very small mobile)
-  }
-
-  // Function untuk menentukan layout
-  const isMobileLayout = () => {
-    return screenWidth < 1024 // Layout vertikal untuk tablet dan mobile
-  }
-
-  const imageSize = getImageSize()
-  const buttonSize = getButtonSize()
 
   return (
     <section
       ref={sectionRef}
       id="about"
-      className="bg-black text-white h-screen"
+      className="bg-transparent text-white h-screen w-full flex flex-col items-center justify-center relative overflow-hidden"
       style={{
-        padding: `0 ${getSectionPadding()}`
+        paddingLeft: getSectionPadding(),
+        paddingRight: getSectionPadding(),
       }}
     >
-      <div className="flex flex-col justify-center items-center h-full">
-        <AnimatedText
-          text="About me_"
-          className="text-center font-bold gsap-fade-up"
-          style={{ 
-            fontFamily: "'Pacifico', cursive", 
-            fontSize: getTitleSize(),
-            marginBottom: getTitleMargin()
-          }}
-          delayStep={0.05}
-          triggerOnce={false}
-        />
-
-        <div className={`flex items-center justify-center ${isMobileLayout() ? 'flex-col' : 'flex-row gap-[100px]'} max-w-[1200px]`}>
-          {/* Image container with outline animation */}
-          <div 
-            className="relative flex-shrink-0 gsap-fade-up gambar-outline"
+      <div className="about-bento-container">
+        {/* Title Container (Step 1 in Pin Timeline) */}
+        <div className="about-title-wrapper flex justify-center w-full">
+          <AnimatedText
+            text="About me_"
+            className="text-center font-bold"
             style={{
-              width: imageSize.width,
-              height: imageSize.height,
-              marginBottom: isMobileLayout() ? getImageMargin() : '0'
+              fontFamily: "'Pacifico', cursive",
+              fontSize: getTitleSize(),
+              marginBottom: getTitleMargin(),
             }}
-          >
-            <div className="relative w-full h-full rounded-[20px] z-10 overflow-hidden">
-              <Image
-                src="/image/about-me.png"
-                alt="Steven Immanuel C. Girsang - Data Scientist, fresh graduate from Telkom University Bandung"
-                width={parseInt(imageSize.width)}
-                height={parseInt(imageSize.height)}
-                className="rounded-[20px] w-full h-full"
-              />
+            delayStep={0.05}
+            triggerOnce={false}
+          />
+        </div>
+
+        {/* Bento Grid Container */}
+        <div className="about-bento-grid">
+          
+          {/* CARD 1: Profile Card (Gambar - Step 2) */}
+          <div className="bento-card profile-card">
+            <div className="profile-image-container">
+              <div className="profile-image-wrapper">
+                <Image
+                  src="/image/about-me.png"
+                  alt="Steven Immanuel C. Girsang"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 350px"
+                  priority
+                />
+                {/* Vignette Overlay */}
+                <div className="profile-vignette" />
+              </div>
             </div>
           </div>
 
-          {/* Description - DITAMBAHKAN MARGIN KIRI-KANAN */}
-          <div 
-            className={`flex flex-col ${isMobileLayout() ? 'items-center text-center' : 'items-start'} justify-center max-w-[800px] gsap-fade-up`}
-            style={{
-              marginLeft: isMobileLayout() ? getTextMargin() : '0',
-              marginRight: isMobileLayout() ? getTextMargin() : '0'
-            }}
-          >
-            <p
-              style={{ 
-                fontFamily: "'Roboto'", 
-                lineHeight: '1.5',
-                fontSize: getTextSize(),
-                marginBottom: '0',
-                marginTop: '0'
-              }}
-            >
-              Hello, My name is Steven Immanuel C. Girsang, <br />
-              I am a fresh graduate Data Science from Telkom University, Bandung.
-              I am passionate about technology and fascinated by how data can uncover insights and solve real-world problems. This interest led me to pursue data science, focusing on areas like machine learning and data analysis.
-              I have been involved in student organizations, where I developed leadership, teamwork, and communication skills.
-              <br />
-              Outside of academics, I enjoy gaming, listening to music, watching movies, reading manga, playing music, photography, and video editing/design.
-              <br />
-              <br />
-              💡<strong> Fun fact:</strong> I can sleep for over 13 hours and I am afraid of heights.
-            </p>
+          {/* RIGHT COLUMN */}
+          <div className="right-column">
+            
+            {/* CARD 2: Background & Passion (Description - Step 3) */}
+            <div className="bento-card passion-card">
+              <div>
+                {/* Badge */}
+                <div className="badge-pill">
+                  <span>🚀</span>
+                  <span>Background & Passion</span>
+                </div>
 
-            {/* Button to open CV in a new tab */}
-            <button
-              style={{
-                fontFamily: "'Protest Riot', cursive",
-                background: '#115099',
-                color: 'white',
-                borderRadius: '30px',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: buttonSize.fontSize,
-                padding: buttonSize.padding,
-                marginTop: getButtonMargin()
-              }}
-              className="gsap-fade-up"
-              onClick={() => window.open('cv/steven-cv.pdf', '_blank')}
-            >
-              View CV
-            </button>
+                {/* Text */}
+                <p className="passion-text-p1">
+                  Hello! I am{' '}
+                  <span className="passion-text-bold-white">
+                    Steven Immanuel C. Girsang
+                  </span>
+                  , a fresh graduate in Data Science from{' '}
+                  <span className="passion-text-bold-cyan">
+                    Telkom University, Bandung
+                  </span>
+                  .
+                </p>
+                <p className="passion-text-p2">
+                  I am deeply passionate about how data can uncover hidden patterns, power machine learning models, and solve real-world industry challenges. During my academic journey and organization roles, I developed strong capabilities in ML algorithms, Data Warehousing, Business Intelligence dashboards, and full-stack web applications.
+                </p>
+              </div>
+
+              {/* Bottom Action Row */}
+              <div className="passion-bottom-bar">
+                <span className="ready-text">
+                  Ready for full-time Data Science & Analytics roles
+                </span>
+                <button
+                  onClick={() => window.open('/cv/steven-cv.pdf', '_blank')}
+                  className="btn-cv"
+                >
+                  <svg className="btn-cv-icon" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                  </svg>
+                  <span>VIEW FULL CV</span>
+                </button>
+              </div>
+            </div>
+
+            {/* CARD 3: Interests & Fun Fact (Interest - Step 4) */}
+            <div className="bento-card interests-card">
+              <div>
+                <h3 className="card-section-title">
+                  <span style={{ fontSize: '1rem' }}>♾️</span>
+                  <span>INTERESTS & FUN FACT</span>
+                </h3>
+                <p className="interests-desc">
+                  Outside tech, I enjoy gaming, listening to music, watching movies, photography, and video editing.
+                </p>
+              </div>
+
+              <div>
+                <div className="fun-fact-divider"></div>
+                <p className="fun-fact-text">
+                  <span style={{ fontStyle: 'normal', marginRight: '6px' }}>💡</span>
+                  <strong className="fun-fact-title">Fun fact:</strong> I can sleep over 13 hours & love deep focus music playlists!
+                </p>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </div>
     </section>

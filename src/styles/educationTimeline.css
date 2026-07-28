@@ -1,0 +1,191 @@
+/* src/styles/educationTimeline.css */
+
+.education-timeline-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+/* Center vertical line with top transform origin and gradient mask for smooth end fading */
+.timeline-center-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: #00a8ff;
+  box-shadow: 0 0 12px #00a8ff, 0 0 4px #00a8ff;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  z-index: 1;
+
+  /* Fade out line at top and bottom ends for ultra smooth path appearance */
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+/* Timeline Item Container */
+.timeline-item {
+  position: relative;
+  width: 100%;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  will-change: opacity, transform;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Node circle on central line */
+.timeline-node {
+  position: absolute;
+  left: 50%;
+  top: 30px;
+  transform: translate(-50%, -50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid #00a8ff;
+  background-color: #060b18;
+  box-shadow: 0 0 15px #00a8ff, inset 0 0 8px #00a8ff;
+  z-index: 10;
+}
+
+/* Card placement */
+.timeline-card-wrapper {
+  width: 45%;
+}
+
+.timeline-item.right .timeline-card-wrapper {
+  margin-left: auto;
+}
+
+.timeline-item.left .timeline-card-wrapper {
+  margin-right: auto;
+}
+
+/* Responsive for mobile screens */
+@media (max-width: 768px) {
+  .timeline-center-line {
+    left: 20px;
+  }
+
+  .timeline-node {
+    left: 20px;
+  }
+
+  .timeline-card-wrapper {
+    width: calc(100% - 45px);
+    margin-left: 45px !important;
+  }
+}
+
+/* Card Styling - Compact & Elegant */
+.edu-card {
+  background-color: rgba(8, 16, 36, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #16274a;
+  border-radius: 20px;
+  padding: 18px 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edu-card:hover {
+  border-color: #1e3b6e;
+  box-shadow: 0 12px 35px rgba(0, 168, 255, 0.15);
+}
+
+.edu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.edu-date {
+  color: #00a8ff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gpa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 50px;
+  background-color: #0a233c;
+  border: 1px solid rgba(0, 180, 216, 0.35);
+  color: #00b4d8;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.edu-school {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 3px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edu-location {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.edu-major {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0 0 10px 0;
+}
+
+.edu-divider {
+  width: 100%;
+  border-top: 1px solid #122140;
+  margin: 10px 0;
+}
+
+.edu-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edu-bullet-item {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  line-height: 1.45;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.edu-bullet-dot {
+  color: #00a8ff;
+  font-weight: bold;
+  font-size: 0.95rem;
+  line-height: 1;
+  margin-top: 1px;
+}

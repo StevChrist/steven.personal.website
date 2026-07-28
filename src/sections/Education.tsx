@@ -2,21 +2,29 @@
 
 import { useEffect, useRef, useState } from 'react'
 import AnimatedText from '@/components/AnimatedText'
-import { useScrollAnimations } from '@/hooks/useScrollAnimations'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+import '@/styles/educationTimeline.css'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 type EducationItem = {
+  id: string
   date: string
+  gpa?: string
   school: string
   location: string
-  major: string
+  degree: string
   bullets: string[]
+  thesisLink?: string
+  position: 'left' | 'right'
 }
 
 const Education = () => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [screenWidth, setScreenWidth] = useState(0)
-
-  useScrollAnimations(sectionRef)
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth)
@@ -25,143 +33,168 @@ const Education = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Order: SMA #1 (Top, Left), Telkom University #2 (Bottom, Right)
   const educations: EducationItem[] = [
     {
+      id: 'sma-item',
       date: 'Jul 2019 - Apr 2022',
       school: 'SMA Kristen Kalam Kudus Pematangsiantar',
-      location: 'Sumatera Utara, Indonesia',
-      major: 'Science Major',
-      bullets: [],
+      location: 'North Sumatra, Indonesia',
+      degree: 'Natural Science Major (IPA)',
+      bullets: [
+        'Focus on Mathematics, Physics & Computer Fundamentals',
+        'Active participant in academic competitions & student activities',
+      ],
+      position: 'left',
     },
     {
+      id: 'telkom-item',
       date: 'Sep 2022 - Jan 2026',
-      school: 'Universitas Telkom',
-      location: 'Bandung, Indonesia',
-      major: 'Bachelor of Data Science, GPA 3.67/4.00',
-      bullets: [],
+      gpa: 'GPA 3.67 / 4.00',
+      school: 'Telkom University',
+      location: 'Bandung, West Java, Indonesia',
+      degree: 'Bachelor of Data Science (S.S.D.)',
+      bullets: [
+        'Specialization in Machine Learning, Deep Learning & Natural Language Processing (NLP)',
+        'Data Warehousing & Business Intelligence Architecture (PowerBI & ETL Pipelines)',
+        'Active Student Organization Committee & Technical Team Lead',
+      ],
+      thesisLink: '/cv/buku-ta.pdf',
+      position: 'right',
     },
   ]
+
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      const titleEl = sectionRef.current?.querySelector('.edu-title-wrapper')
+      const centerLine = sectionRef.current?.querySelector('.timeline-center-line')
+      const smaItem = sectionRef.current?.querySelector('.sma-item')
+      const telkomItem = sectionRef.current?.querySelector('.telkom-item')
+
+      if (!titleEl || !centerLine || !smaItem || !telkomItem) return
+
+      // Explicit initial states
+      gsap.set(titleEl, { opacity: 0, y: 30 })
+      gsap.set(centerLine, { scaleY: 0, transformOrigin: 'top center' })
+      gsap.set([smaItem, telkomItem], { opacity: 0, y: 40 })
+
+      // Pinned ScrollTrigger Timeline for Education
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=2200',
+          pin: true,
+          scrub: 1.5, // Buttery smooth momentum
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          fastScrollEnd: true,
+          preventOverlaps: true,
+        },
+      })
+
+      // Entry buffer
+      tl.to({}, { duration: 0.4 })
+
+      // Step 1: Scroll reveals Title "Education_"
+      .to(titleEl, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+      })
+
+      // Step 2: Draw Line down to 50% & Reveal SMA Box
+      .to(centerLine, {
+        scaleY: 0.5,
+        duration: 1.2,
+        ease: 'power1.inOut',
+      })
+      .to(
+        smaItem,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+        },
+        '-=0.8'
+      )
+
+      // Step 3: Draw Line down to 100% & Reveal Telkom University Box
+      .to(centerLine, {
+        scaleY: 1,
+        duration: 1.2,
+        ease: 'power1.inOut',
+      })
+      .to(
+        telkomItem,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+        },
+        '-=0.8'
+      )
+
+      // Exit buffer for smooth transition to next section
+      .to({}, { duration: 0.8 })
+    }, sectionRef)
+
+    return () => {
+      ctx.revert()
+    }
+  }, [])
 
   const getTitleSize = () => {
     if (screenWidth >= 2560) return '80px'
     if (screenWidth >= 1920) return '75px'
-    if (screenWidth >= 1536) return '70px'
-    if (screenWidth >= 1280) return '65px'
-    if (screenWidth >= 1024) return '58px'
-    if (screenWidth >= 800) return '48px'
-    if (screenWidth >= 768) return '45px'
-    if (screenWidth >= 640) return '40px'
-    if (screenWidth >= 414) return '34px'
-    return '30px'
+    if (screenWidth >= 1536) return '68px'
+    if (screenWidth >= 1280) return '60px'
+    if (screenWidth >= 1024) return '52px'
+    if (screenWidth >= 800) return '44px'
+    if (screenWidth >= 768) return '40px'
+    if (screenWidth >= 640) return '36px'
+    if (screenWidth >= 414) return '30px'
+    return '28px'
   }
 
   const getTitleMargin = () => {
-    if (screenWidth >= 2560) return '60px'
-    if (screenWidth >= 1920) return '55px'
-    if (screenWidth >= 1536) return '50px'
-    if (screenWidth >= 1280) return '40px'
-    if (screenWidth >= 1024) return '32px'
-    if (screenWidth >= 800) return '26px'
-    if (screenWidth >= 768) return '24px'
-    if (screenWidth >= 640) return '20px'
-    if (screenWidth >= 414) return '18px'
-    return '16px'
-  }
-
-  const getSectionPadding = () => {
-    if (screenWidth >= 2560) return '60px'
-    if (screenWidth >= 1920) return '55px'
-    if (screenWidth >= 1536) return '50px'
-    if (screenWidth >= 1280) return '35px'
-    if (screenWidth >= 1024) return '25px'
-    if (screenWidth >= 800) return '20px'
-    if (screenWidth >= 768) return '18px'
-    if (screenWidth >= 640) return '16px'
-    if (screenWidth >= 414) return '14px'
+    if (screenWidth >= 1280) return '20px'
+    if (screenWidth >= 1024) return '16px'
+    if (screenWidth >= 768) return '14px'
     return '10px'
   }
 
-  const getTextSize = () => {
-    if (screenWidth >= 2560) return '22px'
-    if (screenWidth >= 1920) return '21px'
-    if (screenWidth >= 1536) return '20px'
-    if (screenWidth >= 1280) return '18px'
-    if (screenWidth >= 1024) return '16px'
-    if (screenWidth >= 800) return '14px'
-    if (screenWidth >= 768) return '13px'
-    if (screenWidth >= 640) return '12px'
-    if (screenWidth >= 414) return '10px'
-    return '9px'
-  }
-
-  const getBulletTextSize = () => {
-    if (screenWidth >= 2560) return '20px'
-    if (screenWidth >= 1920) return '19px'
-    if (screenWidth >= 1536) return '18px'
-    if (screenWidth >= 1280) return '16px'
-    if (screenWidth >= 1024) return '14px'
-    if (screenWidth >= 800) return '13px'
-    if (screenWidth >= 768) return '12px'
-    if (screenWidth >= 640) return '11px'
-    if (screenWidth >= 414) return '9px'
-    return '9px'
-  }
-
-  const getContainerPaddingLeft = () => {
-    if (screenWidth >= 1536) return '100px'
-    if (screenWidth >= 1280) return '60px'
-    if (screenWidth >= 1024) return '35px'
-    if (screenWidth >= 800) return '25px'
-    if (screenWidth >= 768) return '20px'
-    if (screenWidth >= 640) return '18px'
-    if (screenWidth >= 414) return '14px'
-    return '8px'
-  }
-
-  const DOT_SIZE = screenWidth >= 768 ? 11 : 9
-  const LINE_WIDTH = 2
-
-  const isSingle = educations.length === 1
-
-  const getDateColWidth = () => {
-    if (screenWidth >= 1536) return 180
-    if (screenWidth >= 1280) return 150
-    if (screenWidth >= 1024) return 120
-    if (screenWidth >= 800) return 110
-    if (screenWidth >= 768) return 100
-    if (screenWidth >= 640) return 90
-    if (screenWidth >= 414) return 80
-    return 70
-  }
-
-  const getTimelineGap = () => {
-    if (screenWidth >= 1024) return 24
-    if (screenWidth >= 768) return 20
-    if (screenWidth >= 414) return 16
-    return 14
-  }
-
-  const getTimelineColumnWidth = () => {
-    if (screenWidth >= 1024) return 28
-    if (screenWidth >= 768) return 24
-    return 18
+  const getSectionPadding = () => {
+    if (screenWidth >= 1536) return '60px'
+    if (screenWidth >= 1280) return '40px'
+    if (screenWidth >= 1024) return '30px'
+    if (screenWidth >= 768) return '24px'
+    return '16px'
   }
 
   return (
     <section
       ref={sectionRef}
       id="education"
-      className="bg-black text-white min-h-[100vh]"
+      className="bg-transparent text-white h-screen w-full flex flex-col justify-center items-center relative overflow-hidden"
       style={{
-        padding: `40px ${getSectionPadding()} 0`,
-        overflowX: 'hidden',
+        paddingTop: '30px',
+        paddingBottom: '30px',
+        paddingLeft: getSectionPadding(),
+        paddingRight: getSectionPadding(),
       }}
     >
-      <div className="flex flex-col">
-        <div className="flex justify-center">
+      <div className="w-full max-w-[1140px] flex flex-col items-center">
+        {/* Section Title Wrapper (Step 1 in Pin Timeline) */}
+        <div className="edu-title-wrapper flex justify-center w-full">
           <AnimatedText
             text="Education_"
-            className="text-center font-bold gsap-fade-up"
+            className="text-center font-bold"
             style={{
               fontFamily: "'Pacifico', cursive",
               fontSize: getTitleSize(),
@@ -172,140 +205,85 @@ const Education = () => {
           />
         </div>
 
-        <div
-          className="w-full gsap-fade-up"
-          style={{
-            fontFamily: "'Roboto'",
-            maxWidth: '1200px',
-            paddingLeft: getContainerPaddingLeft(),
-            paddingRight: getSectionPadding(),
-          }}
-        >
-          {educations.map((item, idx) => {
-            const isLast = idx === educations.length - 1
-            const showLine = isSingle ? true : !isLast
+        {/* Vertical Timeline Structure */}
+        <div className="education-timeline-wrapper">
+          {/* Central Line - Animated Path Drawing Effect with Gradient Mask */}
+          <div className="timeline-center-line" />
 
-            const lineStyleSingle: React.CSSProperties = {
-              height: screenWidth >= 768 ? 55 : 45,
-            }
-            const lineStyleMulti: React.CSSProperties = {
-              height: `calc(100% + ${getTimelineGap()}px)`,
-            }
+          {/* Timeline Items */}
+          {educations.map((item) => (
+            <div
+              key={item.id}
+              className={`timeline-item ${item.position} ${item.id}`}
+            >
+              {/* Glowing Node Circle on Line */}
+              <div className="timeline-node" />
 
-            return (
-              <div
-                key={`${item.school}-${item.major}-${idx}`}
-                className="flex"
-                style={{
-                  paddingBottom: isLast ? 0 : getTimelineGap(),
-                  gap: screenWidth >= 768 ? 0 : '4px',
-                }}
-              >
-                <div
-                  className="shrink-0"
-                  style={{
-                    width: getDateColWidth(),
-                    fontSize: getTextSize(),
-                    fontWeight: 300,
-                    lineHeight: '1.5',
-                    opacity: 0.95,
-                    textAlign: 'left',
-                  }}
-                >
-                  {item.date}
-                </div>
-
-                <div
-                  className="relative shrink-0"
-                  style={{
-                    width: getTimelineColumnWidth(),
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: DOT_SIZE,
-                      height: DOT_SIZE,
-                      borderRadius: 999,
-                      backgroundColor: 'rgba(255,255,255,0.95)',
-                      marginTop: 4,
-                      zIndex: 2,
-                    }}
-                  />
-
-                  {showLine && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 4 + DOT_SIZE,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: LINE_WIDTH,
-                        borderLeft: `${LINE_WIDTH}px dashed rgba(255,255,255,0.75)`,
-                        ...(isSingle ? lineStyleSingle : lineStyleMulti),
-                      }}
-                    />
-                  )}
-                </div>
-
-                <div className="flex-1" style={{ minWidth: 0, overflow: 'hidden' }}>
-                  <div style={{ fontSize: getTextSize(), lineHeight: '1.6' }}>
-                    <div style={{ fontWeight: 700 }}>
-                      {item.school}{' '}
-                      <span style={{ fontWeight: 300, opacity: 0.75 }}>
-                        - {item.location}
-                      </span>
+              {/* Card Container */}
+              <div className="timeline-card-wrapper">
+                <div className="edu-card">
+                  {/* Top Header Row (Date & GPA Badge) */}
+                  <div className="edu-header">
+                    <div className="edu-date">
+                      <span>📅</span>
+                      <span>{item.date}</span>
                     </div>
 
-                    <div style={{ fontWeight: 600, marginTop: 3, opacity: 0.95 }}>
-                      {item.major}
-                    </div>
-
-                    {item.school === 'Universitas Telkom' && (
-                      <div
-                        style={{
-                          marginTop: 6,
-                          fontSize: getBulletTextSize(),
-                          fontWeight: 400,
-                          opacity: 0.9,
-                        }}
-                      >
-                        Thesis:{' '}
-                        <a
-                          href="/cv/buku-ta.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            textDecoration: 'underline',
-                            color: 'rgba(255,255,255,0.95)',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          Anomaly Detection in Oil & Gas Operational Data using Transformer Models
-                        </a>
+                    {item.gpa && (
+                      <div className="gpa-badge">
+                        <span>🎗️</span>
+                        <span>{item.gpa}</span>
                       </div>
                     )}
-
-                    <ul
-                      style={{
-                        marginTop: screenWidth >= 768 ? 6 : 5,
-                        paddingLeft: screenWidth >= 768 ? 12 : 10,
-                        fontWeight: 300,
-                        fontSize: getBulletTextSize(),
-                      }}
-                    >
-                      {item.bullets.map((b, bi) => (
-                        <li key={bi} style={{ marginBottom: screenWidth >= 768 ? 6 : 5 }}>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
                   </div>
+
+                  {/* School Name */}
+                  <h3 className="edu-school">
+                    <span>🎓</span>
+                    <span>{item.school}</span>
+                  </h3>
+
+                  {/* Location */}
+                  <div className="edu-location">
+                    <span>📍</span>
+                    <span>{item.location}</span>
+                  </div>
+
+                  {/* Degree / Major */}
+                  <div className="edu-major">{item.degree}</div>
+
+                  <div className="edu-divider" />
+
+                  {/* Bullets List */}
+                  <ul className="edu-bullets">
+                    {item.bullets.map((b, bi) => (
+                      <li key={bi} className="edu-bullet-item">
+                        <span className="edu-bullet-dot">•</span>
+                        <span>{b}</span>
+                      </li>
+                    ))}
+
+                    {item.thesisLink && (
+                      <li className="edu-bullet-item mt-1">
+                        <span className="edu-bullet-dot">•</span>
+                        <span>
+                          Thesis:{' '}
+                          <a
+                            href={item.thesisLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline text-[#00a8ff] hover:text-sky-300 transition-colors"
+                          >
+                            Anomaly Detection in Oil & Gas Operational Data using Transformer Models
+                          </a>
+                        </span>
+                      </li>
+                    )}
+                  </ul>
                 </div>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>

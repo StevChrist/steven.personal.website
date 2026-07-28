@@ -1,4 +1,4 @@
-// Dipakai di About.tsx
+// Dipakai di section titles (About, Education, Skills, Experience, Projects, Contact)
 import React, { useEffect, useRef, useState } from 'react';
 
 interface AnimatedTextProps {
@@ -44,7 +44,14 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
     <div
       ref={ref}
       className={className}
-      style={{ display: 'inline-block', ...style, overflow: 'hidden' }}
+      style={{
+        display: 'inline-block',
+        lineHeight: '1.4',
+        paddingTop: '0.12em',
+        paddingBottom: '0.12em',
+        overflow: 'visible',
+        ...style,
+      }}
       aria-label={text}
     >
       {text.split('').map((char, i) => (

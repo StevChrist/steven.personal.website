@@ -3,23 +3,17 @@
 @tailwind utilities;
 
 * {
-  user-select: none; /* Disable text selection */
+  user-select: none;
+  /* Disable text selection */
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #030712;
+  --foreground: #ffffff;
   --font-roboto: "Roboto", sans-serif;
   --font-protest: "Protest Riot", cursive;
   --font-pacifico: "Pacifico", cursive;
-  --main-color: #115099; /* Menambahkan warna utama untuk progress bar */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --main-color: #00b4d8;
 }
 
 html,
@@ -34,6 +28,20 @@ body {
   color: var(--foreground);
   font-family: var(--font-roboto);
   @apply overflow-auto;
+}
+
+/* High-Tech Animated Pure CSS Dark Mesh Background */
+.bg-tech-canvas {
+  background-color: #030712;
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(0, 180, 216, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 45%, rgba(0, 136, 255, 0.10) 0%, transparent 45%),
+    radial-gradient(circle at 25% 75%, rgba(0, 180, 216, 0.11) 0%, transparent 42%),
+    radial-gradient(circle at 80% 90%, rgba(13, 37, 74, 0.5) 0%, transparent 50%),
+    linear-gradient(to right, rgba(0, 180, 216, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 180, 216, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+  background-attachment: fixed;
 }
 
 .font-protest {
@@ -76,22 +84,21 @@ img {
   height: auto;
 }
 
-/* Custom scrollbar */
+/* Hide scrollbar completely across all browsers */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
 ::-webkit-scrollbar {
-  width: 8px;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+html,
+body {
+  -ms-overflow-style: none !important;
+  /* IE and Edge */
+  scrollbar-width: none !important;
+  /* Firefox */
 }
 
 /* Focus styles untuk accessibility */
@@ -102,7 +109,8 @@ a:focus {
 }
 
 /* Prevent horizontal scroll */
-html, body {
+html,
+body {
   overflow-x: hidden;
 }
 
