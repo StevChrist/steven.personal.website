@@ -2,7 +2,7 @@
 
 .project-container {
   width: 100%;
-  max-width: 1150px;
+  max-width: 1140px;
   margin: 0 auto;
 }
 
@@ -61,7 +61,7 @@
   grid-template-columns: 1fr;
   gap: 42px 36px;
   width: 100%;
-  max-width: 1150px;
+  max-width: 1140px;
   margin: 0 auto;
 }
 
@@ -69,9 +69,17 @@
   .proj-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* Automatically center the last item if total count is odd or if only 1 item exists */
+  .proj-grid > *:nth-child(odd):last-child {
+    grid-column: 1 / -1;
+    max-width: 550px;
+    width: 100%;
+    margin: 0 auto;
+  }
 }
 
-/* Glassmorphism Project Card - Crisp Razor Sharp Text Hover */
+/* Glassmorphism Project Card */
 .proj-card {
   background-color: rgba(8, 16, 36, 0.92);
   backdrop-filter: blur(16px);
@@ -83,22 +91,19 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  will-change: transform;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, opacity;
   position: relative;
   cursor: pointer;
 }
 
 .proj-card:hover {
-  transform: translateY(-8px);
   border-color: #00b4d8;
-  box-shadow: 0 22px 60px rgba(0, 180, 216, 0.28), 0 0 25px rgba(0, 136, 255, 0.2);
+  box-shadow: 0 8px 22px rgba(0, 180, 216, 0.28), 0 0 12px rgba(0, 136, 255, 0.2);
+  z-index: 20;
 }
 
-/* Card Image Section */
+/* Card Image Section - Image stays fixed without scaling */
 .proj-img-wrapper {
   position: relative;
   width: 100%;
@@ -112,6 +117,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Enforce NO image scaling inside wrapper on hover */
+.proj-card:hover .proj-img-wrapper img {
+  transform: none !important;
 }
 
 .proj-img-overlay {
@@ -125,6 +136,317 @@
   opacity: 0.85;
 }
 
+/* ==========================================================================
+   Web Design & UI/UX Interactive Image Slider Card (Sleek Compact Grid View)
+   ========================================================================== */
+
+.proj-uiux-slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background-color: #050b18;
+  border-bottom: 1px solid #16274a;
+}
+
+.uiux-slider-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block;
+}
+
+/* Glassmorphic Navigation Arrows */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(8, 16, 36, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 180, 216, 0.4);
+  color: #ffffff;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.slider-arrow.arrow-left {
+  left: 12px;
+}
+
+.slider-arrow.arrow-right {
+  right: 12px;
+}
+
+.slider-arrow:hover {
+  background: linear-gradient(135deg, #0088ff 0%, #00b4d8 100%);
+  border-color: transparent;
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.8);
+}
+
+/* Dots Indicator Bar */
+.slider-dots-container {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 10;
+  background: rgba(4, 9, 20, 0.65);
+  backdrop-filter: blur(6px);
+  padding: 4px 10px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.slider-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.slider-dot.active {
+  width: 18px;
+  border-radius: 10px;
+  background-color: #00b4d8;
+  box-shadow: 0 0 10px #00b4d8;
+}
+
+/* Compact Equal Height Content Area for UI/UX Cards */
+.proj-card.uiux-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.proj-content.uiux-content {
+  padding: 14px 18px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.proj-content.uiux-content .proj-title {
+  font-size: 1.05rem;
+  margin: 0 0 4px 0;
+}
+
+.proj-content.uiux-content .proj-desc-container {
+  min-height: 46px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.proj-content.uiux-content .proj-desc {
+  font-size: 0.81rem;
+  line-height: 1.45;
+}
+
+.proj-content.uiux-content .proj-tags-row {
+  margin-top: auto;
+  margin-bottom: 0;
+  min-height: 26px;
+}
+
+/* ==========================================================================
+   Web Design & UI/UX Full-Screen Lightbox Modal (Harmonious Proportions)
+   ========================================================================== */
+
+.uiux-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(2, 6, 16, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.uiux-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 1140px;
+  background-color: rgba(6, 13, 30, 0.97);
+  border: 1px solid #16274a;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 90px rgba(0, 0, 0, 0.88), 0 0 50px rgba(0, 180, 216, 0.3);
+  display: flex;
+  flex-direction: column;
+  max-height: 94vh;
+}
+
+.uiux-modal-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(12, 24, 48, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 180, 216, 0.45);
+  color: #ffffff;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 30;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.uiux-modal-close-btn:hover {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border-color: transparent;
+  color: #ffffff;
+  transform: scale(1.12) rotate(90deg);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+}
+
+/* Maximized Image Area (67vh height) with 28px Symmetrical Inset Arrows */
+.uiux-modal-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 67vh;
+  min-height: 360px;
+  max-height: 680px;
+  background-color: #02050e;
+  border-bottom: 1px solid #142445;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.uiux-modal-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  display: block;
+}
+
+/* Symmetrical Inset Navigation Arrows (28px Inset) */
+.modal-arrow-left {
+  left: 28px;
+  width: 44px;
+  height: 44px;
+  font-size: 1.1rem;
+}
+
+.modal-arrow-right {
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  font-size: 1.1rem;
+}
+
+.modal-dots {
+  bottom: 14px;
+  padding: 5px 12px;
+}
+
+/* Harmonious Footer for Title, Description, and Tags */
+.uiux-modal-content {
+  padding: 14px 24px 18px 24px;
+  text-align: center;
+  background: rgba(4, 9, 22, 0.98);
+}
+
+.uiux-modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  text-shadow: 0 0 10px rgba(0, 180, 216, 0.4);
+}
+
+.uiux-modal-desc {
+  font-size: 0.83rem;
+  color: #94a3b8;
+  line-height: 1.48;
+  max-width: 850px;
+  margin: 0 auto 8px auto;
+}
+
+.uiux-modal-content .proj-tags-row {
+  margin-top: 0;
+  margin-bottom: 0;
+  min-height: auto;
+  gap: 6px;
+}
+
+.uiux-modal-content .proj-tag-pill {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+}
+
+/* Coming Soon Banner for Ongoing Projects */
+.proj-coming-soon-banner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #0d223a 0%, #040914 100%);
+  border-bottom: 1px solid #16274a;
+  gap: 4px;
+}
+
+.coming-soon-icon {
+  font-size: 1.6rem;
+  animation: floatPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes floatPulse {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.1); }
+}
+
+.coming-soon-text {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #f59e0b;
+  text-shadow: 0 0 16px rgba(245, 158, 11, 0.6);
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+}
+
+.coming-soon-sub {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+
+/* Top-Right Badges */
 .proj-badge-new {
   position: absolute;
   top: 12px;
@@ -140,6 +462,7 @@
   box-shadow: 0 0 16px rgba(0, 136, 255, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.25);
   animation: pulseGlow 2.5s infinite ease-in-out;
+  z-index: 2;
 }
 
 @keyframes pulseGlow {
@@ -147,23 +470,43 @@
   50% { box-shadow: 0 0 24px rgba(0, 180, 216, 0.95); }
 }
 
-/* Card Content Area - Crisp Typography */
+.proj-badge-ongoing {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: pulseAmber 2.5s infinite ease-in-out;
+  z-index: 2;
+}
+
+@keyframes pulseAmber {
+  0%, 100% { box-shadow: 0 0 16px rgba(245, 158, 11, 0.75); }
+  50% { box-shadow: 0 0 24px rgba(249, 115, 22, 0.95); }
+}
+
+/* Card Content Area - Uniform Tag Alignment */
 .proj-content {
-  padding: 16px 20px 18px 20px;
+  padding: 18px 22px 20px 22px;
   display: flex;
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
 }
 
 .proj-title {
   font-size: 1.1rem;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
   text-align: center;
   line-height: 1.3;
   transition: color 0.3s ease;
@@ -174,12 +517,21 @@
   color: #00b4d8;
 }
 
+/* Description Area with Fixed Uniform Height for Aligned Tags */
+.proj-desc-container {
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
 .proj-desc {
   font-size: 0.84rem;
   color: #94a3b8;
   line-height: 1.55;
   text-align: center;
-  margin: 0 0 12px 0;
+  margin: 0;
   transition: color 0.3s ease;
   -webkit-font-smoothing: antialiased;
 }
@@ -188,7 +540,12 @@
   color: #cbd5e1;
 }
 
-/* Tech Tags Row */
+/* Bottom Group (Tags + Divider + Buttons) */
+.proj-bottom-group {
+  margin-top: auto;
+}
+
+/* Tech Tags Row - Uniformly position right above line */
 .proj-tags-row {
   display: flex;
   align-items: center;
@@ -196,6 +553,7 @@
   gap: 6px;
   flex-wrap: wrap;
   margin-bottom: 14px;
+  min-height: 28px;
 }
 
 .proj-tag-pill {
@@ -282,36 +640,138 @@
   box-shadow: 0 0 20px rgba(0, 180, 216, 0.5);
 }
 
-/* Design Card Gallery Styling */
-.design-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 24px;
+/* ==========================================================================
+   Art & Graphic Design: Extended Bottom Mask Headroom (Zero Bottom Glow Clipping)
+   ========================================================================== */
+
+.art-marquee-wrapper {
+  width: 100%;
+  margin: -24px auto -20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  padding-top: 24px;
+  padding-bottom: 44px;
+  background: transparent !important;
+  overflow-x: clip;
+  overflow-y: visible;
+
+  /* Pure Opacity Fade Mask at Left & Right Edges */
+  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+/* Marquee Row Containers */
+.art-marquee-row {
+  display: flex;
+  overflow-x: clip;
+  overflow-y: visible;
+  user-select: none;
   width: 100%;
 }
 
-.design-card {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid #16274a;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  aspect-ratio: 4 / 5;
-  cursor: pointer;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+.art-marquee-row.marquee-left {
+  padding-top: 12px;
+  padding-bottom: 16px;
+}
+
+.art-marquee-row.marquee-right {
+  padding-top: 16px;
+  padding-bottom: 24px;
+}
+
+.art-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: max-content;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
+  perspective: 1000px;
 }
 
-.design-card:hover {
-  transform: translateY(-8px);
-  border-color: #00b4d8;
-  box-shadow: 0 22px 55px rgba(0, 180, 216, 0.35), 0 0 25px rgba(0, 136, 255, 0.25);
+/* Row 1: Right to Left (Scrolls Left) */
+.marquee-left .art-marquee-track {
+  animation: marqueeScrollLeft 38s linear infinite both;
 }
 
-.design-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* Row 2: Left to Right (Scrolls Right) */
+.marquee-right .art-marquee-track {
+  animation: marqueeScrollRight 38s linear infinite both;
+}
+
+/* Pause marquee animation ONLY when mouse cursor hovers directly over an image card */
+.art-marquee-track:has(.art-card-item:hover) {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScrollLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-33.333%, 0, 0);
+  }
+}
+
+@keyframes marqueeScrollRight {
+  0% {
+    transform: translate3d(-33.333%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Base Art Card Item (Height 300px) */
+.art-card-item {
+  position: relative;
+  height: 300px;
+  width: auto;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.3s ease,
+              box-shadow 0.35s ease,
+              filter 0.35s ease,
+              opacity 0.35s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(22, 39, 74, 0.8);
+}
+
+/* When ANY card in the row is hovered: Blur & Dim all other cards in that row */
+.art-marquee-track:has(.art-card-item:hover) .art-card-item {
+  filter: blur(4px) opacity(0.4);
+  transform: scale(0.95);
+}
+
+/* BUT the exact card being hovered stays 100% sharp, enlarged (1.1x), with ultra-neat rounded cyan glow! */
+.art-marquee-track:has(.art-card-item:hover) .art-card-item:hover {
+  filter: none !important;
+  opacity: 1 !important;
+  transform: scale(1.1) !important;
+  border-color: #00b4d8 !important;
+  box-shadow: 0 12px 36px rgba(0, 180, 216, 0.55), 0 0 25px rgba(0, 136, 255, 0.4) !important;
+  z-index: 30;
+}
+
+.art-card-item img {
+  height: 100% !important;
+  width: auto !important;
+  max-width: 500px;
+  object-fit: contain !important;
+  border-radius: 18px;
+  display: block;
 }

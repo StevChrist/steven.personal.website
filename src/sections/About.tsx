@@ -3,17 +3,19 @@
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
+import { useInView } from 'react-intersection-observer'
 import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
 import '@/styles/aboutOutline.css'
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger)
-}
 
 const About = () => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [screenWidth, setScreenWidth] = useState(0)
+
+  // Trigger animation when ~half of Main (Hero) section scrolls away (threshold: 0.35)
+  const { ref: inViewRef, inView } = useInView({
+    triggerOnce: false,
+    threshold: 0.35,
+  })
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,83 +27,42 @@ const About = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // High-Tech GSAP Entrance Animation (Triggers when half of Main is scrolled away)
   useEffect(() => {
-    if (!sectionRef.current) return
+    if (!sectionRef.current || !inView) return
 
-    const ctx = gsap.context(() => {
-      const titleEl = sectionRef.current?.querySelector('.about-title-wrapper')
-      const profileCard = sectionRef.current?.querySelector('.profile-card')
-      const passionCard = sectionRef.current?.querySelector('.passion-card')
-      const interestsCard = sectionRef.current?.querySelector('.interests-card')
+    const profileCard = sectionRef.current.querySelector('.profile-card')
+    const passionCard = sectionRef.current.querySelector('.passion-card')
+    const interestsCard = sectionRef.current.querySelector('.interests-card')
 
-      if (!titleEl || !profileCard || !passionCard || !interestsCard) return
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-      // Explicit initial hidden state for cards
-      gsap.set([profileCard, passionCard, interestsCard], {
-        opacity: 0,
-        y: 40,
-      })
-
-      // Explicit initial hidden state for title
-      gsap.set(titleEl, {
-        opacity: 0,
-        y: 30,
-      })
-
-      // Pinned ScrollTrigger Timeline
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: '+=2200',
-          pin: true,
-          scrub: 1.5,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          fastScrollEnd: true,
-          preventOverlaps: true,
-        },
-      })
-
-      // Entry buffer for smooth locking from top
-      tl.to({}, { duration: 0.4 })
-
-      // Step 1: Scroll reveals Title "About me_"
-      .to(titleEl, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power2.out',
-      })
-      // Step 2: Scroll reveals Profile Image Card
-      .to(profileCard, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power2.out',
-      })
-      // Step 3: Scroll reveals Description (Background & Passion Card)
-      .to(passionCard, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power2.out',
-      })
-      // Step 4: Scroll reveals Interest (Interests & Fun Fact Card)
-      .to(interestsCard, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power2.out',
-      })
-      // Exit buffer for smooth locking when scrolling up from bottom section
-      .to({}, { duration: 0.8 })
-    }, sectionRef)
-
-    return () => {
-      ctx.revert()
+    if (profileCard) {
+      tl.fromTo(
+        profileCard,
+        { opacity: 0, scale: 0.9, y: 35 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(1.2)' }
+      )
     }
-  }, [])
+
+    if (passionCard) {
+      tl.fromTo(
+        passionCard,
+        { opacity: 0, scale: 0.9, y: 35 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(1.2)' },
+        '-=0.6'
+      )
+    }
+
+    if (interestsCard) {
+      tl.fromTo(
+        interestsCard,
+        { opacity: 0, scale: 0.9, y: 35 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(1.2)' },
+        '-=0.6'
+      )
+    }
+  }, [inView])
 
   const getTitleSize = () => {
     if (screenWidth >= 2560) return '80px'
@@ -116,7 +77,6 @@ const About = () => {
     return '30px'
   }
 
-  // Tighter bottom margin to reduce vertical gap below title
   const getTitleMargin = () => {
     if (screenWidth >= 2560) return '30px'
     if (screenWidth >= 1920) return '25px'
@@ -128,34 +88,33 @@ const About = () => {
     return '12px'
   }
 
-  const getSectionPadding = () => {
-    if (screenWidth >= 1536) return '60px'
-    if (screenWidth >= 1280) return '40px'
-    if (screenWidth >= 1024) return '30px'
-    if (screenWidth >= 768) return '24px'
-    return '16px'
-  }
-
   return (
     <section
-      ref={sectionRef}
+      ref={(el) => {
+        sectionRef.current = el
+        inViewRef(el)
+      }}
       id="about"
-      className="bg-transparent text-white h-screen w-full flex flex-col items-center justify-center relative overflow-hidden"
+      className="bg-transparent text-white min-h-screen py-20 lg:py-28 w-full flex flex-col items-center justify-center relative overflow-hidden"
       style={{
-        paddingLeft: getSectionPadding(),
-        paddingRight: getSectionPadding(),
+        paddingTop: '120px',
+        paddingBottom: '60px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
       }}
     >
-      <div className="about-bento-container">
-        {/* Title Container (Step 1 in Pin Timeline) */}
-        <div className="about-title-wrapper flex justify-center w-full">
+      <div className="about-bento-container w-full max-w-[1140px] mx-auto flex flex-col items-center relative">
+        {/* Title Container with Cyan Glow */}
+        <div className="about-title-wrapper flex justify-center items-center w-full text-center">
           <AnimatedText
             text="About me_"
-            className="text-center font-bold"
+            className="text-center font-bold gsap-fade-up"
             style={{
               fontFamily: "'Pacifico', cursive",
               fontSize: getTitleSize(),
               marginBottom: getTitleMargin(),
+              color: '#00b4d8',
+              textShadow: '0 0 16px rgba(0, 180, 216, 0.8), 0 0 35px rgba(0, 136, 255, 0.5)',
             }}
             delayStep={0.05}
             triggerOnce={false}
@@ -163,9 +122,8 @@ const About = () => {
         </div>
 
         {/* Bento Grid Container */}
-        <div className="about-bento-grid">
-          
-          {/* CARD 1: Profile Card (Gambar - Step 2) */}
+        <div className="about-bento-grid w-full">
+          {/* CARD 1: Profile Card */}
           <div className="bento-card profile-card">
             <div className="profile-image-container">
               <div className="profile-image-wrapper">
@@ -173,10 +131,9 @@ const About = () => {
                   src="/image/about-me.png"
                   alt="Steven Immanuel C. Girsang"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 350px"
+                  sizes="(max-width: 1024px) 100vw, 360px"
                   priority
                 />
-                {/* Vignette Overlay */}
                 <div className="profile-vignette" />
               </div>
             </div>
@@ -184,17 +141,14 @@ const About = () => {
 
           {/* RIGHT COLUMN */}
           <div className="right-column">
-            
-            {/* CARD 2: Background & Passion (Description - Step 3) */}
+            {/* CARD 2: Background & Passion */}
             <div className="bento-card passion-card">
               <div>
-                {/* Badge */}
                 <div className="badge-pill">
                   <span>🚀</span>
                   <span>Background & Passion</span>
                 </div>
 
-                {/* Text */}
                 <p className="passion-text-p1">
                   Hello! I am{' '}
                   <span className="passion-text-bold-white">
@@ -211,7 +165,6 @@ const About = () => {
                 </p>
               </div>
 
-              {/* Bottom Action Row */}
               <div className="passion-bottom-bar">
                 <span className="ready-text">
                   Ready for full-time Data Science & Analytics roles
@@ -228,7 +181,7 @@ const About = () => {
               </div>
             </div>
 
-            {/* CARD 3: Interests & Fun Fact (Interest - Step 4) */}
+            {/* CARD 3: Interests & Fun Fact */}
             <div className="bento-card interests-card">
               <div>
                 <h3 className="card-section-title">
@@ -248,9 +201,7 @@ const About = () => {
                 </p>
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
     </section>

@@ -8,7 +8,7 @@
 }
 
 :root {
-  --background: #030712;
+  --background: #01040a;
   --foreground: #ffffff;
   --font-roboto: "Roboto", sans-serif;
   --font-protest: "Protest Riot", cursive;
@@ -23,6 +23,12 @@ body {
   scroll-behavior: smooth;
 }
 
+section {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -30,17 +36,15 @@ body {
   @apply overflow-auto;
 }
 
-/* High-Tech Animated Pure CSS Dark Mesh Background */
+/* High-Tech Dark Ambient Background (No Grid Lines, Darker Canvas with Glowing Accents) */
 .bg-tech-canvas {
-  background-color: #030712;
+  background-color: #01040a;
   background-image:
-    radial-gradient(circle at 15% 15%, rgba(0, 180, 216, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 85% 45%, rgba(0, 136, 255, 0.10) 0%, transparent 45%),
-    radial-gradient(circle at 25% 75%, rgba(0, 180, 216, 0.11) 0%, transparent 42%),
-    radial-gradient(circle at 80% 90%, rgba(13, 37, 74, 0.5) 0%, transparent 50%),
-    linear-gradient(to right, rgba(0, 180, 216, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 180, 216, 0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    radial-gradient(circle at 15% 15%, rgba(0, 180, 216, 0.09) 0%, transparent 40%),
+    radial-gradient(circle at 85% 45%, rgba(0, 136, 255, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 25% 75%, rgba(0, 180, 216, 0.08) 0%, transparent 42%),
+    radial-gradient(circle at 80% 90%, rgba(10, 28, 58, 0.4) 0%, transparent 50%);
+  background-size: 100% 100%;
   background-attachment: fixed;
 }
 

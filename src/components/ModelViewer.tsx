@@ -15,10 +15,8 @@ function Model() {
     if (modelRef.current) {
       const time = clock.getElapsedTime()
 
-      // Idle animation (floating)
-      modelRef.current.position.y = -1 + Math.sin(time * 2) * 0.05
-
-      // Rotate based on mouse X
+      // Idle animation & rotation based on mouse X
+      modelRef.current.position.y = -1
       const targetYRotation = mouse.x * 0.5
       modelRef.current.rotation.y = THREE.MathUtils.lerp(
         modelRef.current.rotation.y,

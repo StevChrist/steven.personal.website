@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
+import AnimatedText from '@/components/AnimatedText'
 import {
   FaLinkedinIn,
   FaInstagram,
@@ -9,27 +10,36 @@ import {
   FaGithub,
   FaGoogleDrive,
   FaDiscord,
+  FaEnvelope,
 } from 'react-icons/fa'
 import { useInView } from 'react-intersection-observer'
 import gsap from 'gsap'
+import Footer from '@/components/Footer'
 import '@/styles/contactCard.css'
 
 const Contact = () => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [copied, setCopied] = useState(false)
+  const [screenWidth, setScreenWidth] = useState(0)
   const emailAddress = 'stevenimmanuelcgirsang@gmail.com'
 
   const { ref: inViewRef, inView } = useInView({
     triggerOnce: false,
-    threshold: 0.15,
+    threshold: 0.35,
   })
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // GSAP High-Tech Staggered Entrance Animations when inView
   useEffect(() => {
     if (!sectionRef.current || !inView) return
 
     const card = sectionRef.current.querySelector('.contact-card')
-    const heading = sectionRef.current.querySelector('.contact-heading')
     const subtitle = sectionRef.current.querySelector('.contact-subtitle')
     const emailBar = sectionRef.current.querySelector('.email-copy-bar')
     const socialTitle = sectionRef.current.querySelector('.social-section-title')
@@ -37,7 +47,6 @@ const Contact = () => {
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-    // 1. Card pop & scale in
     if (card) {
       tl.fromTo(
         card,
@@ -46,27 +55,24 @@ const Contact = () => {
       )
     }
 
-    // 2. Heading & Subtitle slide down
-    if (heading && subtitle) {
+    if (subtitle) {
       tl.fromTo(
-        [heading, subtitle],
+        subtitle,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 },
+        { opacity: 1, y: 0, duration: 0.6 },
         '-=0.5'
       )
     }
 
-    // 3. Email Bar pulse in
     if (emailBar) {
       tl.fromTo(
         emailBar,
-        { opacity: 0, scale: 0.85, y: 15 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.65, ease: 'back.out(1.5)' },
+        { opacity: 0, scale: 0.9, y: 15 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.4)' },
         '-=0.3'
       )
     }
 
-    // 4. Social Title & Icons wave pop-in
     if (socialTitle && socialIcons.length > 0) {
       tl.fromTo(
         socialTitle,
@@ -80,11 +86,11 @@ const Contact = () => {
           opacity: 1,
           scale: 1,
           y: 0,
-          duration: 0.55,
-          stagger: 0.06,
+          duration: 0.5,
+          stagger: 0.07,
           ease: 'back.out(1.5)',
         },
-        '-=0.3'
+        '-=0.2'
       )
     }
   }, [inView])
@@ -95,6 +101,23 @@ const Contact = () => {
     setTimeout(() => setCopied(false), 2500)
   }
 
+  const getTitleSize = () => {
+    if (screenWidth >= 2560) return '72px'
+    if (screenWidth >= 1920) return '65px'
+    if (screenWidth >= 1536) return '58px'
+    if (screenWidth >= 1280) return '52px'
+    if (screenWidth >= 1024) return '46px'
+    if (screenWidth >= 768) return '40px'
+    return '34px'
+  }
+
+  const getTitleMargin = () => {
+    if (screenWidth >= 1280) return '20px'
+    if (screenWidth >= 1024) return '16px'
+    if (screenWidth >= 768) return '14px'
+    return '10px'
+  }
+
   return (
     <section
       ref={(el) => {
@@ -102,13 +125,33 @@ const Contact = () => {
         inViewRef(el)
       }}
       id="contact"
-      className="bg-transparent text-white min-h-screen py-16 lg:py-24 flex flex-col justify-center items-center overflow-x-hidden"
+      className="bg-transparent text-white min-h-screen flex flex-col justify-between items-center border-0 outline-none"
+      style={{
+        paddingTop: '40px',
+        paddingBottom: '0px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
+      }}
     >
-      <div className="contact-container">
+      <div />
+
+      <div className="contact-container my-auto">
         {/* Main Glassmorphic Hero Contact Card */}
         <div className="contact-card">
           {/* Heading */}
-          <h2 className="contact-heading">Contact_</h2>
+          <AnimatedText
+            text="Contact_"
+            className="text-center font-bold gsap-fade-up"
+            style={{
+              fontFamily: "'Pacifico', cursive",
+              fontSize: getTitleSize(),
+              marginBottom: '16px',
+              color: '#00b4d8',
+              textShadow: '0 0 16px rgba(0, 180, 216, 0.8), 0 0 35px rgba(0, 136, 255, 0.5)',
+            }}
+            delayStep={0.05}
+            triggerOnce={false}
+          />
 
           {/* Subtitle Paragraph */}
           <p className="contact-subtitle">
@@ -118,7 +161,9 @@ const Contact = () => {
           {/* Compact Copy Email Bar */}
           <div className="email-copy-bar">
             <div className="email-text-group">
-              <span className="email-icon">✉</span>
+              <span className="email-icon">
+                <FaEnvelope />
+              </span>
               <span className="email-address">{emailAddress}</span>
             </div>
 
@@ -131,84 +176,89 @@ const Contact = () => {
             </button>
           </div>
 
-          {/* Social Channels Divider */}
-          <div className="social-section-title">
-            CONNECT VIA SOCIAL CHANNELS
-          </div>
+          {/* Social Media Channels Section */}
+          <div className="social-channels-container">
+            <div className="social-section-title">
+              CONNECT VIA SOCIAL CHANNELS
+            </div>
+            <div className="social-icons-row">
+              <a
+                href="https://www.linkedin.com/in/stevenimmanuelcgirsang"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon-circle"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedinIn />
+              </a>
 
-          {/* 7 Circular Social Icons Row */}
-          <div className="social-icons-row">
-            <a
-              href="https://www.linkedin.com/in/stevenchristiano"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-icon-circle"
-              aria-label="LinkedIn"
-            >
-              <FaLinkedinIn />
-            </a>
+              <a
+                href="https://github.com/StevChrist"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon-circle"
+                aria-label="GitHub"
+              >
+                <FaGithub />
+              </a>
 
-            <a
-              href="https://github.com/StevChrist"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-icon-circle"
-              aria-label="GitHub"
-            >
-              <FaGithub />
-            </a>
+              <a
+                href="https://www.instagram.com/_stev.chris/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon-circle"
+                aria-label="Instagram"
+              >
+                <FaInstagram />
+              </a>
 
-            <a
-              href="https://www.instagram.com/_stev.chris/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-icon-circle"
-              aria-label="Instagram"
-            >
-              <FaInstagram />
-            </a>
+              <a
+                href="https://www.tiktok.com/@stev.chris"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon-circle"
+                aria-label="TikTok"
+              >
+                <FaTiktok />
+              </a>
 
-            <a
-              href="https://www.tiktok.com/@stev.chris"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-icon-circle"
-              aria-label="TikTok"
-            >
-              <FaTiktok />
-            </a>
+              <a
+                href="https://x.com/_Stevchris"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon-circle"
+                aria-label="Twitter"
+              >
+                <FaTwitter />
+              </a>
 
-            <a
-              href="https://x.com/_Stevchris"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-icon-circle"
-              aria-label="Twitter"
-            >
-              <FaTwitter />
-            </a>
+              <a
+                href="https://drive.google.com/drive/u/0/my-drive"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon-circle"
+                aria-label="Google Drive"
+              >
+                <FaGoogleDrive />
+              </a>
 
-            <a
-              href="https://drive.google.com/drive/folders/17HalLkOAlIIFtseBj3yCCh20KLkB-rdW?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-icon-circle"
-              aria-label="Google Drive"
-            >
-              <FaGoogleDrive />
-            </a>
-
-            <a
-              href="https://discord.gg/znVHgPk5Pw"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-icon-circle"
-              aria-label="Discord"
-            >
-              <FaDiscord />
-            </a>
+              <a
+                href="https://discord.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon-circle"
+                aria-label="Discord"
+              >
+                <FaDiscord />
+              </a>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Lifted Footer embedded at the bottom of the 100vh page */}
+      <div className="w-full">
+        <Footer />
       </div>
     </section>
   )

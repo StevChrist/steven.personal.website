@@ -1,6 +1,6 @@
 /* src/styles/aboutOutline.css */
 
-/* Hide bento cards initially for GSAP pin timeline */
+/* Hide bento cards initially for GSAP timeline */
 .profile-card,
 .passion-card,
 .interests-card {
@@ -10,7 +10,7 @@
 
 .about-bento-container {
   width: 100%;
-  max-width: 1120px;
+  max-width: 1140px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -21,13 +21,13 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 24px;
 }
 
 @media (min-width: 1024px) {
   .about-bento-grid {
-    grid-template-columns: 350px 1fr;
-    gap: 20px;
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
     align-items: stretch;
   }
 }
@@ -44,7 +44,8 @@
 }
 
 .bento-card:hover {
-  border-color: #1e3b6e;
+  border-color: #00b4d8;
+  box-shadow: 0 16px 45px rgba(0, 180, 216, 0.2);
 }
 
 /* Left Profile Card */
@@ -68,11 +69,11 @@
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 400px;
+  min-height: 420px;
   border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(0, 153, 255, 0.4);
-  box-shadow: 0 0 20px rgba(0, 153, 255, 0.2);
+  border: 1px solid rgba(0, 180, 216, 0.4);
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.2);
 }
 
 .profile-image-wrapper img {
@@ -100,14 +101,14 @@
 .right-column {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   justify-content: space-between;
   height: 100%;
 }
 
 /* Top-Right Card (Background & Passion) */
 .passion-card {
-  padding: 26px 30px;
+  padding: 28px 32px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -131,14 +132,14 @@
 }
 
 .passion-text-p1 {
-  font-size: 0.98rem;
+  font-size: 1rem;
   color: #cbd5e1;
   line-height: 1.65;
   margin: 0 0 14px 0;
 }
 
 .passion-text-p2 {
-  font-size: 0.98rem;
+  font-size: 1rem;
   color: #cbd5e1;
   line-height: 1.65;
   margin: 0;
@@ -206,7 +207,7 @@
 
 /* Interests Card */
 .interests-card {
-  padding: 24px 30px;
+  padding: 26px 32px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -214,7 +215,7 @@
 }
 
 .card-section-title {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 1.2px;
   color: #00b4d8;
@@ -226,7 +227,7 @@
 }
 
 .interests-desc {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: #cbd5e1;
   line-height: 1.6;
   margin: 0 0 12px 0;
@@ -239,7 +240,7 @@
 }
 
 .fun-fact-text {
-  font-size: 0.84rem;
+  font-size: 0.86rem;
   font-style: italic;
   color: #cbd5e1;
   line-height: 1.5;

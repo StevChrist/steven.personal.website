@@ -12,7 +12,85 @@ type SkillItem = {
   name: string
   icon: string
   percent: number
-  category: 'ds_de' | 'web' | 'media' | 'ai' | 'soft'
+  category: CategoryId
+}
+
+// Individual Skill Card Component with Staggered 0% to Target Progress & Number Count-up
+const SkillCard = ({
+  skill,
+  inView,
+  activeTab,
+  index,
+}: {
+  skill: SkillItem
+  inView: boolean
+  activeTab: CategoryId
+  index: number
+}) => {
+  const [currentPercent, setCurrentPercent] = useState(0)
+  const [displayCount, setDisplayCount] = useState(0)
+
+  // 1. Progress Bar Fill Animation (0% -> target%) on Scroll into view & Tab Switch
+  useEffect(() => {
+    if (!inView) {
+      setCurrentPercent(0)
+      return
+    }
+
+    // Reset bar width to 0% first when tab switches or section enters
+    setCurrentPercent(0)
+
+    const timer = setTimeout(() => {
+      setCurrentPercent(skill.percent)
+    }, 100 + index * 60)
+
+    return () => clearTimeout(timer)
+  }, [inView, activeTab, skill.percent, index])
+
+  // 2. Dynamic Percentage Counter (0% -> 88%)
+  useEffect(() => {
+    if (currentPercent === 0) {
+      setDisplayCount(0)
+      return
+    }
+
+    let start = 0
+    const target = skill.percent
+    const duration = 1100 // 1.1 seconds
+    const stepTime = Math.max(Math.floor(duration / target), 12)
+
+    const interval = setInterval(() => {
+      start += 1
+      setDisplayCount(start)
+      if (start >= target) {
+        clearInterval(interval)
+      }
+    }, stepTime)
+
+    return () => clearInterval(interval)
+  }, [currentPercent, skill.percent])
+
+  return (
+    <div className="skill-card">
+      <div className="skill-info">
+        <div className="skill-name-wrapper">
+          <span className="skill-icon">{skill.icon}</span>
+          <h4 className="skill-name">{skill.name}</h4>
+        </div>
+        <span className="skill-percent">{displayCount}%</span>
+      </div>
+
+      {/* Progress Bar Track */}
+      <div className="skill-bar-track">
+        <div
+          className="skill-bar-fill"
+          style={{
+            width: `${currentPercent}%`,
+          }}
+        />
+      </div>
+    </div>
+  )
 }
 
 const Skills = () => {
@@ -25,7 +103,7 @@ const Skills = () => {
 
   const { ref: inViewRef, inView } = useInView({
     triggerOnce: false,
-    threshold: 0.15,
+    threshold: 0.35,
   })
 
   useEffect(() => {
@@ -92,9 +170,11 @@ const Skills = () => {
     { name: 'Leadership', icon: '👥', percent: 82, category: 'soft' },
   ]
 
-  const filteredSkills = skillsData.filter((skill) => skill.category === activeTab)
+  const filteredSkills = skillsData
+    .filter((skill) => skill.category === activeTab)
+    .slice(0, 12)
 
-  // 1. GSAP Staggered Entrance Animation for Category Filter Tabs
+  // 1. GSAP Filter Tabs Entrance Animation
   useEffect(() => {
     if (!tabsRef.current || !inView) return
 
@@ -191,6 +271,8 @@ const Skills = () => {
             fontFamily: "'Pacifico', cursive",
             fontSize: getTitleSize(),
             marginBottom: getTitleMargin(),
+            color: '#00b4d8',
+            textShadow: '0 0 16px rgba(0, 180, 216, 0.8), 0 0 35px rgba(0, 136, 255, 0.5)',
           }}
           delayStep={0.05}
           triggerOnce={false}
@@ -239,28 +321,16 @@ const Skills = () => {
           </button>
         </div>
 
-        {/* Skills Cards Grid with Staggered GSAP Animations */}
+        {/* Skills Cards Grid */}
         <div ref={gridRef} className="skills-grid">
           {filteredSkills.map((skill, index) => (
-            <div key={`${skill.name}-${index}`} className="skill-card">
-              <div className="skill-info">
-                <div className="skill-name-wrapper">
-                  <span className="skill-icon">{skill.icon}</span>
-                  <h4 className="skill-name">{skill.name}</h4>
-                </div>
-                <span className="skill-percent">{skill.percent}%</span>
-              </div>
-
-              {/* Progress Bar Track */}
-              <div className="skill-bar-track">
-                <div
-                  className="skill-bar-fill"
-                  style={{
-                    width: inView ? `${skill.percent}%` : '0%',
-                  }}
-                />
-              </div>
-            </div>
+            <SkillCard
+              key={`${skill.name}-${index}`}
+              skill={skill}
+              inView={inView}
+              activeTab={activeTab}
+              index={index}
+            />
           ))}
         </div>
       </div>

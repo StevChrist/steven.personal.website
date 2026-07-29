@@ -5,14 +5,8 @@ import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa'
 import '@/styles/projectCard.css'
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger)
-}
 
 type FilterTab = {
   id: string
@@ -20,15 +14,286 @@ type FilterTab = {
   icon: string
 }
 
+type CodeProject = {
+  id: string
+  category: string
+  title: string
+  description: string
+  link: string
+  siteLink: string
+  previewImage: string
+  tags: string[]
+  isNew?: boolean
+  isOngoing?: boolean
+  isComingSoon?: boolean
+}
+
+type UiUxProject = {
+  id: string
+  title: string
+  description: string
+  images: string[]
+  tags: string[]
+  isNew?: boolean
+}
+
+// Full-Screen Enlarged Lightbox Modal Component for Web Design & UI/UX
+const UiUxModal = ({
+  project,
+  onClose,
+}: {
+  project: UiUxProject
+  onClose: () => void
+}) => {
+  const [activeImgIndex, setActiveImgIndex] = useState(0)
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveImgIndex((prev) => (prev + 1) % project.images.length)
+  }
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveImgIndex((prev) => (prev - 1 + project.images.length) % project.images.length)
+  }
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="uiux-modal-overlay"
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+          onClick={(e) => e.stopPropagation()}
+          className="uiux-modal-card"
+        >
+          {/* Top Right "X" Close Button */}
+          <button
+            onClick={onClose}
+            aria-label="Close Design Preview"
+            className="uiux-modal-close-btn"
+          >
+            <FaTimes />
+          </button>
+
+          {/* Large Image Slider Container */}
+          <div className="uiux-modal-image-wrapper">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeImgIndex}
+                initial={{ opacity: 0.4, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0.4, scale: 0.98 }}
+                transition={{ duration: 0.25 }}
+                className="w-full h-full relative flex items-center justify-center"
+              >
+                <Image
+                  src={project.images[activeImgIndex]}
+                  alt={`${project.title} Large Preview ${activeImgIndex + 1}`}
+                  width={1200}
+                  height={750}
+                  quality={95}
+                  priority
+                  className="uiux-modal-img"
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Next / Prev Navigation Buttons in Enlarged View */}
+            {project.images.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  aria-label="Previous Design Image"
+                  className="slider-arrow modal-arrow-left"
+                >
+                  <FaChevronLeft />
+                </button>
+                <button
+                  onClick={nextImage}
+                  aria-label="Next Design Image"
+                  className="slider-arrow modal-arrow-right"
+                >
+                  <FaChevronRight />
+                </button>
+
+                {/* Dots Indicator Bar */}
+                <div className="slider-dots-container modal-dots">
+                  {project.images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setActiveImgIndex(idx)
+                      }}
+                      className={`slider-dot ${idx === activeImgIndex ? 'active' : ''}`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Modal Content Footer (Title, Description, Tags) */}
+          <div className="uiux-modal-content">
+            <h3 className="uiux-modal-title">{project.title}</h3>
+            <p className="uiux-modal-desc">{project.description}</p>
+            <div className="proj-tags-row mt-2 mb-0">
+              {project.tags.map((tag, idx) => (
+                <span key={idx} className="proj-tag-pill">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+// Interactive Image Slider Card Component for Web Design & UI/UX
+const UiUxCard = ({
+  project,
+  index,
+  onOpenModal,
+}: {
+  project: UiUxProject
+  index: number
+  onOpenModal: () => void
+}) => {
+  const [activeImgIndex, setActiveImgIndex] = useState(0)
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveImgIndex((prev) => (prev + 1) % project.images.length)
+  }
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveImgIndex((prev) => (prev - 1 + project.images.length) % project.images.length)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.045, y: -6 }}
+      viewport={{ amount: 0.1, once: false }}
+      transition={{
+        duration: 0.55,
+        delay: (index % 2) * 0.08,
+        ease: 'easeOut',
+      }}
+      onClick={onOpenModal}
+      className="proj-card uiux-card"
+    >
+      {/* Interactive Image Slider Area */}
+      <div className="proj-uiux-slider-wrapper">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeImgIndex}
+            initial={{ opacity: 0.3, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0.3, scale: 0.98 }}
+            transition={{ duration: 0.25 }}
+            className="w-full h-full relative flex items-center justify-center"
+          >
+            <Image
+              src={project.images[activeImgIndex]}
+              alt={`${project.title} Preview ${activeImgIndex + 1}`}
+              width={700}
+              height={280}
+              quality={90}
+              priority={index === 0}
+              className="uiux-slider-img"
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation Arrows */}
+        {project.images.length > 1 && (
+          <>
+            <button
+              onClick={nextImage}
+              aria-label="Previous Design Image"
+              className="slider-arrow arrow-left"
+            >
+              <FaChevronLeft />
+            </button>
+            <button
+              onClick={nextImage}
+              aria-label="Next Design Image"
+              className="slider-arrow arrow-right"
+            >
+              <FaChevronRight />
+            </button>
+
+            {/* Slider Indicator Dots */}
+            <div className="slider-dots-container">
+              {project.images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setActiveImgIndex(idx)
+                  }}
+                  className={`slider-dot ${idx === activeImgIndex ? 'active' : ''}`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Card Content Area (Title, Description, Tags - NO BUTTONS) */}
+      <div className="proj-content uiux-content">
+        <div>
+          <h3 className="proj-title">{project.title}</h3>
+          <div className="proj-desc-container">
+            <p className="proj-desc">{project.description}</p>
+          </div>
+        </div>
+
+        {/* Tech Tags Row */}
+        <div className="proj-tags-row mt-auto">
+          {project.tags.map((tag, idx) => (
+            <span key={idx} className="proj-tag-pill">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 const Project = () => {
   const [activeTab, setActiveTab] = useState<string>('code')
   const [screenWidth, setScreenWidth] = useState(0)
+  const [selectedUiUxProject, setSelectedUiUxProject] = useState<UiUxProject | null>(null)
   const sectionRef = useRef<HTMLElement | null>(null)
-  const gridRef = useRef<HTMLDivElement | null>(null)
 
   const { ref: inViewRef } = useInView({
     triggerOnce: false,
-    threshold: 0.05,
+    threshold: 0.35,
   })
 
   useEffect(() => {
@@ -39,60 +304,20 @@ const Project = () => {
   }, [])
 
   const filterTabs: FilterTab[] = [
-    { id: 'code', label: 'Data Science & Code', icon: '💻' },
-    { id: 'design', label: 'UI/UX & Graphic Design', icon: '🎨' },
+    { id: 'code', label: 'Code', icon: '💻' },
+    { id: 'uiux', label: 'Web Design & UI/UX', icon: '📐' },
+    { id: 'art', label: 'Art & Graphic Design', icon: '🎨' },
   ]
 
-  // GSAP ScrollTrigger per Card Animation (Fade-in & Fade-out dynamically on scroll)
-  useEffect(() => {
-    if (!gridRef.current) return
-
-    const timer = setTimeout(() => {
-      if (!gridRef.current) return
-
-      const ctx = gsap.context(() => {
-        const cards = gridRef.current?.querySelectorAll('.proj-card-anim')
-        if (!cards || cards.length === 0) return
-
-        cards.forEach((card) => {
-          gsap.fromTo(
-            card,
-            {
-              opacity: 0,
-              y: 70,
-              scale: 0.93,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.75,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: card,
-                start: 'top 92%',
-                end: 'bottom 12%',
-                toggleActions: 'play reverse play reverse',
-              },
-            }
-          )
-        })
-
-        ScrollTrigger.refresh()
-      }, gridRef)
-
-      return () => ctx.revert()
-    }, 100)
-
-    return () => clearTimeout(timer)
-  }, [activeTab])
-
-  const designImages = [
+  const row1Images = [
     '/image/Design/1.png',
     '/image/Design/2.png',
     '/image/Design/3.png',
     '/image/Design/4.png',
     '/image/Design/5.png',
+  ]
+
+  const row2Images = [
     '/image/Design/6.png',
     '/image/Design/7.jpg',
     '/image/Design/8.png',
@@ -100,7 +325,7 @@ const Project = () => {
     '/image/Photo/1.jpg',
   ]
 
-  const codeProjects = [
+  const codeProjects: CodeProject[] = [
     {
       id: 'tbh',
       category: 'code',
@@ -180,6 +405,48 @@ const Project = () => {
       previewImage: '/web_preview/sentiment_C-LSTM.png',
       tags: ['Deep Learning', 'C-LSTM', 'NLP', 'Neural Networks', 'Python'],
     },
+    {
+      id: 'isp',
+      category: 'code',
+      title: 'Indonesia ISP Analytics Dashboard',
+      description:
+        'An enterprise data pipeline and interactive analytics dashboard monitoring ISP market share, network latency, and regional broadband performance across Indonesia.',
+      link: 'https://github.com/StevChrist/Indonesia-ISP-Analytics-Dashboard',
+      siteLink: '#',
+      previewImage: '',
+      tags: ['Python', 'Playwright', 'Data Pipeline', 'Analytics'],
+      isOngoing: true,
+    },
+  ]
+
+  const uiuxProjects: UiUxProject[] = [
+    {
+      id: 'uiux-penine',
+      title: 'PenineMate AI Platform Interface Design',
+      description:
+        'User-centric web interface design featuring glassmorphism cards, seamless navigation, interactive chatbot, and semantic recommendation components.',
+      images: [
+        '/web_design/Peninemate/main page.png',
+        '/web_design/Peninemate/about.png',
+        '/web_design/Peninemate/chatbot.png',
+        '/web_design/Peninemate/Recommendation.png',
+        '/web_design/Peninemate/result_recommendation.png',
+      ],
+      tags: ['UI/UX', 'Figma', 'Web Design', 'Prototyping'],
+      isNew: true,
+    },
+    // {
+    //   id: 'uiux-dwbi',
+    //   title: 'Enterprise Analytics Dashboard UI/UX Design',
+    //   description:
+    //     'A sleek, high-tech dark mode dashboard design focusing on data visualization, telemetry monitoring, and interactive BI reporting layout.',
+    //   images: [
+    //     '/web_preview/Dw_Bi_1.png',
+    //     '/web_preview/Lumenalyze.png',
+    //     '/web_preview/TBH-Price.png',
+    //   ],
+    //   tags: ['Figma', 'UI/UX Design', 'Dashboard', 'Dark Mode'],
+    // },
   ]
 
   const getTitleSize = () => {
@@ -220,9 +487,9 @@ const Project = () => {
         inViewRef(el)
       }}
       id="projects"
-      className="bg-transparent text-white min-h-screen py-16 lg:py-24 flex flex-col justify-center items-center overflow-x-hidden"
+      className="bg-transparent text-white min-h-screen py-16 lg:py-24 flex flex-col justify-center items-center border-0 outline-none"
       style={{
-        paddingTop: '125px', // Spacing gap between Experience and Project
+        paddingTop: '120px',
         paddingBottom: '60px',
         paddingLeft: getSectionPadding(),
         paddingRight: getSectionPadding(),
@@ -237,12 +504,14 @@ const Project = () => {
             fontFamily: "'Pacifico', cursive",
             fontSize: getTitleSize(),
             marginBottom: getTitleMargin(),
+            color: '#00b4d8',
+            textShadow: '0 0 16px rgba(0, 180, 216, 0.8), 0 0 35px rgba(0, 136, 255, 0.5)',
           }}
           delayStep={0.05}
           triggerOnce={false}
         />
 
-        {/* Filter Tab Buttons */}
+        {/* 3 Filter Tab Buttons */}
         <div className="project-filter-bar gsap-fade-up">
           {filterTabs.map((tab) => (
             <button
@@ -256,42 +525,73 @@ const Project = () => {
           ))}
         </div>
 
-        {/* Projects Grid Container with Dynamic GSAP ScrollTrigger per Card */}
-        <div ref={gridRef} className="w-full">
+        {/* Projects Grid / Marquee Container */}
+        <div className="w-full">
           <AnimatePresence mode="wait">
+            {/* TAB 1: CODE */}
             {activeTab === 'code' && (
               <motion.div
                 key="code-grid"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3 }}
                 className="w-full"
               >
                 <div className="proj-grid">
-                  {codeProjects.map((project) => (
-                    <div key={project.id} className="proj-card proj-card-anim">
+                  {codeProjects.slice(0, 10).map((project, index) => (
+                    <motion.div
+                      key={project.id}
+                      initial={{ opacity: 0, y: 25 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      whileHover={{ scale: 1.045, y: -6 }}
+                      viewport={{ amount: 0.1, once: false }}
+                      transition={{
+                        duration: 0.55,
+                        delay: (index % 2) * 0.08,
+                        ease: 'easeOut',
+                      }}
+                      className="proj-card"
+                    >
                       {/* Image Preview Area */}
                       <div className="proj-img-wrapper">
-                        <Image
-                          src={project.previewImage}
-                          alt={`${project.title} Preview`}
-                          width={700}
-                          height={140}
-                        />
-                        <div className="proj-img-overlay" />
-
-                        {project.isNew && (
-                          <div className="proj-badge-new">✦ NEW PROJECT</div>
+                        {project.isOngoing || project.isComingSoon || !project.previewImage ? (
+                          <div className="proj-coming-soon-banner">
+                            <span className="coming-soon-icon">⏳</span>
+                            <span className="coming-soon-text">COMING SOON</span>
+                            <span className="coming-soon-sub">Development in Progress</span>
+                          </div>
+                        ) : (
+                          <>
+                            <Image
+                              src={project.previewImage}
+                              alt={`${project.title} Preview`}
+                              width={700}
+                              height={140}
+                            />
+                            <div className="proj-img-overlay" />
+                          </>
                         )}
+
+                        {/* Top-Right Badge */}
+                        {project.isOngoing || project.isComingSoon ? (
+                          <div className="proj-badge-ongoing">⚙️ ON GOING</div>
+                        ) : project.isNew ? (
+                          <div className="proj-badge-new">✦ NEW PROJECT</div>
+                        ) : null}
                       </div>
 
                       {/* Content Area */}
                       <div className="proj-content">
                         <div>
                           <h3 className="proj-title">{project.title}</h3>
-                          <p className="proj-desc">{project.description}</p>
+                          <div className="proj-desc-container">
+                            <p className="proj-desc">{project.description}</p>
+                          </div>
+                        </div>
 
+                        {/* Bottom Group (Tags + Divider + Buttons) */}
+                        <div className="proj-bottom-group">
                           {/* Tech Tags */}
                           <div className="proj-tags-row">
                             {project.tags.map((tag, idx) => (
@@ -300,11 +600,9 @@ const Project = () => {
                               </span>
                             ))}
                           </div>
-                        </div>
 
-                        {/* Divider & Action Buttons */}
-                        <div>
                           <div className="proj-divider" />
+
                           <div className="proj-actions">
                             {project.link !== '#' && (
                               <a
@@ -331,38 +629,97 @@ const Project = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
             )}
 
-            {activeTab === 'design' && (
+            {/* TAB 2: WEB DESIGN & UI/UX */}
+            {activeTab === 'uiux' && (
               <motion.div
-                key="design-grid"
-                initial={{ opacity: 0, y: 20 }}
+                key="uiux-grid"
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3 }}
-                className="w-full flex justify-center"
+                className="w-full"
               >
-                <div className="design-gallery-grid max-w-[1000px] mx-auto">
-                  {designImages.map((src, i) => (
-                    <div key={i} className="design-card proj-card-anim">
-                      <Image
-                        src={src}
-                        alt={`Design Project ${i + 1}`}
-                        width={240}
-                        height={300}
-                      />
-                    </div>
+                <div className="proj-grid">
+                  {uiuxProjects.map((project, index) => (
+                    <UiUxCard
+                      key={project.id}
+                      project={project}
+                      index={index}
+                      onOpenModal={() => setSelectedUiUxProject(project)}
+                    />
                   ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* TAB 3: ART & GRAPHIC DESIGN (Ultra-Fast 60FPS Preloaded Infinite Marquee Carousel) */}
+            {activeTab === 'art' && (
+              <motion.div
+                key="art-marquee"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.3 }}
+                className="w-full"
+              >
+                <div className="art-marquee-wrapper">
+                  {/* ROW 1: Right to Left (Scrolls Left) */}
+                  <div className="art-marquee-row marquee-left">
+                    <div className="art-marquee-track">
+                      {[...row1Images, ...row1Images, ...row1Images].map((src, i) => (
+                        <div key={`r1-${i}`} className="art-card-item">
+                          <Image
+                            src={src}
+                            alt={`Art Design ${i + 1}`}
+                            width={240}
+                            height={300}
+                            quality={85}
+                            priority={i < 10}
+                            className="h-[300px] w-auto object-contain rounded-2xl"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ROW 2: Left to Right (Scrolls Right) */}
+                  <div className="art-marquee-row marquee-right">
+                    <div className="art-marquee-track">
+                      {[...row2Images, ...row2Images, ...row2Images].map((src, i) => (
+                        <div key={`r2-${i}`} className="art-card-item">
+                          <Image
+                            src={src}
+                            alt={`Art Design ${i + 1}`}
+                            width={240}
+                            height={300}
+                            quality={85}
+                            priority={i < 10}
+                            className="h-[300px] w-auto object-contain rounded-2xl"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Full-Screen Web Design & UI/UX Lightbox Modal */}
+      {selectedUiUxProject && (
+        <UiUxModal
+          project={selectedUiUxProject}
+          onClose={() => setSelectedUiUxProject(null)}
+        />
+      )}
     </section>
   )
 }

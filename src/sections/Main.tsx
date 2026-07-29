@@ -5,10 +5,14 @@ import Image from 'next/image'
 import { useScrollAnimations } from '@/hooks/useScrollAnimations'
 import TypedText from '@/components/TypedText'
 import ModelViewer from '@/components/ModelViewer'
+import CodeRain from '@/components/CodeRain'
+import '@/styles/mainHero.css'
 
 export default function Main() {
   const sectionRef = useRef<HTMLDivElement | null>(null)
   const [screenWidth, setScreenWidth] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isReady, setIsReady] = useState(false)
 
   useScrollAnimations(sectionRef)
 
@@ -18,203 +22,129 @@ export default function Main() {
     }
 
     handleResize()
+    setIsReady(true)
+
     window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+
+    const timer = window.setTimeout(() => {
+      setIsLoading(false)
+    }, 2600)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.clearTimeout(timer)
+    }
   }, [])
 
-  // ===== LOGO SIZE =====
-  const getLogoSize = () => {
-    if (screenWidth >= 2560) return 28
-    if (screenWidth >= 1920) return 24
-    if (screenWidth >= 1536) return 20
-    if (screenWidth >= 1280) return 18
-    if (screenWidth >= 1024) return 16
-    if (screenWidth >= 768) return 14
-    if (screenWidth >= 640) return 10
-    return 8  
-  }
-
-  // ===== LOGO POSITION =====
-  const getLogoPosition = () => {
-    if (screenWidth >= 2560) return { top: '40px', left: '60px' }
-    if (screenWidth >= 1920) return { top: '35px', left: '55px' }
-    if (screenWidth >= 1536) return { top: '30px', left: '50px' }
-    if (screenWidth >= 1280) return { top: '30px', left: '50px' }
-    if (screenWidth >= 1024) return { top: '25px', left: '40px' }
-    if (screenWidth >= 768) return { top: '22px', left: '35px' }
-    if (screenWidth >= 640) return { top: '18px', left: '25px' }
-    return { top: '16px', left: '20px' }
-  }
-
-  // ===== MODEL SIZE =====
   const getModelSize = () => {
-    if (screenWidth >= 2560) return '800px'
-    if (screenWidth >= 1920) return '500px'
-    if (screenWidth >= 1536) return '430px'
-    if (screenWidth >= 1280) return '350px'
-    if (screenWidth >= 1024) return '350px'
-    if (screenWidth >= 800) return '400px'
-    if (screenWidth >= 768) return '380px'
-    if (screenWidth >= 640) return '320px'
-    return '220px'
+    if (screenWidth >= 2560) return 520
+    if (screenWidth >= 1920) return 460
+    if (screenWidth >= 1536) return 420
+    if (screenWidth >= 1280) return 380
+    if (screenWidth >= 1024) return 340
+    if (screenWidth >= 768) return 300
+    if (screenWidth >= 640) return 260
+    return 200
   }
 
-  const getModelMarginBottom = () => {
-    if (screenWidth >= 2560) return '32px'
-    if (screenWidth >= 1920) return '28px'
-    if (screenWidth >= 1536) return '24px'
-    if (screenWidth >= 1280) return '24px'
-    if (screenWidth >= 1024) return '20px'
-    if (screenWidth >= 800) return '16px'
-    if (screenWidth >= 768) return '20px'
-    if (screenWidth >= 640) return '6px'
-    return '2px'
-  }
-
-  const getGreetingSize = () => {
-    if (screenWidth >= 2560) return '40px'
-    if (screenWidth >= 1920) return '38px'
-    if (screenWidth >= 1536) return '35px'
-    if (screenWidth >= 1280) return '35px'
-    if (screenWidth >= 1024) return '30px'
-    if (screenWidth >= 800) return '26px'
-    if (screenWidth >= 768) return '28px'
-    if (screenWidth >= 640) return '22px'
-    return '18px'
-  }
-
-  const getGreetingMarginBottom = () => {
-    if (screenWidth >= 2560) return '16px'
-    if (screenWidth >= 1920) return '14px'
-    if (screenWidth >= 1536) return '12px'
-    if (screenWidth >= 1280) return '12px'
-    if (screenWidth >= 1024) return '10px'
-    if (screenWidth >= 800) return '8px'
-    if (screenWidth >= 768) return '10px'
-    if (screenWidth >= 640) return '4px'
-    return '1px'
-  }
-
-  const getTypedTextSize = () => {
-    if (screenWidth >= 2560) return '65px'
-    if (screenWidth >= 1920) return '62px'
-    if (screenWidth >= 1536) return '60px'
-    if (screenWidth >= 1280) return '60px'
-    if (screenWidth >= 1024) return '50px'
-    if (screenWidth >= 800) return '32px'
-    if (screenWidth >= 768) return '38px'
-    if (screenWidth >= 640) return '28px'
-    return '24px'
-  }
-
-  const getTypedTextMaxWidth = () => {
-    if (screenWidth >= 2560) return '80%'
-    if (screenWidth >= 1920) return '75%'
-    if (screenWidth >= 1536) return '70%'
-    if (screenWidth >= 1280) return '65%'
-    if (screenWidth >= 1024) return '60%'
-    if (screenWidth >= 800) return '75%'
-    if (screenWidth >= 768) return '70%'
-    if (screenWidth >= 640) return '90%'
-    return '85%'
-  }
-
-  const getContainerPadding = () => {
-    if (screenWidth >= 768) return '0'
-    if (screenWidth >= 640) return '0 20px'
-    return '0 16px'
+  const getLogoWidth = () => {
+    if (screenWidth >= 1280) return 48
+    if (screenWidth >= 768) return 42
+    return 36
   }
 
   return (
-    <section
-      id="home"
-      ref={sectionRef}
-      className="relative min-h-screen bg-black text-white overflow-hidden"
-      itemScope
-      itemType="https://schema.org/Person"
-    >
-      {/* ===== SEO: Hidden H1 with full name - visible to Google, not disrupting design ===== */}
-      <h1
-        className="sr-only"
-        itemProp="name"
-      >
-        Steven Immanuel C. Girsang - Data Scientist Portfolio
-      </h1>
-      <meta itemProp="url" content="https://stevchrist.site" />
-      <meta itemProp="jobTitle" content="Data Scientist" />
-      <meta itemProp="alumniOf" content="Telkom University" />
-
-      {/* ===== LOGO IMAGE ===== */}
-      <div
-        className="absolute z-30 select-none gsap-fade-up"
-        style={{
-          ...getLogoPosition()
-        }}
-      >
-        <Image
-          src="/image/Logo PEN White.png"
-          alt="Steven Logo"
-          width={getLogoSize() * 2.5}
-          height={getLogoSize()}
-          priority
-        />
+    <>
+      <div className={`site-loader ${!isLoading ? 'site-loader-hidden' : ''}`}>
+        <div className="site-loader-inner">
+          <Image
+            src="/image/Logo PEN White.png"
+            alt="Loading Logo"
+            width={68}
+            height={34}
+            priority
+            className="site-loader-logo"
+          />
+          <div className="site-loader-bar">
+            <span className="site-loader-bar-fill" />
+          </div>
+          <p className="site-loader-text">Loading experience...</p>
+        </div>
       </div>
 
-      {/* ===== MAIN CONTENT ===== */}
-      <div
-        className="absolute z-10 flex flex-col items-center justify-center"
-        style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '100%',
-          height: '100%',
-          padding: getContainerPadding()
-        }}
+      <section
+        id="home"
+        ref={sectionRef}
+        className={`main-hero-section relative min-h-screen text-white overflow-hidden ${isLoading || !isReady ? 'hero-content-hidden' : 'hero-content-visible'
+          }`}
+        itemScope
+        itemType="https://schema.org/Person"
       >
-        <div
-          className="overflow-hidden gsap-fade-up"
-          style={{
-            width: getModelSize(),
-            height: getModelSize(),
-            marginBottom: getModelMarginBottom()
-          }}
-        >
-          <ModelViewer />
+        <h1 className="sr-only" itemProp="name">
+          Steven Immanuel C. Girsang - Data Scientist & AI Engineer Portfolio
+        </h1>
+        <meta itemProp="url" content="https://stevchrist.site" />
+        <meta itemProp="jobTitle" content="Data Scientist" />
+        <meta itemProp="alumniOf" content="Telkom University" />
+
+        <div className="hero-tech-grid-bg" />
+        <div className="hero-crt-overlay" />
+        <CodeRain />
+        <div className="hero-ambient-orb-1" />
+        <div className="hero-ambient-orb-2" />
+
+        <div className="hero-particles-container">
+          <div className="particle-dot" style={{ left: '15%', opacity: 0.6, animationDuration: '14s' }} />
+          <div className="particle-dot" style={{ left: '28%', opacity: 0.4, animationDuration: '18s', animationDelay: '3s' }} />
+          <div className="particle-dot" style={{ left: '42%', opacity: 0.7, animationDuration: '12s', animationDelay: '1s' }} />
+          <div className="particle-dot" style={{ left: '65%', opacity: 0.5, animationDuration: '16s', animationDelay: '5s' }} />
+          <div className="particle-dot" style={{ left: '78%', opacity: 0.65, animationDuration: '13s', animationDelay: '2s' }} />
+          <div className="particle-dot" style={{ left: '88%', opacity: 0.35, animationDuration: '20s', animationDelay: '4s' }} />
         </div>
 
-        <p
-          style={{
-            fontSize: getGreetingSize(),
-            marginBottom: getGreetingMarginBottom(),
-            textAlign: 'center'
-          }}
-        >
-          Hi, I am Steven
-        </p>
-
-        <div
-          className="font-bold text-white gsap-fade-up"
-          style={{
-            fontSize: getTypedTextSize(),
-            textAlign: 'center',
-            minHeight: '80px',
-            maxWidth: getTypedTextMaxWidth(),
-            lineHeight: '1.2'
-          }}
-        >
-          <TypedText
-            strings={[
-              'I am a Data Scientist',
-              'I am a Graphic Designer',
-              'I am a Video Editor and Animation',
-              'I am a sleep lover',
-              'I am a music listener',
-              'I like to code'
-            ]}
+        <div className="hero-logo-fixed select-none">
+          <Image
+            src="/image/Logo PEN White.png"
+            alt="Steven Logo"
+            width={getLogoWidth()}
+            height={20}
+            priority
+            className="object-contain"
           />
         </div>
-      </div>
-    </section>
+
+        <div className="container max-w-[1140px] mx-auto px-4 flex flex-col items-center justify-center text-center my-auto pt-12 pb-4">
+          <div
+            className="model-aura-container gsap-fade-up"
+            style={{
+              width: `${getModelSize()}px`,
+              height: `${getModelSize()}px`,
+            }}
+          >
+            <div className="w-full h-full relative z-10">
+              <ModelViewer />
+            </div>
+          </div>
+
+          <div className="gsap-fade-up flex flex-col items-center justify-center mb-3">
+            <p className="hero-greeting">Hi, I am</p>
+            <h2 className="hero-name">Steven Immanuel C. Girsang</h2>
+          </div>
+
+          <div className="hero-typed-text gsap-fade-up">
+            <TypedText
+              strings={[
+                'I am a Data Scientist',
+                'I am a Graphic Designer',
+                'I am a Video Editor and Animation',
+                'I am a sleep lover',
+                'I am a music listener',
+                'I like to code',
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+    </>
   )
 }
