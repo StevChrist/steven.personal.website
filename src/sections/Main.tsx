@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useScrollAnimations } from '@/hooks/useScrollAnimations'
 import TypedText from '@/components/TypedText'
 import ModelViewer from '@/components/ModelViewer'
-import CodeRain from '@/components/CodeRain'
+import { FaFolderOpen, FaEnvelope } from 'react-icons/fa'
 import '@/styles/mainHero.css'
 
 export default function Main() {
@@ -37,20 +37,27 @@ export default function Main() {
   }, [])
 
   const getModelSize = () => {
-    if (screenWidth >= 2560) return 520
-    if (screenWidth >= 1920) return 460
-    if (screenWidth >= 1536) return 420
-    if (screenWidth >= 1280) return 380
-    if (screenWidth >= 1024) return 340
-    if (screenWidth >= 768) return 300
-    if (screenWidth >= 640) return 260
-    return 200
+    if (screenWidth >= 2560) return 420
+    if (screenWidth >= 1920) return 370
+    if (screenWidth >= 1536) return 330
+    if (screenWidth >= 1280) return 300
+    if (screenWidth >= 1024) return 260
+    if (screenWidth >= 768) return 230
+    if (screenWidth >= 640) return 200
+    return 165
   }
 
   const getLogoWidth = () => {
     if (screenWidth >= 1280) return 48
     if (screenWidth >= 768) return 42
     return 36
+  }
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
@@ -75,8 +82,9 @@ export default function Main() {
       <section
         id="home"
         ref={sectionRef}
-        className={`main-hero-section relative min-h-screen text-white overflow-hidden ${isLoading || !isReady ? 'hero-content-hidden' : 'hero-content-visible'
-          }`}
+        className={`main-hero-section relative min-h-screen text-white overflow-hidden ${
+          isLoading || !isReady ? 'hero-content-hidden' : 'hero-content-visible'
+        }`}
         itemScope
         itemType="https://schema.org/Person"
       >
@@ -89,7 +97,6 @@ export default function Main() {
 
         <div className="hero-tech-grid-bg" />
         <div className="hero-crt-overlay" />
-        <CodeRain />
         <div className="hero-ambient-orb-1" />
         <div className="hero-ambient-orb-2" />
 
@@ -102,6 +109,7 @@ export default function Main() {
           <div className="particle-dot" style={{ left: '88%', opacity: 0.35, animationDuration: '20s', animationDelay: '4s' }} />
         </div>
 
+        {/* Fixed Top Left Logo */}
         <div className="hero-logo-fixed select-none">
           <Image
             src="/image/Logo PEN White.png"
@@ -113,7 +121,9 @@ export default function Main() {
           />
         </div>
 
-        <div className="container max-w-[1140px] mx-auto px-4 flex flex-col items-center justify-center text-center my-auto pt-12 pb-4">
+        {/* Hero Content Container - Shifted Up Slightly */}
+        <div className="container max-w-[1140px] mx-auto px-4 flex flex-col items-center justify-center text-center my-auto pt-4 pb-2">
+          {/* Slightly Smaller 3D Model Container */}
           <div
             className="model-aura-container gsap-fade-up"
             style={{
@@ -126,12 +136,16 @@ export default function Main() {
             </div>
           </div>
 
-          <div className="gsap-fade-up flex flex-col items-center justify-center mb-3">
+          {/* 3 Text Elements with Tight Vertical Spacing */}
+          <div className="gsap-fade-up flex flex-col items-center justify-center">
             <p className="hero-greeting">Hi, I am</p>
             <h2 className="hero-name">Steven Immanuel C. Girsang</h2>
           </div>
 
-          <div className="hero-typed-text gsap-fade-up">
+          <div
+            className="hero-typed-text gsap-fade-up"
+            style={{ marginTop: '14px', marginBottom: '24px' }}
+          >
             <TypedText
               strings={[
                 'I am a Data Scientist',
@@ -142,6 +156,28 @@ export default function Main() {
                 'I like to code',
               ]}
             />
+          </div>
+
+          {/* CTA Action Buttons Below Typewriter */}
+          <div
+            className="hero-action-btns gsap-fade-up flex items-center justify-center flex-wrap"
+            style={{ gap: '24px', marginTop: '24px' }}
+          >
+            <button
+              onClick={() => scrollToSection('projects')}
+              className="btn-hero-project"
+            >
+              <FaFolderOpen className="text-sm" />
+              <span>Project</span>
+            </button>
+
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="btn-hero-contact"
+            >
+              <FaEnvelope className="text-sm" />
+              <span>Contact Me</span>
+            </button>
           </div>
         </div>
       </section>

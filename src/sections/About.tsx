@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
+import GithubContributions from '@/components/GithubContributions'
 import { useInView } from 'react-intersection-observer'
 import gsap from 'gsap'
 import '@/styles/aboutOutline.css'
@@ -33,6 +34,7 @@ const About = () => {
 
     const profileCard = sectionRef.current.querySelector('.profile-card')
     const passionCard = sectionRef.current.querySelector('.passion-card')
+    const githubCard = sectionRef.current.querySelector('.github-card')
     const interestsCard = sectionRef.current.querySelector('.interests-card')
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
@@ -54,6 +56,15 @@ const About = () => {
       )
     }
 
+    if (githubCard) {
+      tl.fromTo(
+        githubCard,
+        { opacity: 0, scale: 0.9, y: 35 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(1.2)' },
+        '-=0.6'
+      )
+    }
+
     if (interestsCard) {
       tl.fromTo(
         interestsCard,
@@ -65,16 +76,15 @@ const About = () => {
   }, [inView])
 
   const getTitleSize = () => {
-    if (screenWidth >= 2560) return '80px'
-    if (screenWidth >= 1920) return '75px'
-    if (screenWidth >= 1536) return '70px'
-    if (screenWidth >= 1280) return '65px'
-    if (screenWidth >= 1024) return '58px'
-    if (screenWidth >= 800) return '48px'
-    if (screenWidth >= 768) return '45px'
-    if (screenWidth >= 640) return '40px'
-    if (screenWidth >= 414) return '34px'
-    return '30px'
+    if (screenWidth >= 2560) return '110px'
+    if (screenWidth >= 1920) return '90px'
+    if (screenWidth >= 1536) return '76px'
+    if (screenWidth >= 1280) return '68px'
+    if (screenWidth >= 1024) return '60px'
+    if (screenWidth >= 768) return '52px'
+    if (screenWidth >= 425) return '42px'
+    if (screenWidth >= 375) return '38px'
+    return '34px'
   }
 
   const getTitleMargin = () => {
@@ -181,24 +191,30 @@ const About = () => {
               </div>
             </div>
 
-            {/* CARD 3: Interests & Fun Fact */}
-            <div className="bento-card interests-card">
-              <div>
-                <h3 className="card-section-title">
-                  <span style={{ fontSize: '1rem' }}>♾️</span>
-                  <span>INTERESTS & FUN FACT</span>
-                </h3>
-                <p className="interests-desc">
-                  Outside tech, I enjoy gaming, listening to music, watching movies, photography, and video editing.
-                </p>
-              </div>
+            {/* BOTTOM ROW: GitHub Contributions (Left) & Interests (Right) */}
+            <div className="about-bottom-row">
+              {/* CARD 3: GitHub Contributions */}
+              <GithubContributions username="StevChrist" />
 
-              <div>
-                <div className="fun-fact-divider"></div>
-                <p className="fun-fact-text">
-                  <span style={{ fontStyle: 'normal', marginRight: '6px' }}>💡</span>
-                  <strong className="fun-fact-title">Fun fact:</strong> I can sleep over 13 hours & love deep focus music playlists!
-                </p>
+              {/* CARD 4: Interests & Fun Fact */}
+              <div className="bento-card interests-card">
+                <div>
+                  <h3 className="card-section-title">
+                    <span style={{ fontSize: '1rem', display: 'inline-flex', alignItems: 'center', lineHeight: 1 }}>♾️</span>
+                    <span>INTERESTS & FUN FACT</span>
+                  </h3>
+                  <p className="interests-desc">
+                    Outside tech, I enjoy gaming, listening to music, watching movies, photography, and video editing.
+                  </p>
+                </div>
+
+                <div>
+                  <div className="fun-fact-divider"></div>
+                  <p className="fun-fact-text">
+                    <span style={{ fontStyle: 'normal', marginRight: '6px' }}>💡</span>
+                    <strong className="fun-fact-title">Fun fact:</strong> I can sleep over 13 hours & love deep focus music playlists!
+                  </p>
+                </div>
               </div>
             </div>
           </div>

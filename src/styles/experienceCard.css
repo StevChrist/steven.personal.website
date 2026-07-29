@@ -6,19 +6,46 @@
   margin: 0 auto;
 }
 
+@media (min-width: 2560px) {
+  .experience-container {
+    max-width: 1800px;
+  }
+}
+
 /* Glassmorphism Card Container */
 .experience-card {
   background-color: rgba(8, 16, 36, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid #16274a;
-  border-radius: 28px;
-  padding: 34px 38px;
+  border-radius: 20px;
+  padding: 20px 22px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
               border-color 0.3s ease,
               box-shadow 0.35s ease;
   will-change: transform, opacity;
+}
+
+@media (min-width: 640px) {
+  .experience-card {
+    padding: 28px 32px;
+    border-radius: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .experience-card {
+    padding: 34px 38px;
+    border-radius: 28px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .experience-card {
+    padding: 50px 60px;
+    border-radius: 40px;
+  }
 }
 
 .experience-card:hover {
@@ -32,30 +59,67 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
+}
+
+@media (min-width: 2560px) {
+  .exp-header-row {
+    margin-bottom: 24px;
+  }
 }
 
 .exp-company-group {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .exp-company-group {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .exp-company-group {
+    gap: 24px;
+  }
 }
 
 .exp-icon-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
   background-color: #0a233c;
   border: 1px solid rgba(0, 180, 216, 0.35);
   color: #00b4d8;
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   flex-shrink: 0;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .exp-icon-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    font-size: 1.35rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .exp-icon-badge {
+    width: 80px;
+    height: 80px;
+    border-radius: 28px;
+    font-size: 2.2rem;
+    border-width: 2px;
+  }
 }
 
 .experience-card:hover .exp-icon-badge {
@@ -64,14 +128,26 @@
 }
 
 .exp-company-name {
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0 0 2px 0;
 }
 
+@media (min-width: 640px) {
+  .exp-company-name {
+    font-size: 1.4rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .exp-company-name {
+    font-size: 2.2rem;
+  }
+}
+
 .exp-location {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: #94a3b8;
   margin: 0;
   display: flex;
@@ -79,108 +155,176 @@
   gap: 6px;
 }
 
+@media (min-width: 640px) {
+  .exp-location {
+    font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .exp-location {
+    font-size: 1.35rem;
+  }
+}
+
 .exp-date-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 18px;
+  gap: 6px;
+  padding: 5px 14px;
   border-radius: 50px;
   background-color: #0a233c;
   border: 1px solid rgba(0, 180, 216, 0.35);
   color: #00b4d8;
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   font-weight: 600;
   box-shadow: 0 0 12px rgba(0, 180, 216, 0.15);
 }
 
+@media (min-width: 640px) {
+  .exp-date-badge {
+    padding: 7px 18px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .exp-date-badge {
+    padding: 12px 28px;
+    font-size: 1.35rem;
+  }
+}
+
 .exp-role-title {
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #00b4d8;
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
+}
+
+@media (min-width: 640px) {
+  .exp-role-title {
+    font-size: 1.15rem;
+    margin-bottom: 16px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .exp-role-title {
+    font-size: 1.7rem;
+    margin-bottom: 24px;
+  }
 }
 
 .exp-divider {
   width: 100%;
-  border-top: 1px solid #122140;
-  margin: 16px 0 22px 0;
+  border-top: 1px solid #142544;
+  margin-bottom: 14px;
 }
 
-/* Bullet Items with Checkmarks & Hover Scale Effect */
+@media (min-width: 2560px) {
+  .exp-divider {
+    margin-bottom: 24px;
+  }
+}
+
+/* Bullets List */
 .exp-bullets-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 26px 0;
+  margin: 0 0 18px 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+}
+
+@media (min-width: 2560px) {
+  .exp-bullets-list {
+    gap: 18px;
+    margin-bottom: 32px;
+  }
 }
 
 .exp-bullet-item {
-  font-size: 0.94rem;
+  font-size: 0.82rem;
   color: #cbd5e1;
-  line-height: 1.6;
+  line-height: 1.5;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 4px 6px;
-  border-radius: 8px;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  cursor: default;
+  gap: 10px;
 }
 
-.exp-bullet-item:hover {
-  transform: translateX(8px) scale(1.025);
-  color: #ffffff;
-  background-color: rgba(0, 180, 216, 0.08);
+@media (min-width: 640px) {
+  .exp-bullet-item {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
 }
 
-.exp-check-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #0088ff 0%, #00b4d8 100%);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.72rem;
-  font-weight: 900;
+@media (min-width: 2560px) {
+  .exp-bullet-item {
+    font-size: 1.4rem;
+    line-height: 1.7;
+    gap: 16px;
+  }
+}
+
+.exp-bullet-icon {
+  color: #00b4d8;
+  font-size: 0.85rem;
   flex-shrink: 0;
   margin-top: 2px;
-  box-shadow: 0 0 12px rgba(0, 136, 255, 0.6);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.exp-bullet-item:hover .exp-check-icon {
-  transform: scale(1.3) rotate(12deg);
-  box-shadow: 0 0 18px rgba(0, 180, 216, 0.85);
+@media (min-width: 2560px) {
+  .exp-bullet-icon {
+    font-size: 1.3rem;
+  }
 }
 
-/* Tech Tags Pills with Scale & Glow Hover */
+/* Tech Tags Row */
 .exp-tags-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
+@media (min-width: 2560px) {
+  .exp-tags-row {
+    gap: 14px;
+  }
+}
+
 .exp-tag-pill {
-  padding: 6px 16px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
   border-radius: 50px;
-  background-color: #0a233c;
-  border: 1px solid rgba(0, 180, 216, 0.3);
-  color: #00b4d8;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background-color: #07152b;
+  border: 1px solid #182e56;
+  color: #94a3b8;
+  font-size: 0.74rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+@media (min-width: 640px) {
+  .exp-tag-pill {
+    padding: 5px 14px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .exp-tag-pill {
+    padding: 8px 20px;
+    font-size: 1.2rem;
+  }
 }
 
 .exp-tag-pill:hover {
-  border-color: transparent;
-  background: linear-gradient(135deg, #0088ff 0%, #00b4d8 100%);
+  border-color: #00b4d8;
   color: #ffffff;
-  transform: translateY(-3px) scale(1.08);
-  box-shadow: 0 0 22px rgba(0, 180, 216, 0.7);
+  background-color: #0a233c;
 }

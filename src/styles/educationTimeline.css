@@ -11,7 +11,14 @@
   align-items: center;
 }
 
-/* Center vertical line - FIXED AT STRICT Z-INDEX 1 (ALWAYS BEHIND TIMELINE ITEMS & DOTS) */
+@media (min-width: 2560px) {
+  .education-timeline-wrapper {
+    max-width: 1800px;
+    padding: 20px 0;
+  }
+}
+
+/* Center vertical line */
 .timeline-center-line {
   position: absolute;
   top: 0;
@@ -30,7 +37,13 @@
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
 }
 
-/* Continuous Light Pulse Beam Moving Top to Bottom (STRICTLY Z-INDEX 1 BEHIND DOTS) */
+@media (min-width: 2560px) {
+  .timeline-center-line {
+    width: 6px;
+  }
+}
+
+/* Continuous Light Pulse Beam Moving Top to Bottom */
 .timeline-center-line::after {
   content: '';
   position: absolute;
@@ -58,7 +71,7 @@
   }
 }
 
-/* Timeline Item Container - STRICT Z-INDEX 5 (HIGHER THAN LINE Z-INDEX 1) */
+/* Timeline Item Container */
 .timeline-item {
   position: relative;
   z-index: 5 !important;
@@ -70,11 +83,17 @@
   will-change: opacity, transform;
 }
 
+@media (min-width: 2560px) {
+  .timeline-item {
+    margin-bottom: 60px;
+  }
+}
+
 .timeline-item:last-child {
   margin-bottom: 0;
 }
 
-/* 100% Solid Opaque Node Circle - STRICT Z-INDEX 20 (ALWAYS ON TOP OF LINE) */
+/* Node Circle */
 .timeline-node {
   position: absolute;
   left: 50%;
@@ -91,7 +110,15 @@
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
 
-/* Inner High-Tech Core Dot */
+@media (min-width: 2560px) {
+  .timeline-node {
+    width: 36px;
+    height: 36px;
+    border-width: 5px;
+  }
+}
+
+/* Inner Core Dot */
 .timeline-node::before {
   content: '';
   position: absolute;
@@ -104,6 +131,13 @@
   background: #00b4d8;
   box-shadow: 0 0 10px #00b4d8;
   z-index: 21 !important;
+}
+
+@media (min-width: 2560px) {
+  .timeline-node::before {
+    width: 12px;
+    height: 12px;
+  }
 }
 
 .timeline-item:hover .timeline-node {
@@ -130,6 +164,15 @@
   box-sizing: border-box;
 }
 
+@media (min-width: 2560px) {
+  .timeline-left-col {
+    padding-right: 50px;
+  }
+  .timeline-right-col {
+    padding-left: 50px;
+  }
+}
+
 .timeline-card-wrapper {
   width: 100%;
   max-width: 100%;
@@ -139,43 +182,42 @@
 @media (max-width: 768px) {
   .timeline-item {
     display: block;
+    margin-bottom: 28px;
   }
 
   .timeline-center-line {
-    left: 20px;
+    left: 18px;
     transform: none;
   }
 
   .timeline-node {
-    left: 20px;
+    left: 18px;
+    top: 28px;
     transform: translate(-50%, -50%);
   }
 
   .timeline-item:hover .timeline-node {
-    transform: translate(-50%, -50%) scale(1.25);
+    transform: translate(-50%, -50%) scale(1.2);
   }
 
   .timeline-left-col,
   .timeline-right-col {
     grid-column: 1;
     width: 100%;
-    padding-left: 54px;
+    padding-left: 44px;
     padding-right: 0;
     justify-content: flex-start;
   }
 }
 
-/* ==========================================================================
-   Restored Original Left-Aligned Education Card Style
-   ========================================================================== */
-
+/* Card Style */
 .edu-card {
   background-color: rgba(8, 16, 36, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid #16274a;
   border-radius: 22px;
-  padding: 24px 28px;
+  padding: 18px 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
   display: flex;
   flex-direction: column;
@@ -188,55 +230,108 @@
   box-sizing: border-box;
 }
 
+@media (min-width: 640px) {
+  .edu-card {
+    padding: 22px 26px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .edu-card {
+    padding: 24px 28px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .edu-card {
+    padding: 40px 48px;
+    border-radius: 36px;
+  }
+}
+
 .edu-card:hover {
   transform: translateY(-6px) scale(1.015);
   border-color: #00b4d8;
   box-shadow: 0 20px 50px rgba(0, 180, 216, 0.28), 0 0 25px rgba(0, 136, 255, 0.22);
 }
 
-/* Header Row: Date & GPA Badge Left Aligned */
+/* Header Row: Date & GPA Badge */
 .edu-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   width: 100%;
+}
+
+@media (min-width: 2560px) {
+  .edu-header {
+    margin-bottom: 20px;
+  }
 }
 
 .edu-date {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: #00b4d8;
   font-weight: 700;
   background-color: #0a233c;
-  padding: 5px 14px;
+  padding: 4px 12px;
   border-radius: 50px;
   border: 1px solid rgba(0, 180, 216, 0.35);
+}
+
+@media (min-width: 768px) {
+  .edu-date {
+    font-size: 0.82rem;
+    padding: 5px 14px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .edu-date {
+    font-size: 1.25rem;
+    padding: 10px 24px;
+  }
 }
 
 .gpa-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: #ffffff;
   font-weight: 700;
   background: linear-gradient(135deg, #0088ff 0%, #00b4d8 100%);
-  padding: 5px 14px;
+  padding: 4px 12px;
   border-radius: 50px;
   box-shadow: 0 0 16px rgba(0, 136, 255, 0.5);
 }
 
-/* School Name & Location Left Aligned */
+@media (min-width: 768px) {
+  .gpa-badge {
+    font-size: 0.82rem;
+    padding: 5px 14px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .gpa-badge {
+    font-size: 1.25rem;
+    padding: 10px 24px;
+  }
+}
+
+/* School Name & Location */
 .edu-school {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: #ffffff;
-  margin: 0 0 6px 0;
+  margin: 0 0 4px 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -245,10 +340,24 @@
   text-align: left;
 }
 
+@media (min-width: 640px) {
+  .edu-school {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .edu-school {
+    font-size: 1.85rem;
+    margin-bottom: 12px;
+  }
+}
+
 .edu-location {
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   color: #94a3b8;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -256,23 +365,57 @@
   text-align: left;
 }
 
-/* Degree Title Left Aligned */
+@media (min-width: 640px) {
+  .edu-location {
+    font-size: 0.84rem;
+    margin-bottom: 12px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .edu-location {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+}
+
+/* Degree Title */
 .edu-major {
-  font-size: 1.02rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #00b4d8;
-  margin: 0 0 14px 0;
+  margin: 0 0 12px 0;
   text-align: left;
   width: 100%;
+}
+
+@media (min-width: 640px) {
+  .edu-major {
+    font-size: 1.02rem;
+    margin-bottom: 14px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .edu-major {
+    font-size: 1.5rem;
+    margin-bottom: 22px;
+  }
 }
 
 .edu-divider {
   width: 100%;
   border-top: 1px solid #122140;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
-/* Bullets List Left Aligned */
+@media (min-width: 2560px) {
+  .edu-divider {
+    margin-bottom: 20px;
+  }
+}
+
+/* Bullets List */
 .edu-bullets {
   list-style: none;
   padding: 0;
@@ -284,10 +427,16 @@
   width: 100%;
 }
 
+@media (min-width: 2560px) {
+  .edu-bullets {
+    gap: 14px;
+  }
+}
+
 .edu-bullet-item {
-  font-size: 0.86rem;
+  font-size: 0.8rem;
   color: #cbd5e1;
-  line-height: 1.55;
+  line-height: 1.5;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -295,9 +444,29 @@
   text-align: left;
 }
 
+@media (min-width: 640px) {
+  .edu-bullet-item {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+}
+
+@media (min-width: 2560px) {
+  .edu-bullet-item {
+    font-size: 1.35rem;
+    line-height: 1.65;
+  }
+}
+
 .edu-bullet-dot {
   color: #00b4d8;
   font-size: 0.85rem;
   flex-shrink: 0;
   margin-top: 1px;
+}
+
+@media (min-width: 2560px) {
+  .edu-bullet-dot {
+    font-size: 1.2rem;
+  }
 }

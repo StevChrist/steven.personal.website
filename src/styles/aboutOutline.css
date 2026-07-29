@@ -3,7 +3,8 @@
 /* Hide bento cards initially for GSAP timeline */
 .profile-card,
 .passion-card,
-.interests-card {
+.interests-card,
+.github-card {
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -21,14 +22,33 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 20px;
 }
 
 @media (min-width: 1024px) {
   .about-bento-grid {
-    grid-template-columns: 360px 1fr;
+    grid-template-columns: 330px 1fr;
     gap: 24px;
     align-items: stretch;
+  }
+}
+
+@media (min-width: 1440px) {
+  .about-bento-grid {
+    grid-template-columns: 360px 1fr;
+    gap: 28px;
+  }
+}
+
+/* 4K Ultra-Wide Screen Scaling (2560px+) */
+@media (min-width: 2560px) {
+  .about-bento-container {
+    max-width: 1800px;
+  }
+
+  .about-bento-grid {
+    grid-template-columns: 500px 1fr;
+    gap: 40px;
   }
 }
 
@@ -69,11 +89,34 @@
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 420px;
+  min-height: 300px;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(0, 180, 216, 0.4);
   box-shadow: 0 0 20px rgba(0, 180, 216, 0.2);
+}
+
+@media (min-width: 768px) {
+  .profile-image-wrapper {
+    min-height: 380px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-image-wrapper {
+    min-height: 420px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .profile-card {
+    padding: 24px;
+    border-radius: 36px;
+  }
+  .profile-image-wrapper {
+    min-height: 600px;
+    border-radius: 28px;
+  }
 }
 
 .profile-image-wrapper img {
@@ -101,14 +144,20 @@
 .right-column {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   justify-content: space-between;
   height: 100%;
 }
 
+@media (min-width: 2560px) {
+  .right-column {
+    gap: 40px;
+  }
+}
+
 /* Top-Right Card (Background & Passion) */
 .passion-card {
-  padding: 28px 32px;
+  padding: 20px 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -116,33 +165,93 @@
   box-sizing: border-box;
 }
 
+@media (min-width: 640px) {
+  .passion-card {
+    padding: 24px 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .passion-card {
+    padding: 28px 32px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .passion-card {
+    padding: 44px 50px;
+    border-radius: 36px;
+  }
+}
+
 .badge-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: 50px;
   background-color: #0a233c;
   border: 1px solid rgba(0, 180, 216, 0.35);
   color: #00b4d8;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
   width: fit-content;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
+}
+
+@media (min-width: 768px) {
+  .badge-pill {
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    margin-bottom: 18px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .badge-pill {
+    padding: 10px 24px;
+    font-size: 1.2rem;
+    margin-bottom: 28px;
+  }
 }
 
 .passion-text-p1 {
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: #cbd5e1;
-  line-height: 1.65;
-  margin: 0 0 14px 0;
+  line-height: 1.55;
+  margin: 0 0 10px 0;
 }
 
 .passion-text-p2 {
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: #cbd5e1;
-  line-height: 1.65;
+  line-height: 1.55;
   margin: 0;
+}
+
+@media (min-width: 640px) {
+  .passion-text-p1,
+  .passion-text-p2 {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+}
+
+@media (min-width: 1024px) {
+  .passion-text-p1,
+  .passion-text-p2 {
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+}
+
+@media (min-width: 2560px) {
+  .passion-text-p1,
+  .passion-text-p2 {
+    font-size: 1.45rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
 }
 
 .passion-text-bold-white {
@@ -155,100 +264,282 @@
   font-weight: 700;
 }
 
+/* Bottom CTA & Status Bar inside Passion Card */
 .passion-bottom-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-top: 24px;
-  padding-top: 18px;
-  border-top: 1px solid #122140;
   flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #142544;
+}
+
+@media (min-width: 2560px) {
+  .passion-bottom-bar {
+    margin-top: 32px;
+    padding-top: 24px;
+  }
 }
 
 .ready-text {
-  font-style: italic;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: #94a3b8;
-  font-weight: 300;
+  font-style: italic;
 }
 
+@media (min-width: 768px) {
+  .ready-text {
+    font-size: 0.83rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .ready-text {
+    font-size: 1.25rem;
+  }
+}
+
+/* View Full CV Button */
 .btn-cv {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  padding: 10px 22px;
+  padding: 9px 20px;
   border-radius: 50px;
   background: linear-gradient(135deg, #0088ff 0%, #00b4d8 100%);
   color: #ffffff;
-  font-weight: 700;
-  font-size: 0.78rem;
+  font-weight: 800;
+  font-size: 0.76rem;
   letter-spacing: 0.8px;
-  text-transform: uppercase;
   border: none;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(0, 136, 255, 0.45);
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  box-shadow: 0 0 20px rgba(0, 136, 255, 0.55);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .btn-cv {
+    padding: 10px 24px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .btn-cv {
+    padding: 16px 36px;
+    font-size: 1.2rem;
+    border-radius: 60px;
+    box-shadow: 0 0 35px rgba(0, 136, 255, 0.7);
+  }
 }
 
 .btn-cv:hover {
-  box-shadow: 0 0 28px rgba(0, 136, 255, 0.75);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 0 30px rgba(0, 180, 216, 0.85);
 }
 
 .btn-cv-icon {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   fill: currentColor;
-  flex-shrink: 0;
 }
 
-/* Interests Card */
+@media (min-width: 2560px) {
+  .btn-cv-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Bottom-Right Card (Interests & Fun Fact) */
 .interests-card {
-  padding: 26px 32px;
+  padding: 20px 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
 }
 
+@media (min-width: 640px) {
+  .interests-card {
+    padding: 24px 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .interests-card {
+    padding: 24px 32px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .interests-card {
+    padding: 44px 50px;
+    border-radius: 36px;
+  }
+}
+
 .card-section-title {
   font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 1.2px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
   color: #00b4d8;
-  text-transform: uppercase;
-  margin: 0 0 16px 0;
+  margin: 0 0 10px 0;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .card-section-title {
+    font-size: 0.82rem;
+    margin-bottom: 12px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .card-section-title {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
 }
 
 .interests-desc {
-  font-size: 0.92rem;
+  font-size: 0.85rem;
   color: #cbd5e1;
-  line-height: 1.6;
-  margin: 0 0 12px 0;
+  line-height: 1.55;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .interests-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+@media (min-width: 2560px) {
+  .interests-desc {
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
 }
 
 .fun-fact-divider {
   width: 100%;
-  border-top: 1px solid #122140;
-  margin: 12px 0;
+  border-top: 1px solid #142544;
+  margin: 14px 0;
+}
+
+@media (min-width: 2560px) {
+  .fun-fact-divider {
+    margin: 24px 0;
+  }
 }
 
 .fun-fact-text {
-  font-size: 0.86rem;
-  font-style: italic;
-  color: #cbd5e1;
+  font-size: 0.82rem;
+  color: #94a3b8;
   line-height: 1.5;
   margin: 0;
 }
 
+@media (min-width: 640px) {
+  .fun-fact-text {
+    font-size: 0.88rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .fun-fact-text {
+    font-size: 1.3rem;
+    line-height: 1.6;
+  }
+}
+
 .fun-fact-title {
-  font-weight: 600;
-  color: #e2e8f0;
-  margin-right: 4px;
+  color: #00b4d8;
+  font-weight: 700;
+}
+
+/* Bottom Row Grid (GitHub & Interests side-by-side) */
+.about-bottom-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .about-bottom-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .about-bottom-row {
+    gap: 40px;
+  }
+}
+
+/* GitHub Card Styling */
+.github-card {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+@media (min-width: 640px) {
+  .github-card {
+    padding: 24px 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .github-card {
+    padding: 24px 28px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .github-card {
+    padding: 44px 50px;
+    border-radius: 36px;
+  }
+}
+
+/* Live Indicator Radar Pulse Animation */
+@keyframes liveDotPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(57, 211, 83, 0.85);
+    transform: scale(0.95);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(57, 211, 83, 0);
+    transform: scale(1.08);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(57, 211, 83, 0);
+    transform: scale(0.95);
+  }
+}
+
+.live-green-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #39d353;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  margin-right: 7px;
+  animation: liveDotPulse 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }

@@ -445,16 +445,15 @@ const Project = () => {
   ]
 
   const getTitleSize = () => {
-    if (screenWidth >= 2560) return '80px'
-    if (screenWidth >= 1920) return '75px'
-    if (screenWidth >= 1536) return '70px'
-    if (screenWidth >= 1280) return '65px'
-    if (screenWidth >= 1024) return '58px'
-    if (screenWidth >= 800) return '48px'
-    if (screenWidth >= 768) return '45px'
-    if (screenWidth >= 640) return '40px'
-    if (screenWidth >= 414) return '34px'
-    return '30px'
+    if (screenWidth >= 2560) return '110px'
+    if (screenWidth >= 1920) return '90px'
+    if (screenWidth >= 1536) return '76px'
+    if (screenWidth >= 1280) return '68px'
+    if (screenWidth >= 1024) return '60px'
+    if (screenWidth >= 768) return '52px'
+    if (screenWidth >= 425) return '42px'
+    if (screenWidth >= 375) return '38px'
+    return '34px'
   }
 
   const getTitleMargin = () => {
