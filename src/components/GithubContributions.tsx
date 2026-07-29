@@ -23,7 +23,7 @@ export default function GithubContributions({ username = 'StevChrist' }: GithubC
   } | null>(null)
 
   // Get current month date properties dynamically
-  const { currentYear, monthName, daysInMonth, cols, currentYearMonth } = useMemo(() => {
+  const { monthName, daysInMonth, cols, currentYearMonth } = useMemo(() => {
     const now = new Date()
     const year = now.getFullYear()
     const monthIndex = now.getMonth() // 0 - 11
@@ -33,8 +33,6 @@ export default function GithubContributions({ username = 'StevChrist' }: GithubC
     const yearMonth = `${year}-${String(monthIndex + 1).padStart(2, '0')}`
 
     return {
-      currentYear: year,
-      currentMonthIndex: monthIndex,
       monthName: mName,
       daysInMonth: totalDays,
       cols: columns,
