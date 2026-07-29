@@ -11,12 +11,10 @@ function Model() {
   const modelRef = useRef<THREE.Group>(null)
   const { mouse } = useThree()
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     if (modelRef.current) {
-      const time = clock.getElapsedTime()
-
-      // Idle animation & rotation based on mouse X
       modelRef.current.position.y = -1
+
       const targetYRotation = mouse.x * 0.5
       modelRef.current.rotation.y = THREE.MathUtils.lerp(
         modelRef.current.rotation.y,

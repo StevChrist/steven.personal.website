@@ -111,13 +111,6 @@ const Contact = () => {
     return '34px'
   }
 
-  const getTitleMargin = () => {
-    if (screenWidth >= 1280) return '20px'
-    if (screenWidth >= 1024) return '16px'
-    if (screenWidth >= 768) return '14px'
-    return '10px'
-  }
-
   return (
     <section
       ref={(el) => {
