@@ -185,11 +185,6 @@ const UiUxCard = ({
     setActiveImgIndex((prev) => (prev + 1) % project.images.length)
   }
 
-  const prevImage = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setActiveImgIndex((prev) => (prev - 1 + project.images.length) % project.images.length)
-  }
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 25 }}
