@@ -83,9 +83,8 @@ export default function Main() {
       <section
         id="home"
         ref={sectionRef}
-        className={`main-hero-section relative min-h-screen text-white overflow-hidden flex flex-col justify-center ${
-          isLoading || !isReady ? 'hero-content-hidden' : 'hero-content-visible'
-        }`}
+        className={`main-hero-section relative min-h-screen text-white overflow-hidden flex flex-col justify-center ${isLoading || !isReady ? 'hero-content-hidden' : 'hero-content-visible'
+          }`}
         itemScope
         itemType="https://schema.org/Person"
       >
@@ -116,10 +115,10 @@ export default function Main() {
 
         {/* Modern 2-Column Split Hero Layout */}
         <div className="hero-split-container w-full max-w-[1280px] mx-auto px-6 md:px-12 py-10 my-auto relative z-20">
-          
+
           {/* Left Column: Equalized Spacing with Single Line Name */}
           <div className="hero-split-left flex flex-col items-center md:items-start text-center md:text-left">
-            
+
             <p className="hero-greeting mb-1">Hi, I am</p>
 
             <h2 className="hero-name whitespace-nowrap mb-1">Steven Immanuel C. Girsang</h2>
@@ -128,12 +127,16 @@ export default function Main() {
             <div className="hero-typed-text mb-4">
               <TypedText
                 strings={[
-                  'I am a Data Scientist',
-                  'I am a Graphic Designer',
-                  'I am a Video Editor and Animation',
-                  'I am a sleep lover',
-                  'I am a music listener',
-                  'I like to code',
+                  'I am a Data Scientist 👨‍💻',
+                  'I build AI-Powered Applications 🤖',
+                  'I am a Data Engineer ⚙️',
+                  'I develop Machine Learning Models 🧠',
+                  'I build End-to-End Solutions 🚀',
+                  'I transform Data into Insights 📊',
+                  'I write Python Code 🐍',
+                  'I solve Real-World Problems 💡',
+                  'I am Always Learning 📚',
+                  'I love Listening to Music 🎧',
                 ]}
               />
             </div>
@@ -162,7 +165,7 @@ export default function Main() {
 
           {/* Right Column: 3D Model Showcase Deck (Center Right) */}
           <div className="hero-split-right">
-            
+
             <div className="hero-3d-showcase-container">
               {/* Circular Orbit Ring Line */}
               <div className="hero-orbit-ring-ref" />
