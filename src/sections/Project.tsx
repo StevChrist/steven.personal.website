@@ -300,6 +300,7 @@ const Project = () => {
 
   const filterTabs: FilterTab[] = [
     { id: 'code', label: 'Code', icon: '💻' },
+    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'uiux', label: 'Web Design & UI/UX', icon: '📐' },
     { id: 'art', label: 'Art & Graphic Design', icon: '🎨' },
   ]
@@ -626,6 +627,47 @@ const Project = () => {
                     </motion.div>
                   ))}
                 </div>
+              </motion.div>
+            )}
+
+            {/* TAB: DASHBOARD */}
+            {activeTab === 'dashboard' && (
+              <motion.div
+                key="dashboard-grid"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.3 }}
+                className="w-full flex justify-center py-4"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ amount: 0.1, once: false }}
+                  transition={{ duration: 0.55, ease: 'easeOut' }}
+                  className="dashboard-tab-card"
+                >
+                  <div className="dashboard-status-pill">
+                    <span className="pulse-dot-green" />
+                    <span>DEVELOPMENT IN PROGRESS</span>
+                  </div>
+
+                  <h3 className="dashboard-card-title">
+                    Analytics & Business Intelligence Dashboards
+                  </h3>
+
+                  <p className="dashboard-card-desc">
+                    High-impact interactive dashboards, data warehousing models, real-time metrics tracking, and automated business intelligence visualizations are currently being prepared for deployment.
+                  </p>
+
+                  <div className="dashboard-tech-tags">
+                    <span className="dashboard-tech-pill">📊 Power BI</span>
+                    <span className="dashboard-tech-pill">📈 Tableau</span>
+                    <span className="dashboard-tech-pill">🐍 Python Streamlit</span>
+                    <span className="dashboard-tech-pill">⚡ Real-Time Analytics</span>
+                    <span className="dashboard-tech-pill">📦 Big Data BI</span>
+                  </div>
+                </motion.div>
               </motion.div>
             )}
 

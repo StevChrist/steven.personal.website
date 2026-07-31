@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { useScrollAnimations } from '@/hooks/useScrollAnimations'
 import TypedText from '@/components/TypedText'
@@ -8,11 +8,33 @@ import ModelViewer from '@/components/ModelViewer'
 import { FaFolderOpen, FaEnvelope, FaArrowRight, FaPython, FaBrain, FaCode, FaChartBar } from 'react-icons/fa'
 import '@/styles/mainHero.css'
 
+const HERO_TYPED_STRINGS = [
+  'I am a Data Scientist 👨‍💻',
+  'I build AI-Powered Applications 🤖',
+  'I am a Data Engineer ⚙️',
+  'I develop Machine Learning Models 🧠',
+  'I build End-to-End Solutions 🚀',
+  'I transform Data into Insights 📊',
+  'I write Python Code 🐍',
+  'I solve Real-World Problems 💡',
+  'I am Always Learning 📚',
+  'I love Listening to Music 🎧',
+]
+
 export default function Main() {
   const sectionRef = useRef<HTMLDivElement | null>(null)
   const [screenWidth, setScreenWidth] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [isReady, setIsReady] = useState(false)
+
+  const [isHeadlineGlitching, setIsHeadlineGlitching] = useState(false)
+
+  const triggerHeadlineGlitch = useCallback(() => {
+    setIsHeadlineGlitching(true)
+    setTimeout(() => {
+      setIsHeadlineGlitching(false)
+    }, 450)
+  }, [])
 
   useScrollAnimations(sectionRef)
 
@@ -119,25 +141,15 @@ export default function Main() {
           {/* Left Column: Equalized Spacing with Single Line Name */}
           <div className="hero-split-left flex flex-col items-center md:items-start text-center md:text-left">
 
-            <p className="hero-greeting mb-1">Hi, I am</p>
+            <p className={`hero-greeting mb-1 ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}>Hi, I am</p>
 
-            <h2 className="hero-name whitespace-nowrap mb-1">Steven Immanuel C. Girsang</h2>
+            <h2 className={`hero-name whitespace-nowrap mb-1 ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}>Steven Immanuel C. Girsang</h2>
 
             {/* Typewriter Text (Tight Vertical Spacing) */}
-            <div className="hero-typed-text mb-4">
+            <div className={`hero-typed-text mb-4 ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}>
               <TypedText
-                strings={[
-                  'I am a Data Scientist 👨‍💻',
-                  'I build AI-Powered Applications 🤖',
-                  'I am a Data Engineer ⚙️',
-                  'I develop Machine Learning Models 🧠',
-                  'I build End-to-End Solutions 🚀',
-                  'I transform Data into Insights 📊',
-                  'I write Python Code 🐍',
-                  'I solve Real-World Problems 💡',
-                  'I am Always Learning 📚',
-                  'I love Listening to Music 🎧',
-                ]}
+                onStringTyped={triggerHeadlineGlitch}
+                strings={HERO_TYPED_STRINGS}
               />
             </div>
 
@@ -196,14 +208,14 @@ export default function Main() {
 
               {/* 3D Model Avatar in Center */}
               <div
-                className="model-aura-container relative z-20"
+                className={`model-aura-container relative z-20 ${isHeadlineGlitching ? 'glitch-error-active-model' : ''}`}
                 style={{
                   width: `${getModelSize()}px`,
                   height: `${getModelSize()}px`,
                 }}
               >
                 <div className="w-full h-full relative z-10">
-                  <ModelViewer />
+                  <ModelViewer isGlitching={isHeadlineGlitching} />
                 </div>
               </div>
             </div>

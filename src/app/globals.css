@@ -131,45 +131,61 @@ body {
   }
 }
 
-/* Global Floating Rise Particle Animation */
-@keyframes floatingRise {
+/* Website-wide Floating Particles Layer (BEHIND content at z-index 1) */
+.global-particles-layer {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  overflow: hidden !important;
+}
+
+/* Ensure all section content, cards, buttons, text, and images sit above background floating particles */
+section,
+header,
+footer,
+.contact-card,
+.contact-container,
+.bento-card,
+.proj-card,
+.exp-card,
+.skill-card,
+.timeline-item,
+.hero-split-container {
+  position: relative;
+  z-index: 10;
+}
+
+.global-particle-dot {
+  position: absolute !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  will-change: transform, opacity;
+  animation-name: globalParticleFloat;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes globalParticleFloat {
   0% {
-    transform: translateY(105vh) translateX(0) scale(0.5);
+    transform: translateY(105vh) translateX(0) scale(0.6);
     opacity: 0;
   }
   15% {
-    opacity: 0.85;
+    opacity: 0.9;
   }
   50% {
-    transform: translateY(50vh) translateX(30px) scale(1.1);
-    opacity: 0.7;
+    transform: translateY(50vh) translateX(25px) scale(1.2);
+    opacity: 0.85;
   }
   85% {
-    opacity: 0.85;
-  }
-  100% {
-    transform: translateY(-10vh) translateX(-25px) scale(0.5);
-    opacity: 0;
-  }
-}
-
-@keyframes floatingRiseContinuous {
-  0% {
-    transform: translateY(0) translateX(0) scale(0.7);
-    opacity: 0.2;
-  }
-  20% {
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(-50vh) translateX(30px) scale(1.15);
-    opacity: 0.85;
-  }
-  80% {
     opacity: 0.9;
   }
   100% {
-    transform: translateY(-105vh) translateX(-25px) scale(0.6);
+    transform: translateY(-10vh) translateX(-20px) scale(0.6);
     opacity: 0;
   }
 }

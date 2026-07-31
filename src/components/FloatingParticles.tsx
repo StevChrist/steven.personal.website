@@ -16,22 +16,22 @@ export default function FloatingParticles() {
   const [particles, setParticles] = useState<Particle[]>([])
 
   useEffect(() => {
-    // Generate 42 randomized particles that spawn from bottom and float up
-    const generated: Particle[] = Array.from({ length: 42 }, (_, i) => {
+    // Generate 22 elegant, subtle floating particles
+    const generated: Particle[] = Array.from({ length: 22 }, (_, i) => {
       const leftVal = (Math.random() * 96 + 2).toFixed(1) // 2% to 98%
-      const sizeVal = Math.random() * 3 + 2.5 // 2.5px to 5.5px
-      const durationVal = (Math.random() * 10 + 12).toFixed(1) // 12s to 22s
-      const delayVal = (-Math.random() * 16).toFixed(1) // Negative delay so particles are already mid-flight!
-      const opacityVal = Math.random() * 0.45 + 0.45 // 0.45 to 0.9
+      const sizeVal = (Math.random() * 2 + 2).toFixed(1) // 2px to 4px
+      const durationVal = (Math.random() * 8 + 12).toFixed(1) // 12s to 20s
+      const delayVal = (-Math.random() * 18).toFixed(1) // Negative delay so particles are mid-flight instantly!
+      const opacityVal = (Math.random() * 0.3 + 0.25).toFixed(2) // 0.25 to 0.55 (subtle opacity)
       const isBright = i % 2 === 0
 
       return {
         id: i,
         left: `${leftVal}%`,
-        size: sizeVal,
+        size: parseFloat(sizeVal),
         duration: `${durationVal}s`,
         delay: `${delayVal}s`,
-        opacity: opacityVal,
+        opacity: parseFloat(opacityVal),
         glowColor: isBright ? '#84d4b9' : '#408A71',
       }
     })
@@ -40,20 +40,20 @@ export default function FloatingParticles() {
   }, [])
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
+    <div className="global-particles-layer">
       {particles.map((p) => (
         <div
           key={p.id}
-          className="absolute rounded-full pointer-events-none"
+          className="global-particle-dot"
           style={{
             left: p.left,
-            bottom: 0,
+            top: 0,
             width: `${p.size}px`,
             height: `${p.size}px`,
             backgroundColor: p.glowColor,
-            boxShadow: `0 0 12px ${p.glowColor}, 0 0 22px ${p.glowColor}`,
+            boxShadow: `0 0 8px ${p.glowColor}, 0 0 16px ${p.glowColor}`,
             opacity: p.opacity,
-            animation: `floatingRiseContinuous ${p.duration} infinite linear`,
+            animationDuration: p.duration,
             animationDelay: p.delay,
           }}
         />

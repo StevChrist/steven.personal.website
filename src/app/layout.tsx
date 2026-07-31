@@ -3,6 +3,7 @@ import { Roboto } from 'next/font/google'
 import { Protest_Riot, Pacifico } from 'next/font/google'
 import { SmoothScrollWrapper } from '@/components/SmoothScrollWrapper'
 import JsonLd from '@/components/JsonLd'
+import FloatingParticles from '@/components/FloatingParticles'
 import type { Metadata, Viewport } from 'next'
 
 // Load font Roboto
@@ -127,6 +128,7 @@ export default function RootLayout({
       </head>
       <body className={`${roboto.className} antialiased`}>
         <JsonLd />
+        <FloatingParticles />
         <SmoothScrollWrapper>
           {children}
         </SmoothScrollWrapper>
