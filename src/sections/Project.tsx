@@ -120,14 +120,14 @@ const UiUxModal = ({
                 <button
                   onClick={prevImage}
                   aria-label="Previous Design Image"
-                  className="slider-arrow modal-arrow-left"
+                  className="slider-arrow arrow-left modal-arrow-left"
                 >
                   <FaChevronLeft />
                 </button>
                 <button
                   onClick={nextImage}
                   aria-label="Next Design Image"
-                  className="slider-arrow modal-arrow-right"
+                  className="slider-arrow arrow-right modal-arrow-right"
                 >
                   <FaChevronRight />
                 </button>
@@ -288,7 +288,7 @@ const Project = () => {
 
   const { ref: inViewRef } = useInView({
     triggerOnce: false,
-    threshold: 0.35,
+    threshold: 0.1,
   })
 
   useEffect(() => {
@@ -498,8 +498,8 @@ const Project = () => {
             fontFamily: "'Pacifico', cursive",
             fontSize: getTitleSize(),
             marginBottom: getTitleMargin(),
-            color: '#00b4d8',
-            textShadow: '0 0 16px rgba(0, 180, 216, 0.8), 0 0 35px rgba(0, 136, 255, 0.5)',
+            color: '#64b59b',
+            textShadow: '0 0 20px rgba(64, 138, 113, 0.8), 0 0 40px rgba(100, 181, 155, 0.5)',
           }}
           delayStep={0.05}
           triggerOnce={false}

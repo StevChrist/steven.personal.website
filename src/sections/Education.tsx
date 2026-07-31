@@ -6,6 +6,12 @@ import { useInView } from 'react-intersection-observer'
 import gsap from 'gsap'
 import '@/styles/educationTimeline.css'
 
+type BulletItem = {
+  text: string
+  subBullets?: string[]
+  isThesis?: boolean
+}
+
 type EducationItem = {
   id: string
   date: string
@@ -13,7 +19,7 @@ type EducationItem = {
   school: string
   location: string
   degree: string
-  bullets: string[]
+  bulletItems: BulletItem[]
   thesisLink?: string
   position: 'left' | 'right'
 }
@@ -25,7 +31,7 @@ const Education = () => {
   // Trigger animation when ~half of About section scrolls away (threshold: 0.35)
   const { ref: inViewRef, inView } = useInView({
     triggerOnce: false,
-    threshold: 0.35,
+    threshold: 0.1,
   })
 
   const [scrollDirection, setScrollDirection] = useState<'down' | 'up'>('down')
@@ -62,9 +68,9 @@ const Education = () => {
       school: 'SMA Kristen Kalam Kudus Pematangsiantar',
       location: 'North Sumatra, Indonesia',
       degree: 'Natural Science Major (IPA)',
-      bullets: [
-        'Focus on Mathematics, Physics & Computer Fundamentals',
-        'Active participant in academic competitions & student activities',
+      bulletItems: [
+        { text: 'Focus on Mathematics, Physics & Computer Fundamentals' },
+        { text: 'Active participant in academic competitions & student activities' },
       ],
       position: 'left',
     },
@@ -74,11 +80,22 @@ const Education = () => {
       gpa: 'GPA 3.67 / 4.00',
       school: 'Telkom University',
       location: 'Bandung, West Java, Indonesia',
-      degree: 'Bachelor of Data Science (S.S.D.)',
-      bullets: [
-        'Specialization in Machine Learning, Deep Learning & Natural Language Processing (NLP)',
-        'Data Warehousing & Business Intelligence Architecture (PowerBI & ETL Pipelines)',
-        'Active Student Organization Committee & Technical Team Lead',
+      degree: 'Bachelor of Data Science (S.Si.D.)',
+      bulletItems: [
+        {
+          text: 'Relevant Coursework: Machine Learning, Data Visualization, Deep Learning, Big Data Analytics, Data Warehousing, Business Intelligence',
+        },
+        {
+          text: 'Organisational Experience :',
+          subBullets: [
+            'Himpunan Mahasiswa Data Science as Member of Publication and Documentation Division',
+            'LEVIATHAN as Head of Publication and Documentation Division',
+          ],
+        },
+        {
+          text: 'Thesis: ',
+          isThesis: true,
+        },
       ],
       thesisLink: '/cv/buku-ta.pdf',
       position: 'right',
@@ -196,8 +213,8 @@ const Education = () => {
               fontFamily: "'Pacifico', cursive",
               fontSize: getTitleSize(),
               marginBottom: getTitleMargin(),
-              color: '#00b4d8',
-              textShadow: '0 0 16px rgba(0, 180, 216, 0.8), 0 0 35px rgba(0, 136, 255, 0.5)',
+              color: '#64b59b',
+              textShadow: '0 0 20px rgba(64, 138, 113, 0.8), 0 0 40px rgba(100, 181, 155, 0.5)',
             }}
             delayStep={0.05}
             triggerOnce={false}
@@ -254,29 +271,48 @@ const Education = () => {
 
                       {/* Bullets List */}
                       <ul className="edu-bullets">
-                        {item.bullets.map((b, bi) => (
-                          <li key={bi} className="edu-bullet-item">
-                            <span className="edu-bullet-dot">•</span>
-                            <span>{b}</span>
-                          </li>
-                        ))}
+                        {item.bulletItems.map((b, bi) => (
+                          <div key={bi} className="w-full flex flex-col gap-1.5">
+                            <li className="edu-bullet-item">
+                              <span className="edu-bullet-dot">•</span>
+                              <span>
+                                {b.isThesis ? (
+                                  <>
+                                    Thesis:{' '}
+                                    {item.thesisLink ? (
+                                      <a
+                                        href={item.thesisLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="underline text-[#84d4b9] hover:text-emerald-200 transition-colors"
+                                      >
+                                        Anomaly Detection in Oil & Gas Operational Data using Transformer Models
+                                      </a>
+                                    ) : (
+                                      'Anomaly Detection in Oil & Gas Operational Data using Transformer Models'
+                                    )}
+                                  </>
+                                ) : (
+                                  b.text
+                                )}
+                              </span>
+                            </li>
 
-                        {item.thesisLink && (
-                          <li className="edu-bullet-item mt-1">
-                            <span className="edu-bullet-dot">•</span>
-                            <span>
-                              Thesis:{' '}
-                              <a
-                                href={item.thesisLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="underline text-[#00b4d8] hover:text-sky-300 transition-colors"
+                            {b.subBullets && (
+                              <div
+                                className="flex flex-col gap-1.5"
+                                style={{ paddingLeft: '18px' }}
                               >
-                                Anomaly Detection in Oil & Gas Operational Data using Transformer Models
-                              </a>
-                            </span>
-                          </li>
-                        )}
+                                {b.subBullets.map((sub, si) => (
+                                  <li key={si} className="edu-bullet-item">
+                                    <span className="edu-bullet-dot text-[#84d4b9]">◦</span>
+                                    <span className="text-slate-300">{sub}</span>
+                                  </li>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -325,29 +361,48 @@ const Education = () => {
 
                       {/* Bullets List */}
                       <ul className="edu-bullets">
-                        {item.bullets.map((b, bi) => (
-                          <li key={bi} className="edu-bullet-item">
-                            <span className="edu-bullet-dot">•</span>
-                            <span>{b}</span>
-                          </li>
-                        ))}
+                        {item.bulletItems.map((b, bi) => (
+                          <div key={bi} className="w-full flex flex-col gap-1.5">
+                            <li className="edu-bullet-item">
+                              <span className="edu-bullet-dot">•</span>
+                              <span>
+                                {b.isThesis ? (
+                                  <>
+                                    Thesis:{' '}
+                                    {item.thesisLink ? (
+                                      <a
+                                        href={item.thesisLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="underline text-[#84d4b9] hover:text-emerald-200 transition-colors"
+                                      >
+                                        Anomaly Detection in Oil & Gas Operational Data using Transformer Models
+                                      </a>
+                                    ) : (
+                                      'Anomaly Detection in Oil & Gas Operational Data using Transformer Models'
+                                    )}
+                                  </>
+                                ) : (
+                                  b.text
+                                )}
+                              </span>
+                            </li>
 
-                        {item.thesisLink && (
-                          <li className="edu-bullet-item mt-1">
-                            <span className="edu-bullet-dot">•</span>
-                            <span>
-                              Thesis:{' '}
-                              <a
-                                href={item.thesisLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="underline text-[#00b4d8] hover:text-sky-300 transition-colors"
+                            {b.subBullets && (
+                              <div
+                                className="flex flex-col gap-1.5"
+                                style={{ paddingLeft: '18px' }}
                               >
-                                Anomaly Detection in Oil & Gas Operational Data using Transformer Models
-                              </a>
-                            </span>
-                          </li>
-                        )}
+                                {b.subBullets.map((sub, si) => (
+                                  <li key={si} className="edu-bullet-item">
+                                    <span className="edu-bullet-dot text-[#84d4b9]">◦</span>
+                                    <span className="text-slate-300">{sub}</span>
+                                  </li>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </ul>
                     </div>
                   </div>

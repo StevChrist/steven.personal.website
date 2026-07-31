@@ -18,7 +18,7 @@ const CODE_TOKENS = [
     '=== null', '!== undefined', '0b1010', 'while(1)', 'for(;;)', 'switch(x)',
 ]
 
-const COLORS = ['#00ff9c', '#00e5ff', '#00b4d8', '#39ff14']
+const COLORS = ['#408A71', '#64b59b', '#84d4b9', '#34705c']
 
 type Column = {
     x: number

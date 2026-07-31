@@ -13,7 +13,7 @@ function Model() {
 
   useFrame(() => {
     if (modelRef.current) {
-      modelRef.current.position.y = -1
+      modelRef.current.position.y = -1.11
 
       const targetYRotation = mouse.x * 0.5
       modelRef.current.rotation.y = THREE.MathUtils.lerp(
@@ -26,18 +26,6 @@ function Model() {
 
   return (
     <group ref={modelRef}>
-      {/* Bayangan mengikuti group */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.55, 0]}>
-        <circleGeometry args={[0.8, 64]} />
-        <meshStandardMaterial
-          color="grey"
-          transparent
-          opacity={0.35}
-          roughness={1}
-          metalness={0}
-        />
-      </mesh>
-
       {/* Model */}
       <primitive object={gltf.scene} scale={1.7} position={[0, -0.5, 0.2]} />
     </group>

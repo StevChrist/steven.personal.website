@@ -8,12 +8,17 @@
 }
 
 :root {
-  --background: #01040a;
+  --background: #05040a;
   --foreground: #ffffff;
   --font-roboto: "Roboto", sans-serif;
   --font-protest: "Protest Riot", cursive;
   --font-pacifico: "Pacifico", cursive;
-  --main-color: #00b4d8;
+  --main-color: #408A71;
+  --main-color-light: #64b59b;
+  --main-color-dark: #2d6351;
+  --glass-card-bg: rgba(14, 28, 22, 0.7);
+  --glass-card-border: rgba(255, 255, 255, 0.1);
+  --glass-card-hover-border: rgba(100, 181, 155, 0.4);
 }
 
 html,
@@ -36,14 +41,14 @@ body {
   @apply overflow-auto;
 }
 
-/* High-Tech Dark Ambient Background (No Grid Lines, Darker Canvas with Glowing Accents) */
+/* Sleek Deep Charcoal Black Canvas with #408A71 Emerald Glows */
 .bg-tech-canvas {
-  background-color: #01040a;
+  background-color: #05040a;
   background-image:
-    radial-gradient(circle at 15% 15%, rgba(0, 180, 216, 0.09) 0%, transparent 40%),
-    radial-gradient(circle at 85% 45%, rgba(0, 136, 255, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 25% 75%, rgba(0, 180, 216, 0.08) 0%, transparent 42%),
-    radial-gradient(circle at 80% 90%, rgba(10, 28, 58, 0.4) 0%, transparent 50%);
+    radial-gradient(circle at 15% 15%, rgba(64, 138, 113, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 85% 35%, rgba(100, 181, 155, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 25% 75%, rgba(64, 138, 113, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 80% 90%, rgba(10, 20, 16, 0.85) 0%, transparent 55%);
   background-size: 100% 100%;
   background-attachment: fixed;
 }
@@ -123,5 +128,48 @@ body {
   body {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
+  }
+}
+
+/* Global Floating Rise Particle Animation */
+@keyframes floatingRise {
+  0% {
+    transform: translateY(105vh) translateX(0) scale(0.5);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(50vh) translateX(30px) scale(1.1);
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(-25px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes floatingRiseContinuous {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.7);
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-50vh) translateX(30px) scale(1.15);
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-105vh) translateX(-25px) scale(0.6);
+    opacity: 0;
   }
 }

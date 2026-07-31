@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useScrollAnimations } from '@/hooks/useScrollAnimations'
 import TypedText from '@/components/TypedText'
 import ModelViewer from '@/components/ModelViewer'
-import { FaFolderOpen, FaEnvelope } from 'react-icons/fa'
+import { FaFolderOpen, FaEnvelope, FaArrowRight, FaPython, FaBrain, FaCode, FaChartBar } from 'react-icons/fa'
 import '@/styles/mainHero.css'
 
 export default function Main() {
@@ -37,14 +37,14 @@ export default function Main() {
   }, [])
 
   const getModelSize = () => {
-    if (screenWidth >= 2560) return 420
-    if (screenWidth >= 1920) return 370
-    if (screenWidth >= 1536) return 330
-    if (screenWidth >= 1280) return 300
-    if (screenWidth >= 1024) return 260
-    if (screenWidth >= 768) return 230
-    if (screenWidth >= 640) return 200
-    return 165
+    if (screenWidth >= 2560) return 520
+    if (screenWidth >= 1920) return 460
+    if (screenWidth >= 1536) return 410
+    if (screenWidth >= 1280) return 370
+    if (screenWidth >= 1024) return 330
+    if (screenWidth >= 768) return 290
+    if (screenWidth >= 640) return 250
+    return 210
   }
 
   const getLogoWidth = () => {
@@ -62,6 +62,7 @@ export default function Main() {
 
   return (
     <>
+      {/* Site Preloader */}
       <div className={`site-loader ${!isLoading ? 'site-loader-hidden' : ''}`}>
         <div className="site-loader-inner">
           <Image
@@ -82,7 +83,7 @@ export default function Main() {
       <section
         id="home"
         ref={sectionRef}
-        className={`main-hero-section relative min-h-screen text-white overflow-hidden ${
+        className={`main-hero-section relative min-h-screen text-white overflow-hidden flex flex-col justify-center ${
           isLoading || !isReady ? 'hero-content-hidden' : 'hero-content-visible'
         }`}
         itemScope
@@ -95,19 +96,11 @@ export default function Main() {
         <meta itemProp="jobTitle" content="Data Scientist" />
         <meta itemProp="alumniOf" content="Telkom University" />
 
+        {/* Ambient Canvas Background */}
         <div className="hero-tech-grid-bg" />
         <div className="hero-crt-overlay" />
         <div className="hero-ambient-orb-1" />
         <div className="hero-ambient-orb-2" />
-
-        <div className="hero-particles-container">
-          <div className="particle-dot" style={{ left: '15%', opacity: 0.6, animationDuration: '14s' }} />
-          <div className="particle-dot" style={{ left: '28%', opacity: 0.4, animationDuration: '18s', animationDelay: '3s' }} />
-          <div className="particle-dot" style={{ left: '42%', opacity: 0.7, animationDuration: '12s', animationDelay: '1s' }} />
-          <div className="particle-dot" style={{ left: '65%', opacity: 0.5, animationDuration: '16s', animationDelay: '5s' }} />
-          <div className="particle-dot" style={{ left: '78%', opacity: 0.65, animationDuration: '13s', animationDelay: '2s' }} />
-          <div className="particle-dot" style={{ left: '88%', opacity: 0.35, animationDuration: '20s', animationDelay: '4s' }} />
-        </div>
 
         {/* Fixed Top Left Logo */}
         <div className="hero-logo-fixed select-none">
@@ -121,64 +114,99 @@ export default function Main() {
           />
         </div>
 
-        {/* Hero Content Container - Shifted Up Slightly */}
-        <div className="container max-w-[1140px] mx-auto px-4 flex flex-col items-center justify-center text-center my-auto pt-4 pb-2">
-          {/* Slightly Smaller 3D Model Container */}
-          <div
-            className="model-aura-container gsap-fade-up"
-            style={{
-              width: `${getModelSize()}px`,
-              height: `${getModelSize()}px`,
-            }}
-          >
-            <div className="w-full h-full relative z-10">
-              <ModelViewer />
+        {/* Modern 2-Column Split Hero Layout */}
+        <div className="hero-split-container w-full max-w-[1280px] mx-auto px-6 md:px-12 py-10 my-auto relative z-20">
+          
+          {/* Left Column: Equalized Spacing with Single Line Name */}
+          <div className="hero-split-left flex flex-col items-center md:items-start text-center md:text-left">
+            
+            <p className="hero-greeting mb-1">Hi, I am</p>
+
+            <h2 className="hero-name whitespace-nowrap mb-1">Steven Immanuel C. Girsang</h2>
+
+            {/* Typewriter Text (Tight Vertical Spacing) */}
+            <div className="hero-typed-text mb-4">
+              <TypedText
+                strings={[
+                  'I am a Data Scientist',
+                  'I am a Graphic Designer',
+                  'I am a Video Editor and Animation',
+                  'I am a sleep lover',
+                  'I am a music listener',
+                  'I like to code',
+                ]}
+              />
             </div>
+
+            {/* Action CTA Buttons (With Guaranteed 24px Gap) */}
+            <div className="hero-buttons-wrapper">
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="btn-split-project group"
+              >
+                <FaFolderOpen className="text-base" />
+                <span>Project</span>
+                <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="btn-split-contact"
+              >
+                <FaEnvelope className="text-base" />
+                <span>Contact Me</span>
+              </button>
+            </div>
+
           </div>
 
-          {/* 3 Text Elements with Tight Vertical Spacing */}
-          <div className="gsap-fade-up flex flex-col items-center justify-center">
-            <p className="hero-greeting">Hi, I am</p>
-            <h2 className="hero-name">Steven Immanuel C. Girsang</h2>
+          {/* Right Column: 3D Model Showcase Deck (Center Right) */}
+          <div className="hero-split-right">
+            
+            <div className="hero-3d-showcase-container">
+              {/* Circular Orbit Ring Line */}
+              <div className="hero-orbit-ring-ref" />
+
+              {/* Stationary Purple Pedestal Circle */}
+              <div className="hero-pedestal-purple" />
+
+              {/* 4 Orbit Glass Pills */}
+              <div className="ref-orbit-pill pill-top-left">
+                <FaPython className="text-[#84d4b9] text-xs" />
+                <span>Python</span>
+              </div>
+
+              <div className="ref-orbit-pill pill-top-right">
+                <FaBrain className="text-[#64b59b] text-xs" />
+                <span>Machine Learning & Deep Learning</span>
+              </div>
+
+              <div className="ref-orbit-pill pill-bottom-left">
+                <FaCode className="text-[#408A71] text-xs" />
+                <span>AI & LLM</span>
+              </div>
+
+              <div className="ref-orbit-pill pill-bottom-right">
+                <FaChartBar className="text-[#84d4b9] text-xs" />
+                <span>Data Analysis & Visualization</span>
+              </div>
+
+              {/* 3D Model Avatar in Center */}
+              <div
+                className="model-aura-container relative z-20"
+                style={{
+                  width: `${getModelSize()}px`,
+                  height: `${getModelSize()}px`,
+                }}
+              >
+                <div className="w-full h-full relative z-10">
+                  <ModelViewer />
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <div
-            className="hero-typed-text gsap-fade-up"
-            style={{ marginTop: '14px', marginBottom: '24px' }}
-          >
-            <TypedText
-              strings={[
-                'I am a Data Scientist',
-                'I am a Graphic Designer',
-                'I am a Video Editor and Animation',
-                'I am a sleep lover',
-                'I am a music listener',
-                'I like to code',
-              ]}
-            />
-          </div>
-
-          {/* CTA Action Buttons Below Typewriter */}
-          <div
-            className="hero-action-btns gsap-fade-up flex items-center justify-center flex-wrap"
-            style={{ gap: '24px', marginTop: '24px' }}
-          >
-            <button
-              onClick={() => scrollToSection('projects')}
-              className="btn-hero-project"
-            >
-              <FaFolderOpen className="text-sm" />
-              <span>Project</span>
-            </button>
-
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="btn-hero-contact"
-            >
-              <FaEnvelope className="text-sm" />
-              <span>Contact Me</span>
-            </button>
-          </div>
         </div>
       </section>
     </>

@@ -103,7 +103,7 @@ const Skills = () => {
 
   const { ref: inViewRef, inView } = useInView({
     triggerOnce: false,
-    threshold: 0.35,
+    threshold: 0.1,
   })
 
   useEffect(() => {
@@ -270,8 +270,8 @@ const Skills = () => {
             fontFamily: "'Pacifico', cursive",
             fontSize: getTitleSize(),
             marginBottom: getTitleMargin(),
-            color: '#00b4d8',
-            textShadow: '0 0 16px rgba(0, 180, 216, 0.8), 0 0 35px rgba(0, 136, 255, 0.5)',
+            color: '#64b59b',
+            textShadow: '0 0 20px rgba(64, 138, 113, 0.8), 0 0 40px rgba(100, 181, 155, 0.5)',
           }}
           delayStep={0.05}
           triggerOnce={false}
