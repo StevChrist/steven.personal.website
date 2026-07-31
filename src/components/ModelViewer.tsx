@@ -3,7 +3,7 @@
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import { Suspense, useRef } from 'react'
+import { Suspense, useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
 interface ModelViewerProps {
@@ -40,10 +40,32 @@ function Model({ isGlitching }: { isGlitching?: boolean }) {
 }
 
 export default function ModelViewer({ isGlitching }: ModelViewerProps) {
+  const [isSupported, setIsSupported] = useState(false)
+
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas')
+      const hasWebGL = !!(
+        window.WebGLRenderingContext &&
+        (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+      )
+      if (hasWebGL) {
+        setIsSupported(true)
+      }
+    } catch {
+      setIsSupported(false)
+    }
+  }, [])
+
+  if (!isSupported) {
+    return <div className="w-full h-full" />
+  }
+
   return (
     <Canvas
       style={{ width: '100%', height: '100%' }}
       camera={{ position: [0, 2, 7], fov: 30 }}
+      gl={{ powerPreference: 'high-performance', alpha: true, antialias: true }}
     >
       <ambientLight intensity={1} />
       <directionalLight position={[5, 5, 5]} />

@@ -3,10 +3,14 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { useScrollAnimations } from '@/hooks/useScrollAnimations'
+import dynamic from 'next/dynamic'
 import TypedText from '@/components/TypedText'
-import ModelViewer from '@/components/ModelViewer'
 import { FaFolderOpen, FaEnvelope, FaArrowRight, FaPython, FaBrain, FaCode, FaChartBar } from 'react-icons/fa'
 import '@/styles/mainHero.css'
+
+const ModelViewer = dynamic(() => import('@/components/ModelViewer'), {
+  ssr: false,
+})
 
 const HERO_TYPED_STRINGS = [
   'I am a Data Scientist 👨‍💻',
