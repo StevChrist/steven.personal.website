@@ -86,7 +86,7 @@ export default function TypedText({ strings, onStringTyped: onStringTypedProp }:
 
   return (
     <span
-      className={`text-xl md:text-2xl font-protest transition-all duration-100 ${
+      className={`text-sm sm:text-lg md:text-2xl font-protest transition-all duration-100 inline-block max-w-full text-center ${
         isGlitching ? 'glitch-error-active' : ''
       }`}
     >
