@@ -22,8 +22,8 @@
   padding: 20px 22px;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 14px 40px rgba(0, 0, 0, 0.4);
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-              border-color 0.3s ease,
-              box-shadow 0.35s ease;
+    border-color 0.3s ease,
+    box-shadow 0.35s ease;
   will-change: transform, opacity;
 }
 
@@ -167,6 +167,13 @@
   }
 }
 
+.exp-badges-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .exp-date-badge {
   display: inline-flex;
   align-items: center;
@@ -179,12 +186,46 @@
   font-size: 0.76rem;
   font-weight: 600;
   box-shadow: 0 0 12px rgba(64, 138, 113, 0.2);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  width: fit-content;
+  flex-shrink: 0;
+}
+
+.exp-duration-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 50px;
+  background-color: rgba(64, 138, 113, 0.18);
+  border: 1px solid rgba(100, 181, 155, 0.35);
+  color: #84d4b9;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(64, 138, 113, 0.2);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  width: fit-content;
+  flex-shrink: 0;
+}
+
+.exp-date-badge:hover,
+.exp-duration-badge:hover {
+  background-color: rgba(64, 138, 113, 0.28);
+  border-color: rgba(100, 181, 155, 0.55);
+  box-shadow: 0 0 16px rgba(100, 181, 155, 0.4);
+  transform: translateY(-1px);
 }
 
 @media (min-width: 640px) {
   .exp-date-badge {
-    padding: 7px 18px;
-    font-size: 0.82rem;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+  }
+  .exp-duration-badge {
+    padding: 5px 13px;
+    font-size: 0.78rem;
   }
 }
 
@@ -192,6 +233,10 @@
   .exp-date-badge {
     padding: 12px 28px;
     font-size: 1.35rem;
+  }
+  .exp-duration-badge {
+    padding: 10px 22px;
+    font-size: 1.25rem;
   }
 }
 

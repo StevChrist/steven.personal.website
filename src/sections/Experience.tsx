@@ -8,6 +8,7 @@ import '@/styles/experienceCard.css'
 
 type ExperienceItem = {
   date: string
+  duration?: string
   company: string
   location: string
   role: string
@@ -91,7 +92,8 @@ const Experience = () => {
   const experiences: ExperienceItem[] = [
     {
       date: 'Jul 2025 - Aug 2025',
-      company: 'PT Prasetia Dwidhama',
+      duration: '2 Months',
+      company: 'PT Prasetia Dwidharma',
       location: 'Jakarta, Indonesia',
       role: 'Data Analyst & Data Engineer Intern',
       bullets: [
@@ -194,9 +196,17 @@ const Experience = () => {
                   </div>
                 </div>
 
-                <div className="exp-date-badge">
-                  <span>📅</span>
-                  <span>{exp.date}</span>
+                <div className="exp-badges-group">
+                  <div className="exp-date-badge">
+                    <span>📅</span>
+                    <span>{exp.date}</span>
+                  </div>
+                  {exp.duration && (
+                    <div className="exp-duration-badge">
+                      <span>⏱️</span>
+                      <span>{exp.duration}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
