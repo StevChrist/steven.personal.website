@@ -1,12 +1,12 @@
 import type { MetadataRoute } from 'next'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: 'https://stevchrist.site',
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
+      changeFrequency: 'weekly',
+      priority: 1.0,
     },
   ]
 }

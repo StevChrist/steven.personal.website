@@ -33,8 +33,11 @@ const pacifico = Pacifico({
 // Metadata export (tanpa viewport)
 export const metadata: Metadata = {
   metadataBase: new URL('https://stevchrist.site'),
-  title: 'Steven Immanuel C. Girsang | Personal Website',
-  description: 'Personal portfolio of Steven Immanuel C. Girsang (StevenChrist / StevChrist) — Data Scientist, fresh graduate from Telkom University Bandung. Specializing in Machine Learning, Data Analysis, and Web Development.',
+  title: {
+    default: 'Steven Immanuel C. Girsang (Steven Girsang) | Personal Website',
+    template: '%s | Steven Immanuel C. Girsang',
+  },
+  description: 'Official personal website and portfolio of Steven Immanuel C. Girsang (Steven Girsang / StevChrist) — Data Scientist & Data Engineer, fresh graduate from Telkom University Bandung. Specializing in Machine Learning, Data Analytics, and Web Development.',
   icons: {
     icon: '/image/Logo PEN White 1x1.png',
     shortcut: '/image/Logo PEN White 1x1.png',

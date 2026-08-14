@@ -1,17 +1,20 @@
 // JSON-LD Structured Data for SEO
 // This tells Google exactly who Steven Girsang is,
-// linking this website to all name variants/aliases
+// linking this website to all name variants/aliases and official social profiles
 
 export default function JsonLd() {
-  const jsonLd = {
+  const personJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': 'https://stevchrist.site/#person',
     name: 'Steven Immanuel C. Girsang',
+    givenName: 'Steven Immanuel Christiano',
+    familyName: 'Girsang',
     alternateName: [
       'Steven Girsang',
       'Steven Immanuel',
-      'Steven Immanuel Christiano Girsang',
       'Steven Immanuel C Girsang',
+      'Steven Immanuel Christiano Girsang',
       'Steven I C G',
       'Steven Christiano',
       'StevenChrist',
@@ -20,12 +23,13 @@ export default function JsonLd() {
     ],
     url: 'https://stevchrist.site',
     image: 'https://stevchrist.site/image/og-image.png',
-    jobTitle: 'Data Scientist',
+    jobTitle: 'Data Scientist & Data Engineer',
     description:
-      'Steven Immanuel C. Girsang is a Data Scientist and fresh graduate from Telkom University Bandung, specializing in Machine Learning, Data Analysis, and Web Development.',
+      'Official personal website and portfolio of Steven Immanuel C. Girsang (Steven Girsang) — Data Scientist and fresh graduate from Telkom University Bandung. Specializing in Machine Learning, Data Analysis, Data Engineering, and Web Development.',
     alumniOf: {
       '@type': 'CollegeOrUniversity',
       name: 'Telkom University',
+      sameAs: 'https://telkomuniversity.ac.id',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Bandung',
@@ -36,10 +40,10 @@ export default function JsonLd() {
       'Data Science',
       'Machine Learning',
       'Data Analysis',
+      'Data Engineering',
       'Python',
+      'PostgreSQL',
       'Web Development',
-      'Graphic Design',
-      'Video Editing',
     ],
     sameAs: [
       'https://www.linkedin.com/in/stevenchristiano',
@@ -54,10 +58,33 @@ export default function JsonLd() {
     },
   }
 
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': 'https://stevchrist.site/#website',
+    name: 'Steven Immanuel C. Girsang | Personal Website',
+    alternateName: [
+      'Steven Girsang Portfolio',
+      'Steven Immanuel C Girsang Website',
+      'StevChrist Portfolio',
+    ],
+    url: 'https://stevchrist.site',
+    publisher: {
+      '@type': 'Person',
+      name: 'Steven Immanuel C. Girsang',
+    },
+  }
+
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+    </>
   )
 }
