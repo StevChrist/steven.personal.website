@@ -3,6 +3,7 @@ import About from '@/sections/About'
 import Experience from '@/sections/Experience'
 import Skills from '@/sections/Skills'
 import Project from '@/sections/Project'
+import Certificate from '@/sections/Certificate'
 import Contact from '@/sections/Contact'
 import Education from '@/sections/Education'
 import FloatingParticles from '@/components/FloatingParticles'
@@ -18,6 +19,7 @@ export default function Home() {
       <Skills />
       <Experience />
       <Project />
+      <Certificate />
       <Contact />
     </main>
   )
