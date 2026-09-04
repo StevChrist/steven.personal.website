@@ -151,8 +151,10 @@ const Experience = () => {
         inViewRef(el)
       }}
       id="experience"
-      className="bg-transparent text-white min-h-screen py-16 lg:py-24 flex flex-col justify-center items-center relative overflow-visible"
+      className="bg-transparent text-white min-h-screen w-full flex flex-col justify-start items-center relative overflow-visible"
       style={{
+        paddingTop: '90px',
+        paddingBottom: '60px',
         paddingLeft: getSectionPadding(),
         paddingRight: getSectionPadding(),
       }}

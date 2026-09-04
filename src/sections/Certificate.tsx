@@ -132,9 +132,9 @@ const Certificate = () => {
         inViewRef(el)
       }}
       id="certificates"
-      className="bg-transparent text-white min-h-screen py-16 lg:py-24 flex flex-col justify-center items-center border-0 outline-none"
+      className="bg-transparent text-white min-h-screen w-full flex flex-col justify-start items-center border-0 outline-none"
       style={{
-        paddingTop: '120px',
+        paddingTop: '90px',
         paddingBottom: '60px',
         paddingLeft: '16px',
         paddingRight: '16px',

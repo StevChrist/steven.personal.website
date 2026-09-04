@@ -122,14 +122,12 @@ const Contact = () => {
       id="contact"
       className="bg-transparent text-white min-h-screen flex flex-col justify-between items-center border-0 outline-none"
       style={{
-        paddingTop: '40px',
-        paddingBottom: '0px',
+        paddingTop: '90px',
+        paddingBottom: '20px',
         paddingLeft: '16px',
         paddingRight: '16px',
       }}
     >
-      <div />
-
       <div className="contact-container my-auto">
         {/* Main Glassmorphic Hero Contact Card */}
         <div className="contact-card">

@@ -1,3 +1,4 @@
+import Navbar from '@/components/Navbar'
 import Main from '@/sections/Main'
 import About from '@/sections/About'
 import Experience from '@/sections/Experience'
@@ -13,13 +14,14 @@ export default function Home() {
     <main className="bg-tech-canvas min-h-screen text-white relative">
       {/* Global continuous particle background - spans entire page height */}
       <FloatingParticles />
+      <Navbar />
       <Main />
       <About />
       <Education />
-      <Skills />
-      <Experience />
-      <Project />
       <Certificate />
+      <Experience />
+      <Skills />
+      <Project />
       <Contact />
     </main>
   )

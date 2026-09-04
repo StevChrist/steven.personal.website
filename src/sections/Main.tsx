@@ -5,12 +5,74 @@ import Image from 'next/image'
 import { useScrollAnimations } from '@/hooks/useScrollAnimations'
 import dynamic from 'next/dynamic'
 import TypedText from '@/components/TypedText'
+import { useCountUp } from '@/hooks/useCountUp'
 import { FaFolderOpen, FaEnvelope, FaArrowRight, FaPython, FaBrain, FaCode, FaChartBar } from 'react-icons/fa'
 import '@/styles/mainHero.css'
 
 const ModelViewer = dynamic(() => import('@/components/ModelViewer'), {
   ssr: false,
 })
+
+interface StatItem {
+  value: number
+  decimals: number
+  suffix: string
+  label: string
+  sub: string
+  sectionId: string
+}
+
+const HERO_STATS: StatItem[] = [
+  { value: 3.67, decimals: 2, suffix: '', label: 'GPA', sub: 'Telkom University', sectionId: 'education' },
+  { value: 8, decimals: 0, suffix: '+', label: 'Projects', sub: 'Built & shipped', sectionId: 'projects' },
+  { value: 1, decimals: 0, suffix: '', label: 'Internship', sub: 'Company & Startup', sectionId: 'experience' },
+  { value: 1, decimals: 0, suffix: '', label: 'Certification', sub: 'Telkom University', sectionId: 'certificates' },
+]
+
+function HeroStatCard({
+  item,
+  start,
+  delay,
+  onClick,
+  isGlitching,
+}: {
+  item: StatItem
+  start: boolean
+  delay: number
+  onClick: () => void
+  isGlitching?: boolean
+}) {
+  const animatedValue = useCountUp(item.value, start, 1600, item.decimals, delay)
+  const displayValue =
+    item.decimals > 0
+      ? animatedValue.toFixed(item.decimals)
+      : Math.round(animatedValue)
+
+  return (
+    <div
+      className={`hero-stat-card ${start ? 'is-visible' : ''} ${isGlitching ? 'glitch-error-subtle-card' : ''}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      title={`Navigate to ${item.label}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      }}
+    >
+      <div className="hero-stat-number">
+        <span>{displayValue}</span>
+        {item.suffix && <span className="hero-stat-suffix">{item.suffix}</span>}
+      </div>
+      <p className="hero-stat-label">{item.label}</p>
+      <p className="hero-stat-sub" title={item.sub}>
+        {item.sub}
+      </p>
+    </div>
+  )
+}
 
 const HERO_TYPED_STRINGS = [
   'I am a Data Scientist 👨‍💻',
@@ -32,10 +94,12 @@ export default function Main() {
   const [isReady, setIsReady] = useState(false)
 
   const [isHeadlineGlitching, setIsHeadlineGlitching] = useState(false)
+  const glitchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const triggerHeadlineGlitch = useCallback(() => {
     setIsHeadlineGlitching(true)
-    setTimeout(() => {
+    if (glitchTimeoutRef.current) clearTimeout(glitchTimeoutRef.current)
+    glitchTimeoutRef.current = setTimeout(() => {
       setIsHeadlineGlitching(false)
     }, 450)
   }, [])
@@ -145,9 +209,21 @@ export default function Main() {
           {/* Left Column: Equalized Spacing with Single Line Name */}
           <div className="hero-split-left flex flex-col items-center md:items-start text-center md:text-left">
 
-            <p className={`hero-greeting mb-1 ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}>Hi, I am</p>
+            <p
+              onClick={triggerHeadlineGlitch}
+              className={`hero-greeting mb-1 cursor-pointer ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}
+              title="Click to trigger glitch"
+            >
+              Hi, I am
+            </p>
 
-            <h2 className={`hero-name whitespace-nowrap mb-1 ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}>Steven Immanuel C. Girsang</h2>
+            <h2
+              onClick={triggerHeadlineGlitch}
+              className={`hero-name whitespace-nowrap mb-1 cursor-pointer ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}
+              title="Click to trigger glitch"
+            >
+              Steven Immanuel C. Girsang
+            </h2>
 
             {/* Typewriter Text (Tight Vertical Spacing) */}
             <div className={`hero-typed-text mb-4 ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}>
@@ -157,11 +233,11 @@ export default function Main() {
               />
             </div>
 
-            {/* Action CTA Buttons (With Guaranteed 24px Gap) */}
+            {/* Action CTA Buttons (With Subtle Glitch Error Effect) */}
             <div className="hero-buttons-wrapper">
               <button
                 onClick={() => scrollToSection('projects')}
-                className="btn-split-project group"
+                className={`btn-split-project group ${isHeadlineGlitching ? 'glitch-error-subtle-btn' : ''}`}
               >
                 <FaFolderOpen className="text-base" />
                 <span>Project</span>
@@ -170,11 +246,25 @@ export default function Main() {
 
               <button
                 onClick={() => scrollToSection('contact')}
-                className="btn-split-contact"
+                className={`btn-split-contact ${isHeadlineGlitching ? 'glitch-error-subtle-btn' : ''}`}
               >
                 <FaEnvelope className="text-base" />
                 <span>Contact Me</span>
               </button>
+            </div>
+
+            {/* Stat Cards with Synchronized Glitch Error Effect */}
+            <div className="hero-stats-grid">
+              {HERO_STATS.map((item, index) => (
+                <HeroStatCard
+                  key={item.label}
+                  item={item}
+                  start={!isLoading}
+                  delay={index * 120}
+                  isGlitching={isHeadlineGlitching}
+                  onClick={() => scrollToSection(item.sectionId)}
+                />
+              ))}
             </div>
 
           </div>

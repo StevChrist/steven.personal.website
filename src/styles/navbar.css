@@ -1,0 +1,168 @@
+/* src/styles/navbar.css */
+
+/* Outer Fixed Container Centered at the Top */
+.navbar-fixed-container {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999; /* Highest priority: always on top */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* Allows clicking behind empty margins */
+  width: auto;
+  max-width: calc(100vw - 20px);
+}
+
+@media (min-width: 768px) {
+  .navbar-fixed-container {
+    top: 20px;
+    max-width: calc(100vw - 40px);
+  }
+}
+
+/* Floating Pill Track */
+.navbar-pill-track {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 5px;
+  border-radius: 50px;
+  background: rgba(14, 28, 22, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.16),
+    0 14px 38px rgba(0, 0, 0, 0.45);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.navbar-pill-track::-webkit-scrollbar {
+  display: none;
+}
+
+.navbar-pill-track.is-scrolled {
+  background: rgba(12, 24, 19, 0.92);
+  border-color: rgba(100, 181, 155, 0.28);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    0 16px 42px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(64, 138, 113, 0.18);
+}
+
+/* Nav Link Item Button */
+.navbar-link-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 50px;
+  background: transparent;
+  border: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--font-roboto), 'Roboto', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500; /* Kept strictly equal to prevent width jump */
+  color: rgba(255, 255, 255, 0.70);
+  letter-spacing: 0.15px;
+  transition: color 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  touch-action: manipulation; /* Eliminate mobile 300ms tap delay */
+}
+
+/* Ensure all children pass pointer events directly to button */
+.navbar-link-item > * {
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .navbar-link-item {
+    padding: 7px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Snappy, Butter-Smooth CSS Hover */
+.navbar-link-item:hover:not(.is-active) {
+  color: #ffffff;
+  background: rgba(64, 138, 113, 0.2);
+  border-color: rgba(100, 181, 155, 0.25);
+}
+
+.navbar-link-item.is-active {
+  color: #ffffff;
+  /* Do NOT change font-weight here so the button width remains 100% stable */
+}
+
+/* Active Gliding Pill (Framer Motion layoutId) */
+.navbar-active-pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #408A71 0%, #2d6351 100%);
+  border: 1px solid rgba(100, 181, 155, 0.45);
+  box-shadow: 0 2px 12px rgba(64, 138, 113, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Text Label on Top of Active Pill */
+.navbar-link-label {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  line-height: 1;
+  transition: text-shadow 0.25s ease;
+  pointer-events: none;
+}
+
+.navbar-link-item.is-active .navbar-link-label {
+  text-shadow: 0 0 10px rgba(132, 212, 185, 0.45);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .navbar-link-item {
+    padding: 5px 9px;
+    font-size: 0.74rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-fixed-container {
+    top: 10px;
+  }
+
+  .navbar-pill-track {
+    gap: 1px;
+    padding: 3px 4px;
+  }
+
+  .navbar-link-item {
+    padding: 5px 8px;
+    font-size: 0.71rem;
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .navbar-link-item {
+    padding: 4px 6px;
+    font-size: 0.67rem;
+  }
+}

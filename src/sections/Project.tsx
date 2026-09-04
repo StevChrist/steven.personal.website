@@ -482,9 +482,9 @@ const Project = () => {
         inViewRef(el)
       }}
       id="projects"
-      className="bg-transparent text-white min-h-screen py-16 lg:py-24 flex flex-col justify-center items-center border-0 outline-none"
+      className="bg-transparent text-white min-h-screen w-full flex flex-col justify-start items-center border-0 outline-none"
       style={{
-        paddingTop: '120px',
+        paddingTop: '90px',
         paddingBottom: '60px',
         paddingLeft: getSectionPadding(),
         paddingRight: getSectionPadding(),
@@ -746,6 +746,27 @@ const Project = () => {
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
+
+        {/* GitHub Callout Banner */}
+        <div className="project-github-callout">
+          <div className="project-github-callout-text">
+            <h3 className="project-github-callout-title">
+              Want to see other projects? They are all on GitHub.
+            </h3>
+            <p className="project-github-callout-desc">
+              Clean commits, READMEs, and live demos for each project.
+            </p>
+          </div>
+          <a
+            href="https://github.com/StevChrist"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-github-btn"
+          >
+            <span>Visit GitHub</span>
+            <FaExternalLinkAlt className="project-github-btn-icon" />
+          </a>
         </div>
       </div>
 

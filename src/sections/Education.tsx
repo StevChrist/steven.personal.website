@@ -195,9 +195,9 @@ const Education = () => {
         inViewRef(el)
       }}
       id="education"
-      className="bg-transparent text-white min-h-screen py-20 lg:py-28 w-full flex flex-col justify-center items-center relative overflow-hidden"
+      className="bg-transparent text-white min-h-screen w-full flex flex-col justify-start items-center relative overflow-hidden"
       style={{
-        paddingTop: '120px',
+        paddingTop: '90px',
         paddingBottom: '60px',
         paddingLeft: '16px',
         paddingRight: '16px',

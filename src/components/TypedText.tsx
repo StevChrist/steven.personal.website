@@ -86,11 +86,11 @@ export default function TypedText({ strings, onStringTyped: onStringTypedProp }:
 
   return (
     <span
-      className={`text-sm sm:text-lg md:text-2xl font-protest transition-all duration-100 inline-block max-w-full text-center ${
+      className={`typed-text-wrapper font-protest ${
         isGlitching ? 'glitch-error-active' : ''
       }`}
     >
-      {displayText}
+      <span className="typed-text-chars">{displayText}</span>
       <span className="typed-cursor animate-pulse text-[#408A71] ml-1 font-mono">|</span>
     </span>
   )

@@ -253,10 +253,10 @@ const Skills = () => {
         inViewRef(el)
       }}
       id="skills"
-      className="bg-transparent text-white min-h-screen py-20 lg:py-28 flex flex-col justify-center items-center overflow-x-hidden"
+      className="bg-transparent text-white min-h-screen w-full flex flex-col justify-start items-center overflow-x-hidden"
       style={{
-        paddingTop: '130px',
-        paddingBottom: '80px',
+        paddingTop: '90px',
+        paddingBottom: '60px',
         paddingLeft: getSectionPadding(),
         paddingRight: getSectionPadding(),
       }}
