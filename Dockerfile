@@ -32,18 +32,17 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 # Create user and group
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN adduser --system --uid 1001 -G nodejs nextjs
 
 # Copy necessary files
 COPY --from=builder /app/public ./public
 
-# Set proper permissions for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
 # Copy built application
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Create image cache directory and fix ownership
+RUN mkdir -p .next/cache/images && chown -R nextjs:nodejs .next
 
 USER nextjs
 

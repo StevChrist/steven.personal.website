@@ -1,54 +1,53 @@
-name: Deploy to VPS
+name: Deploy Personal Website
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-stevchrist-website
+  cancel-in-progress: false
 
 jobs:
   deploy:
-    name: Deploy to VPS via SSH
-    runs-on: ubuntu-latest
-
+    runs-on: [self-hosted, stevchrist-server]
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+        working-directory: /home/pen/stevchrist-website
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Sync repository to latest main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
 
-      - name: Execute Remote SSH Commands on VPS
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          port: ${{ secrets.VPS_PORT || 22 }}
-          script: |
-            echo "=========================================="
-            echo "🚀 Starting Automated Deployment on VPS"
-            echo "=========================================="
-            
-            # Navigate to project directory on VPS
-            cd ${{ secrets.VPS_TARGET_DIR || '~/personal_website' }}
-            
-            echo "📥 Fetching and syncing latest code from origin/main..."
-            git fetch origin main
-            git reset --hard origin/main
-            
-            echo "🐳 Rebuilding and starting Docker container..."
-            if [ -f "docker-compose.yml" ] || [ -f "docker-compose.yaml" ]; then
-              docker compose down || true
-              docker compose up -d --build
-            else
-              docker build -t personal_website .
-              docker stop personal_website || true
-              docker rm personal_website || true
-              docker run -d -p 3000:3000 --name personal_website --restart unless-stopped personal_website
+      - name: Build & Deploy Docker Container
+        run: |
+          echo "🐳 Rebuilding and starting personal website container..."
+          # Stop old standalone container if present to free port 3000
+          docker stop stevchrist-main 2>/dev/null || true
+          docker rm stevchrist-main 2>/dev/null || true
+          
+          # Deploy using docker compose
+          docker compose down || true
+          docker compose up -d --build
+          
+          echo "🧹 Pruning unused images..."
+          docker image prune -f
+
+      - name: Verify Website Health
+        run: |
+          echo "⏳ Verifying website response on port 3000..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000 >/dev/null 2>&1; then
+              echo "✅ Website is UP and healthy (attempt ${i})"
+              exit 0
             fi
-            
-            echo "🧹 Pruning dangling docker images to free disk space..."
-            docker image prune -f
-            
-            echo "=========================================="
-            echo "✅ Deployment Finished Successfully!"
-            echo "=========================================="
+            sleep 2
+          done
+          echo "❌ Website failed health check after 60 seconds"
+          docker logs --tail 50 personal_website 2>/dev/null || true
+          exit 1
