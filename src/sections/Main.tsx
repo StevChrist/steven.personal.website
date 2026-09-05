@@ -178,9 +178,6 @@ export default function Main() {
         itemScope
         itemType="https://schema.org/Person"
       >
-        <h1 className="sr-only" itemProp="name">
-          Steven Immanuel C. Girsang - Data Scientist & AI Engineer Portfolio
-        </h1>
         <meta itemProp="url" content="https://stevchrist.site" />
         <meta itemProp="jobTitle" content="Data Scientist" />
         <meta itemProp="alumniOf" content="Telkom University" />
@@ -217,13 +214,14 @@ export default function Main() {
               Hi, I am
             </p>
 
-            <h2
+            <h1
               onClick={triggerHeadlineGlitch}
               className={`hero-name whitespace-nowrap mb-1 cursor-pointer ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}
               title="Click to trigger glitch"
+              itemProp="name"
             >
               Steven Immanuel C. Girsang
-            </h2>
+            </h1>
 
             {/* Typewriter Text (Tight Vertical Spacing) */}
             <div className={`hero-typed-text mb-4 ${isHeadlineGlitching ? 'glitch-error-active' : ''}`}>
