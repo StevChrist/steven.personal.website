@@ -26,7 +26,7 @@ const HERO_STATS: StatItem[] = [
   { value: 3.67, decimals: 2, suffix: '', label: 'GPA', sub: 'Telkom University', sectionId: 'education' },
   { value: 8, decimals: 0, suffix: '+', label: 'Projects', sub: 'Built & shipped', sectionId: 'projects' },
   { value: 1, decimals: 0, suffix: '', label: 'Internship', sub: 'Company & Startup', sectionId: 'experience' },
-  { value: 1, decimals: 0, suffix: '', label: 'Certification', sub: 'Telkom University', sectionId: 'certificates' },
+  { value: 3, decimals: 0, suffix: '', label: 'Certification', sub: 'Microsoft & Tel-U', sectionId: 'certificates' },
 ]
 
 function HeroStatCard({

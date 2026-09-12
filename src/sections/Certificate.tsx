@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import AnimatedText from '@/components/AnimatedText'
 import { useInView } from 'react-intersection-observer'
 import gsap from 'gsap'
-import { FaFilePdf, FaAward } from 'react-icons/fa'
+import { FaFilePdf, FaAward, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import '@/styles/certificateCard.css'
 
 type CertificateItem = {
@@ -90,7 +90,7 @@ const Certificate = () => {
     }
   }, [inView])
 
-  // Extensible list — add more certificates / trainings here in the future
+  // Complete list of certificates (Telkom University & Microsoft)
   const certificates: CertificateItem[] = [
     {
       id: 'eprt-2025',
@@ -104,7 +104,76 @@ const Certificate = () => {
       tags: ['English Proficiency', 'Telkom University', 'Certificate'],
       pdfUrl: '/certificate/EPRT_Steven_2025.pdf',
     },
+    {
+      id: 'power-bi-achievement-2025',
+      title: 'Power BI Data Analytics Achievement',
+      issuer: 'Microsoft',
+      location: 'Microsoft Learn',
+      issuedDate: '21 November 2025',
+      expiryDate: 'Lifetime',
+      description:
+        'Official achievement from Microsoft for completing data analytics and business intelligence training using Microsoft Power BI, mastering data modeling, interactive dashboards, and reporting.',
+      tags: ['Microsoft', 'Power BI', 'Data Analytics', 'Business Intelligence', 'Data Modeling'],
+      pdfUrl: '/certificate/Power_BI_Data_Analytics_Steven.pdf',
+    },
+    {
+      id: 'explore-core-data-concepts-2025',
+      title: 'Explore Core Data Concepts',
+      issuer: 'Microsoft',
+      location: 'Microsoft Learn',
+      issuedDate: '19 November 2025',
+      expiryDate: 'Lifetime',
+      description:
+        'Official Microsoft achievement certifying foundational mastery of core data concepts, data roles, relational and non-relational database fundamentals, and cloud analytics architectures.',
+      tags: ['Microsoft', 'Data Engineering', 'Database Fundamentals', 'Cloud Analytics', 'Big Data'],
+      pdfUrl: '/certificate/Explore_Core_Data_Concepts_Steven.pdf',
+    },
   ]
+
+  // Slideshow state
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % certificates.length)
+  }, [certificates.length])
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + certificates.length) % certificates.length)
+  }, [certificates.length])
+
+  // Auto slide to the left every 5 seconds (paused when hovering)
+  useEffect(() => {
+    if (isPaused) return
+    const interval = setInterval(() => {
+      nextSlide()
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [isPaused, nextSlide])
+
+  // Touch swipe support for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (touchStart === null || touchEnd === null) return
+    const distance = touchStart - touchEnd
+    const minSwipeDistance = 45
+    if (distance > minSwipeDistance) {
+      nextSlide()
+    } else if (distance < -minSwipeDistance) {
+      prevSlide()
+    }
+    setTouchStart(null)
+    setTouchEnd(null)
+  }
 
   const getTitleSize = () => {
     if (screenWidth >= 2560) return '110px'
@@ -156,67 +225,123 @@ const Certificate = () => {
           triggerOnce={false}
         />
 
-        {/* Certificates Grid — 1 card = centered hero, 2+ cards = 2-column grid */}
-        <div className="cert-grid">
-          {certificates.map((cert) => (
-            <div key={cert.id} className="cert-card">
-              {/* Top Header Row (Issued Date & Validity Badge) */}
-              <div className="cert-header">
-                <div className="cert-badge cert-date">
-                  <span>📅</span>
-                  <span>Issued: {cert.issuedDate}</span>
-                </div>
+        {/* Carousel Showcase Container — 1 card displayed in center with smooth auto-slide */}
+        <div
+          className="cert-carousel-wrapper"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Previous Arrow Button */}
+          <button
+            type="button"
+            className="cert-nav-btn cert-nav-prev"
+            onClick={prevSlide}
+            aria-label="Previous Certificate"
+          >
+            <FaChevronLeft />
+          </button>
 
-                <div className="cert-badge cert-validity">
-                  <span>⏳</span>
-                  <span>Valid until {cert.expiryDate}</span>
-                </div>
-              </div>
-
-              {/* Certificate Title */}
-              <h3 className="cert-title">
-                <span className="cert-award-icon">
-                  <FaAward />
-                </span>
-                <span>{cert.title}</span>
-              </h3>
-
-              {/* Issuer & Location */}
-              <div className="cert-location">
-                <span>🏛️</span>
-                <span>{cert.issuer}</span>
-                <span className="cert-location-sep">•</span>
-                <span>📍</span>
-                <span>{cert.location}</span>
-              </div>
-
-              <div className="cert-divider" />
-
-              {/* Description */}
-              <p className="cert-desc">{cert.description}</p>
-
-              {/* Tech Tags Row */}
-              <div className="cert-tags-row">
-                {cert.tags.map((tag, idx) => (
-                  <span key={idx} className="cert-tag-pill">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              {/* View Certificate Button */}
-              <div className="cert-actions">
-                <a
-                  href={cert.pdfUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-cert-view"
+          {/* Carousel Viewport */}
+          <div className="cert-carousel-viewport">
+            <div
+              className="cert-carousel-track"
+              style={{
+                transform: `translateX(-${currentIndex * 100}%)`,
+              }}
+            >
+              {certificates.map((cert, index) => (
+                <div
+                  key={cert.id}
+                  className={`cert-carousel-slide ${index === currentIndex ? 'is-active' : ''}`}
+                  aria-hidden={index !== currentIndex}
                 >
-                  <FaFilePdf />
-                  <span>Certificate</span>
-                </a>
-              </div>
+                  <div className="cert-card">
+                    {/* Top Header Row (Issued Date & Validity Badge) */}
+                    <div className="cert-header">
+                      <div className="cert-badge cert-date">
+                        <span>📅</span>
+                        <span>Issued: {cert.issuedDate}</span>
+                      </div>
+
+                      <div className="cert-badge cert-validity">
+                        <span>⏳</span>
+                        <span>Valid until {cert.expiryDate}</span>
+                      </div>
+                    </div>
+
+                    {/* Certificate Title */}
+                    <h3 className="cert-title">
+                      <span className="cert-award-icon">
+                        <FaAward />
+                      </span>
+                      <span>{cert.title}</span>
+                    </h3>
+
+                    {/* Issuer & Location */}
+                    <div className="cert-location">
+                      <span>🏛️</span>
+                      <span>{cert.issuer}</span>
+                      <span className="cert-location-sep">•</span>
+                      <span>📍</span>
+                      <span>{cert.location}</span>
+                    </div>
+
+                    <div className="cert-divider" />
+
+                    {/* Description */}
+                    <p className="cert-desc">{cert.description}</p>
+
+                    {/* Tech Tags Row */}
+                    <div className="cert-tags-row">
+                      {cert.tags.map((tag, idx) => (
+                        <span key={idx} className="cert-tag-pill">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* View Certificate Button */}
+                    <div className="cert-actions">
+                      <a
+                        href={cert.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-cert-view"
+                      >
+                        <FaFilePdf />
+                        <span>Certificate</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
+          </div>
+
+          {/* Next Arrow Button */}
+          <button
+            type="button"
+            className="cert-nav-btn cert-nav-next"
+            onClick={nextSlide}
+            aria-label="Next Certificate"
+          >
+            <FaChevronRight />
+          </button>
+        </div>
+
+        {/* Carousel Pagination Dots */}
+        <div className="cert-dots-container">
+          {certificates.map((cert, index) => (
+            <button
+              key={cert.id}
+              type="button"
+              className={`cert-dot ${index === currentIndex ? 'active' : ''}`}
+              onClick={() => setCurrentIndex(index)}
+              aria-label={`Go to certificate ${index + 1}: ${cert.title}`}
+            />
           ))}
         </div>
       </div>
