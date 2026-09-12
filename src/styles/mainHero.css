@@ -3,13 +3,15 @@
 .main-hero-section {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 
 .site-loader {
@@ -238,6 +240,12 @@
   }
 }
 
+@media (max-width: 868px) {
+  .hero-logo-fixed {
+    display: none !important;
+  }
+}
+
 .hero-main-container {
   position: relative;
   z-index: 20;
@@ -317,7 +325,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     max-width: 580px;
-    margin: 22px auto 0 auto;
+    margin: 18px auto 0 auto;
   }
 }
 
@@ -325,9 +333,9 @@
 @media (max-width: 640px) {
   .hero-stats-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    max-width: 440px;
-    margin: 20px auto 0 auto;
+    gap: 8px;
+    max-width: 420px;
+    margin: 14px auto 0 auto;
   }
 }
 
@@ -337,7 +345,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
     max-width: 360px;
-    margin: 16px auto 0 auto;
+    margin: 12px auto 0 auto;
   }
 }
 
@@ -347,7 +355,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 6px;
     max-width: 300px;
-    margin: 14px auto 0 auto;
+    margin: 10px auto 0 auto;
   }
 }
 
@@ -567,44 +575,28 @@
 
 @media (max-width: 640px) {
   .hero-stat-card {
-    padding: 14px 14px;
-    border-radius: 18px;
+    padding: 10px 12px;
+    border-radius: 15px;
   }
   .hero-stat-number {
-    font-size: 1.7rem;
+    font-size: 1.48rem;
   }
   .hero-stat-label {
-    font-size: 0.82rem;
+    font-size: 0.76rem;
+    margin: 3px 0 1px 0;
   }
   .hero-stat-sub {
-    font-size: 0.7rem;
+    font-size: 0.66rem;
   }
 }
 
 @media (max-width: 480px) {
   .hero-stat-card {
-    padding: 12px 11px;
-    border-radius: 16px;
-  }
-  .hero-stat-number {
-    font-size: 1.55rem;
-  }
-  .hero-stat-label {
-    font-size: 0.78rem;
-    margin: 4px 0 2px 0;
-  }
-  .hero-stat-sub {
-    font-size: 0.68rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .hero-stat-card {
-    padding: 10px 8px;
+    padding: 9px 10px;
     border-radius: 14px;
   }
   .hero-stat-number {
-    font-size: 1.35rem;
+    font-size: 1.38rem;
   }
   .hero-stat-label {
     font-size: 0.72rem;
@@ -612,6 +604,23 @@
   }
   .hero-stat-sub {
     font-size: 0.62rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-stat-card {
+    padding: 8px 8px;
+    border-radius: 12px;
+  }
+  .hero-stat-number {
+    font-size: 1.25rem;
+  }
+  .hero-stat-label {
+    font-size: 0.68rem;
+    margin: 2px 0 1px 0;
+  }
+  .hero-stat-sub {
+    font-size: 0.58rem;
   }
 }
 
@@ -624,15 +633,28 @@
 }
 
 @media (max-width: 868px) {
+  .main-hero-section {
+    min-height: 100dvh;
+    height: auto;
+    justify-content: flex-start;
+    padding-top: 54px;
+    padding-bottom: 24px;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
   .hero-split-container {
     flex-direction: column-reverse;
-    justify-content: center;
-    gap: 24px;
+    justify-content: flex-start;
+    gap: 8px;
+    padding-top: 0 !important;
+    padding-bottom: 8px !important;
   }
 
   .hero-split-left {
     align-items: center;
     text-align: center;
+    width: 100%;
   }
 }
 
@@ -718,6 +740,28 @@
 .typed-text-chars {
   display: inline-block;
   line-height: 1;
+}
+
+@media (max-width: 640px) {
+  .hero-greeting {
+    font-size: 0.95rem;
+    margin-bottom: 1px !important;
+  }
+
+  .hero-name {
+    font-size: clamp(1.35rem, 5.2vw, 1.68rem);
+    margin-bottom: 4px !important;
+    white-space: nowrap;
+  }
+
+  .hero-typed-text {
+    font-size: clamp(0.96rem, 3.8vw, 1.2rem);
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    line-height: 34px !important;
+    margin: 0 0 8px 0 !important;
+  }
 }
 
 @media (min-width: 768px) {
@@ -905,7 +949,14 @@
 @media (max-width: 868px) {
   .hero-buttons-wrapper {
     justify-content: center;
-    gap: 18px !important;
+    gap: 12px !important;
+    margin-top: 4px;
+  }
+
+  .btn-split-project,
+  .btn-split-contact {
+    padding: 7px 15px;
+    font-size: 0.8rem;
   }
 }
 
@@ -1047,33 +1098,111 @@
 
 @media (max-width: 768px) {
   .hero-3d-showcase-container {
-    max-width: 340px;
-    height: 340px;
+    max-width: 320px;
+    height: 260px;
+    margin: 0 auto;
   }
 
   .hero-orbit-ring-ref {
-    width: 290px;
-    height: 290px;
+    width: 230px;
+    height: 230px;
   }
 
-  .hero-pedestal-ref {
-    width: 140px;
-    height: 36px;
-    bottom: 10%;
+  .hero-pedestal-purple {
+    width: 130px;
+    height: 32px;
+    bottom: 30px;
   }
 
+  .model-aura-container {
+    margin: 0 auto;
+  }
+
+  .ref-orbit-pill {
+    padding: 4px 10px;
+    font-size: 0.68rem;
+    gap: 5px;
+    border-radius: 40px;
+  }
+
+  /* Top Center: Machine Learning & Deep Learning */
   .pill-top-right {
-    top: 10%;
-    right: 0%;
+    top: -2px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .pill-top-right:hover {
+    transform: translateX(-50%) translateY(-2px) scale(1.03);
+  }
+
+  /* Mid Left: Python */
+  .pill-top-left {
+    top: 36%;
+    left: -16px;
+    right: auto;
+    transform: none;
+  }
+
+  .pill-top-left:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+
+  /* Mid Right: AI & LLM */
+  .pill-bottom-left {
+    top: 36%;
+    right: -16px;
+    left: auto;
+    bottom: auto;
+    transform: none;
+  }
+
+  .pill-bottom-left:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+
+  /* Bottom Center: Data Analysis & Visualization */
+  .pill-bottom-right {
+    bottom: -2px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .pill-bottom-right:hover {
+    transform: translateX(-50%) translateY(-2px) scale(1.03);
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-3d-showcase-container {
+    max-width: 285px;
+    height: 245px;
+  }
+
+  .hero-orbit-ring-ref {
+    width: 210px;
+    height: 210px;
+  }
+
+  .hero-pedestal-purple {
+    width: 120px;
+    height: 28px;
+    bottom: 26px;
+  }
+
+  .ref-orbit-pill {
+    padding: 3px 8px;
+    font-size: 0.63rem;
+    gap: 4px;
+  }
+
+  .pill-top-left {
+    left: -10px;
   }
 
   .pill-bottom-left {
-    bottom: 14%;
-    left: -4%;
-  }
-
-  .pill-bottom-right {
-    bottom: 4%;
-    right: 2%;
+    right: -10px;
   }
 }

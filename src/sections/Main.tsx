@@ -133,8 +133,9 @@ export default function Main() {
     if (screenWidth >= 1280) return 370
     if (screenWidth >= 1024) return 330
     if (screenWidth >= 768) return 290
-    if (screenWidth >= 640) return 250
-    return 210
+    if (screenWidth >= 640) return 240
+    if (screenWidth >= 400) return 190
+    return 175
   }
 
   const getLogoWidth = () => {
@@ -201,7 +202,7 @@ export default function Main() {
         </div>
 
         {/* Modern 2-Column Split Hero Layout */}
-        <div className="hero-split-container w-full max-w-[1280px] mx-auto px-6 md:px-12 py-10 my-auto relative z-20">
+        <div className="hero-split-container w-full max-w-[1280px] mx-auto px-5 md:px-12 py-4 md:py-10 my-auto relative z-20">
 
           {/* Left Column: Equalized Spacing with Single Line Name */}
           <div className="hero-split-left flex flex-col items-center md:items-start text-center md:text-left">
