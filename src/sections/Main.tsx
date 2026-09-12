@@ -174,7 +174,7 @@ export default function Main() {
       <section
         id="home"
         ref={sectionRef}
-        className={`main-hero-section relative min-h-screen text-white overflow-hidden flex flex-col justify-center ${isLoading || !isReady ? 'hero-content-hidden' : 'hero-content-visible'
+        className={`main-hero-section relative min-h-screen text-white flex flex-col justify-start md:justify-center overflow-x-hidden ${isLoading || !isReady ? 'hero-content-hidden' : 'hero-content-visible'
           }`}
         itemScope
         itemType="https://schema.org/Person"
@@ -202,7 +202,7 @@ export default function Main() {
         </div>
 
         {/* Modern 2-Column Split Hero Layout */}
-        <div className="hero-split-container w-full max-w-[1280px] mx-auto px-5 md:px-12 py-4 md:py-10 my-auto relative z-20">
+        <div className="hero-split-container w-full max-w-[1280px] mx-auto px-4 md:px-12 py-2 md:py-10 md:my-auto relative z-20">
 
           {/* Left Column: Equalized Spacing with Single Line Name */}
           <div className="hero-split-left flex flex-col items-center md:items-start text-center md:text-left">

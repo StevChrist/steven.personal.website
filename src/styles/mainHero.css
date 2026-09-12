@@ -636,9 +636,9 @@
   .main-hero-section {
     min-height: 100dvh;
     height: auto;
-    justify-content: flex-start;
-    padding-top: 54px;
-    padding-bottom: 24px;
+    justify-content: flex-start !important;
+    padding-top: 48px !important;
+    padding-bottom: 16px !important;
     overflow-x: hidden;
     overflow-y: visible;
   }
@@ -646,9 +646,11 @@
   .hero-split-container {
     flex-direction: column-reverse;
     justify-content: flex-start;
-    gap: 8px;
+    gap: 6px !important;
     padding-top: 0 !important;
-    padding-bottom: 8px !important;
+    padding-bottom: 4px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   .hero-split-left {
@@ -1099,35 +1101,46 @@
 @media (max-width: 768px) {
   .hero-3d-showcase-container {
     max-width: 320px;
-    height: 260px;
+    height: 250px;
     margin: 0 auto;
   }
 
   .hero-orbit-ring-ref {
-    width: 230px;
-    height: 230px;
+    width: 220px;
+    height: 220px;
+    top: 45%;
   }
 
   .hero-pedestal-purple {
-    width: 130px;
+    width: 136px;
     height: 32px;
-    bottom: 30px;
+    bottom: 58px;
   }
 
   .model-aura-container {
     margin: 0 auto;
+    animation: modelFloatMobile 4.2s infinite ease-in-out;
+  }
+
+  @keyframes modelFloatMobile {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
   }
 
   .ref-orbit-pill {
-    padding: 4px 10px;
-    font-size: 0.68rem;
+    padding: 3px 10px;
+    font-size: 0.67rem;
     gap: 5px;
     border-radius: 40px;
   }
 
   /* Top Center: Machine Learning & Deep Learning */
   .pill-top-right {
-    top: -2px;
+    top: 2px;
     left: 50%;
     right: auto;
     transform: translateX(-50%);
@@ -1139,8 +1152,8 @@
 
   /* Mid Left: Python */
   .pill-top-left {
-    top: 36%;
-    left: -16px;
+    top: 38%;
+    left: -8px;
     right: auto;
     transform: none;
   }
@@ -1151,8 +1164,8 @@
 
   /* Mid Right: AI & LLM */
   .pill-bottom-left {
-    top: 36%;
-    right: -16px;
+    top: 38%;
+    right: -8px;
     left: auto;
     bottom: auto;
     transform: none;
@@ -1164,7 +1177,7 @@
 
   /* Bottom Center: Data Analysis & Visualization */
   .pill-bottom-right {
-    bottom: -2px;
+    bottom: 12px;
     left: 50%;
     right: auto;
     transform: translateX(-50%);
@@ -1178,31 +1191,36 @@
 @media (max-width: 380px) {
   .hero-3d-showcase-container {
     max-width: 285px;
-    height: 245px;
+    height: 240px;
   }
 
   .hero-orbit-ring-ref {
-    width: 210px;
-    height: 210px;
+    width: 200px;
+    height: 200px;
+    top: 45%;
   }
 
   .hero-pedestal-purple {
     width: 120px;
     height: 28px;
-    bottom: 26px;
+    bottom: 54px;
   }
 
   .ref-orbit-pill {
-    padding: 3px 8px;
-    font-size: 0.63rem;
+    padding: 2px 7px;
+    font-size: 0.62rem;
     gap: 4px;
   }
 
   .pill-top-left {
-    left: -10px;
+    left: -4px;
   }
 
   .pill-bottom-left {
-    right: -10px;
+    right: -4px;
+  }
+
+  .pill-bottom-right {
+    bottom: 8px;
   }
 }
