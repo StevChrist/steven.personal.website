@@ -658,6 +658,13 @@
     text-align: center;
     width: 100%;
   }
+
+  .hero-split-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /* 3D Model Aura Container */
@@ -1013,12 +1020,13 @@
 /* 3D Showcase Deck matching User Reference Image */
 .hero-3d-showcase-container {
   position: relative;
-  width: 100%;
-  max-width: 500px;
+  width: 500px;
+  max-width: 100%;
   height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .hero-orbit-ring-ref {
@@ -1050,8 +1058,6 @@
   pointer-events: none;
   z-index: 10;
 }
-
-
 
 .ref-orbit-pill {
   position: absolute;
@@ -1098,23 +1104,28 @@
   right: -19%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .hero-3d-showcase-container {
-    max-width: 320px;
-    height: 250px;
+    width: 330px;
+    height: 270px;
+    max-width: 95vw;
     margin: 0 auto;
   }
 
   .hero-orbit-ring-ref {
-    width: 220px;
-    height: 220px;
-    top: 45%;
+    width: 230px;
+    height: 230px;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .hero-pedestal-purple {
-    width: 136px;
+    width: 132px;
     height: 32px;
-    bottom: 58px;
+    bottom: 38px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .model-aura-container {
@@ -1132,29 +1143,19 @@
   }
 
   .ref-orbit-pill {
-    padding: 3px 10px;
+    padding: 3px 9px;
     font-size: 0.67rem;
     gap: 5px;
     border-radius: 40px;
+    white-space: nowrap;
   }
 
-  /* Top Center: Machine Learning & Deep Learning */
-  .pill-top-right {
-    top: 2px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-  }
-
-  .pill-top-right:hover {
-    transform: translateX(-50%) translateY(-2px) scale(1.03);
-  }
-
-  /* Mid Left: Python */
+  /* Top Left: Python */
   .pill-top-left {
-    top: 38%;
-    left: -8px;
+    top: 20%;
+    left: 3%;
     right: auto;
+    bottom: auto;
     transform: none;
   }
 
@@ -1162,12 +1163,28 @@
     transform: translateY(-2px) scale(1.03);
   }
 
-  /* Mid Right: AI & LLM */
-  .pill-bottom-left {
-    top: 38%;
-    right: -8px;
+  /* Top Right: Machine Learning & Deep Learning */
+  .pill-top-right {
+    top: 13%;
+    right: -10%;
     left: auto;
     bottom: auto;
+    transform: none;
+    font-size: 0.63rem;
+    padding: 3px 8px;
+    gap: 4px;
+  }
+
+  .pill-top-right:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+
+  /* Bottom Left: AI & LLM */
+  .pill-bottom-left {
+    bottom: 24%;
+    left: 0%;
+    top: auto;
+    right: auto;
     transform: none;
   }
 
@@ -1175,52 +1192,69 @@
     transform: translateY(-2px) scale(1.03);
   }
 
-  /* Bottom Center: Data Analysis & Visualization */
+  /* Bottom Right: Data Analysis & Visualization */
   .pill-bottom-right {
-    bottom: 12px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+    bottom: 18%;
+    right: -10%;
+    top: auto;
+    left: auto;
+    transform: none;
+    font-size: 0.63rem;
+    padding: 3px 8px;
+    gap: 4px;
   }
 
   .pill-bottom-right:hover {
-    transform: translateX(-50%) translateY(-2px) scale(1.03);
+    transform: translateY(-2px) scale(1.03);
   }
 }
 
 @media (max-width: 380px) {
   .hero-3d-showcase-container {
-    max-width: 285px;
-    height: 240px;
+    width: 290px;
+    height: 250px;
+    max-width: 98vw;
   }
 
   .hero-orbit-ring-ref {
-    width: 200px;
-    height: 200px;
-    top: 45%;
+    width: 205px;
+    height: 205px;
+    top: 46%;
   }
 
   .hero-pedestal-purple {
     width: 120px;
     height: 28px;
-    bottom: 54px;
+    bottom: 34px;
   }
 
   .ref-orbit-pill {
     padding: 2px 7px;
-    font-size: 0.62rem;
+    font-size: 0.61rem;
     gap: 4px;
   }
 
   .pill-top-left {
-    left: -4px;
+    top: 19%;
+    left: 1%;
+  }
+
+  .pill-top-right {
+    top: 12%;
+    right: -6%;
+    font-size: 0.58rem;
+    padding: 2px 6px;
   }
 
   .pill-bottom-left {
-    right: -4px;
+    bottom: 23%;
+    left: -1%;
   }
 
   .pill-bottom-right {
-    bottom: 8px;
+    bottom: 17%;
+    right: -6%;
+    font-size: 0.58rem;
+    padding: 2px 6px;
   }
 }
