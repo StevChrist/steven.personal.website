@@ -46,12 +46,14 @@ export default function JsonLd() {
       'Web Development',
     ],
     sameAs: [
+      'https://www.linkedin.com/in/stevenimmanuelcgirsang',
       'https://www.linkedin.com/in/stevenchristiano',
       'https://github.com/StevChrist',
       'https://www.instagram.com/_stev.chris/',
       'https://x.com/_Stevchris',
       'https://www.tiktok.com/@stev.chris',
     ],
+    mainEntityOfPage: 'https://stevchrist.site',
     nationality: {
       '@type': 'Country',
       name: 'Indonesia',
@@ -62,16 +64,23 @@ export default function JsonLd() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': 'https://stevchrist.site/#website',
-    name: 'Steven Immanuel C. Girsang | Personal Website',
+    name: 'Steven Girsang | Personal Website & Portfolio',
     alternateName: [
+      'Steven Immanuel C. Girsang Website',
       'Steven Girsang Portfolio',
-      'Steven Immanuel C Girsang Website',
       'StevChrist Portfolio',
+      'StevChrist',
+      'Steven Immanuel Portfolio',
     ],
     url: 'https://stevchrist.site',
+    about: {
+      '@id': 'https://stevchrist.site/#person',
+    },
+    author: {
+      '@id': 'https://stevchrist.site/#person',
+    },
     publisher: {
-      '@type': 'Person',
-      name: 'Steven Immanuel C. Girsang',
+      '@id': 'https://stevchrist.site/#person',
     },
   }
 

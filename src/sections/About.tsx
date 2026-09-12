@@ -163,8 +163,8 @@ const About = () => {
                   Hello! I am{' '}
                   <span className="passion-text-bold-white">
                     Steven Immanuel C. Girsang
-                  </span>
-                  , a fresh graduate in Data Science from{' '}
+                  </span>{' '}
+                  (also known as <span className="passion-text-bold-white">Steven Girsang</span> / <span className="passion-text-bold-cyan">StevChrist</span>), a fresh graduate in Data Science from{' '}
                   <span className="passion-text-bold-cyan">
                     Telkom University, Bandung
                   </span>

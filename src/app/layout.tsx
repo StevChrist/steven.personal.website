@@ -34,8 +34,8 @@ const pacifico = Pacifico({
 export const metadata: Metadata = {
   metadataBase: new URL('https://stevchrist.site'),
   title: {
-    default: 'Steven Immanuel C. Girsang (Steven Girsang) | Personal Website',
-    template: '%s | Steven Immanuel C. Girsang',
+    default: 'Steven Girsang | Data Scientist & Portfolio (Steven Immanuel C. Girsang)',
+    template: '%s | Steven Girsang',
   },
   description: 'Official personal website and portfolio of Steven Immanuel C. Girsang (Steven Girsang / StevChrist) — Data Scientist & Data Engineer, fresh graduate from Telkom University Bandung. Specializing in Machine Learning, Data Analytics, and Web Development.',
   icons: {
@@ -62,15 +62,15 @@ export const metadata: Metadata = {
     'Bandung',
     'stevchrist.site',
   ],
-  authors: [{ name: 'Steven Immanuel C. Girsang', url: 'https://stevchrist.site' }],
+  authors: [{ name: 'Steven Immanuel C. Girsang (Steven Girsang)', url: 'https://stevchrist.site' }],
   creator: 'Steven Immanuel C. Girsang',
   publisher: 'Steven Immanuel C. Girsang',
   alternates: {
     canonical: 'https://stevchrist.site',
   },
   openGraph: {
-    title: 'Steven Immanuel C. Girsang | Personal Website',
-    description: 'Personal portfolio of Steven Immanuel C. Girsang — Data Scientist from Telkom University Bandung.',
+    title: 'Steven Girsang | Data Scientist & Portfolio (Steven Immanuel C. Girsang)',
+    description: 'Personal portfolio of Steven Immanuel C. Girsang (Steven Girsang) — Data Scientist from Telkom University Bandung.',
     url: 'https://stevchrist.site',
     siteName: 'Steven Immanuel C. Girsang',
     type: 'website',
@@ -86,8 +86,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Steven Immanuel C. Girsang | Personal Website',
-    description: 'Personal portfolio of Steven Immanuel C. Girsang — Data Scientist from Telkom University Bandung.',
+    title: 'Steven Girsang | Data Scientist & Portfolio (Steven Immanuel C. Girsang)',
+    description: 'Personal portfolio of Steven Immanuel C. Girsang (Steven Girsang) — Data Scientist from Telkom University Bandung.',
     creator: '@_Stevchris',
     images: ['/image/og-image.png'],
   },

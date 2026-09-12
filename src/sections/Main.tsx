@@ -180,8 +180,11 @@ export default function Main() {
         itemType="https://schema.org/Person"
       >
         <meta itemProp="url" content="https://stevchrist.site" />
-        <meta itemProp="jobTitle" content="Data Scientist" />
+        <meta itemProp="jobTitle" content="Data Scientist & Data Engineer" />
         <meta itemProp="alumniOf" content="Telkom University" />
+        <meta itemProp="alternateName" content="Steven Girsang" />
+        <meta itemProp="alternateName" content="StevChrist" />
+        <meta itemProp="alternateName" content="Steven Immanuel" />
 
         {/* Ambient Canvas Background */}
         <div className="hero-tech-grid-bg" />
