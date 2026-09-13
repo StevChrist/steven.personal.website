@@ -41,7 +41,6 @@
   width: 92%;
   max-width: 530px;
   transform-origin: center center;
-  will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -77,6 +76,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 @media (max-width: 640px) {
@@ -326,14 +328,14 @@
 }
 
 .btn-cert-view:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 0 30px rgba(100, 181, 155, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(100, 181, 155, 0.95);
   border-color: #a7f3d0;
   color: #ffffff;
 }
 
 .btn-cert-view:active {
-  transform: translateY(0) scale(0.98);
+  transform: translateY(0);
 }
 
 /* Circular Nav Buttons - Exact Match to User Reference (media_1789293288873.png) */

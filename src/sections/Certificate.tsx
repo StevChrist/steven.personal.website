@@ -287,8 +287,8 @@ const Certificate = () => {
                   }}
                   whileHover={
                     isCenter
-                      ? { scale: 1.01 }
-                      : { scale: transform.scale * 1.04, opacity: 0.85 }
+                      ? undefined
+                      : { scale: transform.scale * 1.03, opacity: 0.85 }
                   }
                 >
                   <div className={`cert-card ${isCenter ? 'cert-card-center' : 'cert-card-side'}`}>
