@@ -145,14 +145,14 @@ const Certificate = () => {
   }
 
   // Calculate 3D position styling for each card relative to currentIndex
-  // Center card is kept at z: 0, scale: 1, rotate: 0 for 100% pixel-perfect HD font clarity!
+  // Center card is 100% sharp HD without blur, side cards are blurred to focus solely on center card
   const getCardTransform = (index: number) => {
     const diff = (index - currentIndex + certificates.length) % certificates.length
     const isMobile = screenWidth < 640
     const isTablet = screenWidth >= 640 && screenWidth < 1024
 
     if (diff === 0) {
-      // Active center card: 1:1 pixel grid, zero texture rescaling for razor-sharp HD text
+      // Active center card: 1:1 pixel grid, razor-sharp HD, NO blur
       return {
         x: 0,
         y: 0,
@@ -161,34 +161,37 @@ const Certificate = () => {
         rotateZ: 0,
         scale: 1,
         opacity: 1,
+        filter: 'blur(0px)',
         zIndex: 20,
         pointerEvents: 'auto' as const,
       }
     } else if (diff === 1) {
-      // Right tilted fan card: spaced nicely to the right
-      const xOffset = isMobile ? 100 : isTablet ? 270 : 380
+      // Right tilted fan card: blurred side card
+      const xOffset = isMobile ? 95 : isTablet ? 260 : 370
       return {
         x: xOffset,
         y: isMobile ? 8 : 10,
         z: -60,
         rotateY: isMobile ? -10 : -16,
         rotateZ: isMobile ? 4 : 7,
-        scale: isMobile ? 0.74 : isTablet ? 0.8 : 0.85,
-        opacity: isMobile ? 0.35 : 0.6,
+        scale: isMobile ? 0.74 : isTablet ? 0.8 : 0.84,
+        opacity: isMobile ? 0.35 : 0.48,
+        filter: 'blur(4.5px)',
         zIndex: 5,
         pointerEvents: 'auto' as const,
       }
     } else if (diff === 2) {
-      // Left tilted fan card: spaced nicely to the left
-      const xOffset = isMobile ? -100 : isTablet ? -270 : -380
+      // Left tilted fan card: blurred side card
+      const xOffset = isMobile ? -95 : isTablet ? -260 : -370
       return {
         x: xOffset,
         y: isMobile ? 8 : 10,
         z: -60,
         rotateY: isMobile ? 10 : 16,
         rotateZ: isMobile ? -4 : -7,
-        scale: isMobile ? 0.74 : isTablet ? 0.8 : 0.85,
-        opacity: isMobile ? 0.35 : 0.6,
+        scale: isMobile ? 0.74 : isTablet ? 0.8 : 0.84,
+        opacity: isMobile ? 0.35 : 0.48,
+        filter: 'blur(4.5px)',
         zIndex: 5,
         pointerEvents: 'auto' as const,
       }
@@ -202,6 +205,7 @@ const Certificate = () => {
       rotateZ: 0,
       scale: 0.5,
       opacity: 0,
+      filter: 'blur(8px)',
       zIndex: 1,
       pointerEvents: 'none' as const,
     }
@@ -256,8 +260,9 @@ const Certificate = () => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {/* 3D Cards Viewport */}
+          {/* 3D Cards Viewport with Flanking Arrow Controls */}
           <div className="cert-3d-viewport relative w-full flex items-center justify-center">
+            {/* 3D Cards */}
             {certificates.map((cert, index) => {
               const transform = getCardTransform(index)
               const isCenter = index === currentIndex
@@ -278,6 +283,7 @@ const Certificate = () => {
                     rotateZ: transform.rotateZ,
                     scale: transform.scale,
                     opacity: transform.opacity,
+                    filter: transform.filter,
                   }}
                   transition={springTransition}
                   onClick={() => {
@@ -288,7 +294,7 @@ const Certificate = () => {
                   whileHover={
                     isCenter
                       ? undefined
-                      : { scale: transform.scale * 1.03, opacity: 0.85 }
+                      : { scale: transform.scale * 1.03, opacity: 0.75, filter: 'blur(2px)' }
                   }
                 >
                   <div className={`cert-card ${isCenter ? 'cert-card-center' : 'cert-card-side'}`}>
@@ -336,7 +342,7 @@ const Certificate = () => {
                       ))}
                     </div>
 
-                    {/* View Certificate Button (No Photo Preview, Direct PDF Link) */}
+                    {/* View Certificate Button (Direct PDF Link) */}
                     <div className="cert-actions">
                       <a
                         href={cert.pdfUrl}
@@ -359,27 +365,29 @@ const Certificate = () => {
                 </motion.div>
               )
             })}
-          </div>
 
-          {/* Navigation Controls: Chevron buttons spaced widely apart framing the card */}
-          <div className="cert-nav-container flex items-center justify-between w-full max-w-[420px] sm:max-w-[480px] mt-8 sm:mt-12 z-30 px-4">
-            <button
-              type="button"
-              aria-label="Previous Certificate"
-              onClick={prevSlide}
-              className="cert-nav-circle-btn group cursor-pointer"
-            >
-              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200 group-hover:-translate-x-0.5" strokeWidth={2.6} />
-            </button>
+            {/* Left & Right Chevron Buttons Flanking the Center (Focus) Card */}
+            <div className="cert-flank-controls-container absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+              <div className="cert-flank-controls-inner relative w-full max-w-[530px] flex items-center justify-between">
+                <button
+                  type="button"
+                  aria-label="Previous Certificate"
+                  onClick={prevSlide}
+                  className="cert-nav-flank-btn cert-nav-flank-left pointer-events-auto cursor-pointer"
+                >
+                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200" strokeWidth={2.6} />
+                </button>
 
-            <button
-              type="button"
-              aria-label="Next Certificate"
-              onClick={nextSlide}
-              className="cert-nav-circle-btn group cursor-pointer"
-            >
-              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200 group-hover:translate-x-0.5" strokeWidth={2.6} />
-            </button>
+                <button
+                  type="button"
+                  aria-label="Next Certificate"
+                  onClick={nextSlide}
+                  className="cert-nav-flank-btn cert-nav-flank-right pointer-events-auto cursor-pointer"
+                >
+                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200" strokeWidth={2.6} />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

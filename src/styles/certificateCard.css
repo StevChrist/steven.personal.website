@@ -14,7 +14,7 @@
 .cert-3d-viewport {
   position: relative;
   width: 100%;
-  height: 390px;
+  height: 400px;
   perspective: 1400px;
   transform-style: preserve-3d;
   display: flex;
@@ -26,13 +26,13 @@
 
 @media (max-width: 768px) {
   .cert-3d-viewport {
-    height: 420px;
+    height: 425px;
   }
 }
 
 @media (max-width: 480px) {
   .cert-3d-viewport {
-    height: 440px;
+    height: 445px;
   }
 }
 
@@ -72,7 +72,7 @@
   text-align: left;
   width: 100%;
   box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -88,24 +88,30 @@
   }
 }
 
-/* Active Center Card Highlight - Razor Sharp HD */
+/* Active Center Card Highlight - Razor Sharp HD with Zero Blur */
 .cert-card-center {
   border: 1.5px solid #64b59b;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 28px rgba(100, 181, 155, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35);
   pointer-events: auto;
   background: rgba(8, 17, 13, 0.96);
+  filter: none !important;
+  -webkit-filter: none !important;
 }
 
-/* Side Card */
+.cert-card-center:hover {
+  border-color: #84d4b9;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(100, 181, 155, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* Side Card: Blurred so focus is 100% on center card */
 .cert-card-side {
   cursor: pointer;
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
 }
 
 .cert-card-side:hover {
-  border-color: rgba(100, 181, 155, 0.5);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.65), 0 0 16px rgba(100, 181, 155, 0.25);
+  border-color: rgba(100, 181, 155, 0.3);
 }
 
 /* Header Row: Issued Date & Validity */
@@ -338,41 +344,106 @@
   transform: translateY(0);
 }
 
-/* Circular Nav Buttons - Exact Match to User Reference (media_1789293288873.png) */
-.cert-nav-container {
-  margin: 32px auto 0 auto;
+/* Flank Navigation Buttons - Positioned to the Left & Right of the Center (Focus) Card */
+.cert-flank-controls-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 35;
 }
 
-.cert-nav-circle-btn {
+.cert-flank-controls-inner {
+  position: relative;
+  width: 100%;
+  max-width: 530px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .cert-flank-controls-inner {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 380px) {
+  .cert-flank-controls-inner {
+    max-width: 315px;
+  }
+}
+
+.cert-nav-flank-btn {
   width: 48px;
   height: 48px;
   border-radius: 50%;
   background: #111e18;
   border: 1.5px solid #2e624c;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
   cursor: pointer;
+  pointer-events: auto;
   transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 @media (min-width: 640px) {
-  .cert-nav-circle-btn {
+  .cert-nav-flank-btn {
     width: 52px;
     height: 52px;
   }
 }
 
-.cert-nav-circle-btn:hover {
-  background: #183025;
-  border-color: #52a887;
-  transform: scale(1.12);
-  box-shadow: 0 0 22px rgba(64, 138, 113, 0.7);
+.cert-nav-flank-left {
+  left: -24px;
 }
 
-.cert-nav-circle-btn:active {
-  transform: scale(0.94);
+@media (min-width: 640px) {
+  .cert-nav-flank-left {
+    left: -32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cert-nav-flank-left {
+    left: -42px;
+  }
+}
+
+.cert-nav-flank-right {
+  right: -24px;
+}
+
+@media (min-width: 640px) {
+  .cert-nav-flank-right {
+    right: -32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cert-nav-flank-right {
+    right: -42px;
+  }
+}
+
+.cert-nav-flank-btn:hover {
+  background: #183025;
+  border-color: #52a887;
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 0 24px rgba(64, 138, 113, 0.75);
+}
+
+.cert-nav-flank-btn:active {
+  transform: translateY(-50%) scale(0.95);
   background: #0d1713;
 }
