@@ -365,28 +365,28 @@ const Certificate = () => {
                 </motion.div>
               )
             })}
+          </div>
 
-            {/* Left & Right Chevron Buttons Flanking the Center (Focus) Card */}
-            <div className="cert-flank-controls-container absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-              <div className="cert-flank-controls-inner relative w-full max-w-[530px] flex items-center justify-between">
-                <button
-                  type="button"
-                  aria-label="Previous Certificate"
-                  onClick={prevSlide}
-                  className="cert-nav-flank-btn cert-nav-flank-left pointer-events-auto cursor-pointer"
-                >
-                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200" strokeWidth={2.6} />
-                </button>
+          {/* Left & Right Chevron Buttons Flanking the Center (Focus) Card - ALWAYS ON TOP */}
+          <div className="cert-flank-controls-container absolute inset-0 flex items-center justify-center pointer-events-none z-50">
+            <div className="cert-flank-controls-inner relative w-full max-w-[530px] flex items-center justify-between">
+              <button
+                type="button"
+                aria-label="Previous Certificate"
+                onClick={prevSlide}
+                className="cert-nav-flank-btn cert-nav-flank-left pointer-events-auto cursor-pointer"
+              >
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200" strokeWidth={2.6} />
+              </button>
 
-                <button
-                  type="button"
-                  aria-label="Next Certificate"
-                  onClick={nextSlide}
-                  className="cert-nav-flank-btn cert-nav-flank-right pointer-events-auto cursor-pointer"
-                >
-                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200" strokeWidth={2.6} />
-                </button>
-              </div>
+              <button
+                type="button"
+                aria-label="Next Certificate"
+                onClick={nextSlide}
+                className="cert-nav-flank-btn cert-nav-flank-right pointer-events-auto cursor-pointer"
+              >
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200" strokeWidth={2.6} />
+              </button>
             </div>
           </div>
         </div>

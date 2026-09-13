@@ -7,8 +7,9 @@
 
 /* 3D Fan Carousel Stage */
 .cert-stage-wrapper {
-  perspective: 1400px;
+  position: relative;
   width: 100%;
+  margin-top: 10px;
 }
 
 .cert-3d-viewport {
@@ -21,7 +22,9 @@
   align-items: center;
   justify-content: center;
   overflow: visible;
-  margin-top: 10px;
+  margin-top: 0;
+  isolation: isolate;
+  z-index: 1;
 }
 
 @media (max-width: 768px) {
@@ -344,7 +347,7 @@
   transform: translateY(0);
 }
 
-/* Flank Navigation Buttons - Positioned to the Left & Right of the Center (Focus) Card */
+/* Flank Navigation Buttons - Positioned to the Left & Right of the Center (Focus) Card - ALWAYS ON TOP */
 .cert-flank-controls-container {
   position: absolute;
   inset: 0;
@@ -352,7 +355,7 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  z-index: 35;
+  z-index: 100;
 }
 
 .cert-flank-controls-inner {
@@ -395,6 +398,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 101;
 }
 
 @media (min-width: 640px) {
