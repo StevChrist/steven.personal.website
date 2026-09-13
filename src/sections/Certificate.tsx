@@ -1,10 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
 import { useInView } from 'react-intersection-observer'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { FaFilePdf, FaAward, FaArrowLeft, FaArrowRight, FaExternalLinkAlt } from 'react-icons/fa'
 import '@/styles/certificateCard.css'
 
@@ -18,7 +17,6 @@ type CertificateItem = {
   description: string
   tags: string[]
   pdfUrl: string
-  imageUrl: string
 }
 
 const certificates: CertificateItem[] = [
@@ -33,7 +31,6 @@ const certificates: CertificateItem[] = [
       'Official English Proficiency Test (EPrT) certificate issued by Telkom University, certifying English language proficiency for academic and professional communication.',
     tags: ['English Proficiency', 'Telkom University', 'Certificate'],
     pdfUrl: '/certificate/EPRT_Steven_2025.pdf',
-    imageUrl: '/certificate/EPRT_Steven_2025.png',
   },
   {
     id: 'power-bi-achievement-2025',
@@ -46,7 +43,6 @@ const certificates: CertificateItem[] = [
       'Official achievement from Microsoft for completing data analytics and business intelligence training using Microsoft Power BI, mastering data modeling, interactive dashboards, and reporting.',
     tags: ['Microsoft', 'Power BI', 'Data Analytics', 'Business Intelligence', 'Data Modeling'],
     pdfUrl: '/certificate/Power_BI_Data_Analytics_Steven.pdf',
-    imageUrl: '/certificate/Power_BI_Data_Analytics_Steven.png',
   },
   {
     id: 'explore-core-data-concepts-2025',
@@ -59,14 +55,13 @@ const certificates: CertificateItem[] = [
       'Official Microsoft achievement certifying foundational mastery of core data concepts, data roles, relational and non-relational database fundamentals, and cloud analytics architectures.',
     tags: ['Microsoft', 'Data Engineering', 'Database Fundamentals', 'Cloud Analytics', 'Big Data'],
     pdfUrl: '/certificate/Explore_Core_Data_Concepts_Steven.pdf',
-    imageUrl: '/certificate/Explore_Core_Data_Concepts_Steven.png',
   },
 ]
 
 const springTransition = {
   type: 'spring',
-  stiffness: 70,
-  damping: 17,
+  stiffness: 65,
+  damping: 16,
   mass: 0.8,
 } as const
 
@@ -148,8 +143,6 @@ const Certificate = () => {
     return '10px'
   }
 
-  const activeCert = certificates[currentIndex]
-
   // Calculate 3D position styling for each card relative to currentIndex
   const getCardTransform = (index: number) => {
     const diff = (index - currentIndex + certificates.length) % certificates.length
@@ -161,7 +154,7 @@ const Certificate = () => {
       return {
         x: 0,
         y: 0,
-        z: 90,
+        z: 80,
         rotateY: 0,
         rotateZ: 0,
         scale: 1,
@@ -171,29 +164,29 @@ const Certificate = () => {
       }
     } else if (diff === 1) {
       // Right tilted fan card
-      const xOffset = isMobile ? 120 : isTablet ? 220 : 310
+      const xOffset = isMobile ? 85 : isTablet ? 240 : 330
       return {
         x: xOffset,
-        y: isMobile ? 8 : 14,
-        z: -60,
-        rotateY: isMobile ? -14 : -20,
-        rotateZ: isMobile ? 12 : 16,
-        scale: isMobile ? 0.72 : 0.8,
-        opacity: 0.7,
+        y: isMobile ? 8 : 12,
+        z: -50,
+        rotateY: isMobile ? -12 : -18,
+        rotateZ: isMobile ? 5 : 8,
+        scale: isMobile ? 0.72 : isTablet ? 0.78 : 0.82,
+        opacity: isMobile ? 0.38 : 0.55,
         zIndex: 5,
         pointerEvents: 'auto' as const,
       }
     } else if (diff === 2) {
       // Left tilted fan card
-      const xOffset = isMobile ? -120 : isTablet ? -220 : -310
+      const xOffset = isMobile ? -85 : isTablet ? -240 : -330
       return {
         x: xOffset,
-        y: isMobile ? 8 : 14,
-        z: -60,
-        rotateY: isMobile ? 14 : 20,
-        rotateZ: isMobile ? -12 : -16,
-        scale: isMobile ? 0.72 : 0.8,
-        opacity: 0.7,
+        y: isMobile ? 8 : 12,
+        z: -50,
+        rotateY: isMobile ? 12 : 18,
+        rotateZ: isMobile ? -5 : -8,
+        scale: isMobile ? 0.72 : isTablet ? 0.78 : 0.82,
+        opacity: isMobile ? 0.38 : 0.55,
         zIndex: 5,
         pointerEvents: 'auto' as const,
       }
@@ -218,9 +211,6 @@ const Certificate = () => {
       nextSlide()
     } else if (diff === 2) {
       prevSlide()
-    } else if (diff === 0) {
-      // If clicking center card, open PDF
-      window.open(certificates[index].pdfUrl, '_blank')
     }
   }
 
@@ -234,12 +224,12 @@ const Certificate = () => {
       className="bg-transparent text-white min-h-screen w-full flex flex-col justify-start items-center border-0 outline-none overflow-x-hidden"
       style={{
         paddingTop: '90px',
-        paddingBottom: '70px',
+        paddingBottom: '80px',
         paddingLeft: '16px',
         paddingRight: '16px',
       }}
     >
-      <div className="cert-container flex flex-col items-center w-full max-w-5xl">
+      <div className="cert-container flex flex-col items-center w-full max-w-6xl">
         {/* Title */}
         <AnimatedText
           text="Certificate_"
@@ -255,7 +245,7 @@ const Certificate = () => {
           triggerOnce={false}
         />
 
-        {/* 3D Fan Stage Showcase */}
+        {/* 3D Fan Carousel Stage */}
         <div
           className="cert-stage-wrapper relative w-full flex flex-col items-center"
           onMouseEnter={() => setIsPaused(true)}
@@ -264,66 +254,113 @@ const Certificate = () => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {/* 3D Perspective Ring Container */}
-          <div className="cert-fan-viewport relative w-full flex items-center justify-center">
-            <div
-              className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] flex items-center justify-center"
-              style={{ perspective: 1200, transformStyle: 'preserve-3d' }}
-            >
-              {certificates.map((cert, index) => {
-                const transform = getCardTransform(index)
-                const isCenter = index === currentIndex
+          {/* 3D Cards Viewport */}
+          <div className="cert-3d-viewport relative w-full flex items-center justify-center">
+            {certificates.map((cert, index) => {
+              const transform = getCardTransform(index)
+              const isCenter = index === currentIndex
 
-                return (
-                  <motion.div
-                    key={cert.id}
-                    className="absolute flex items-center justify-center cursor-pointer select-none"
-                    style={{
-                      transformStyle: 'preserve-3d',
-                      zIndex: transform.zIndex,
-                    }}
-                    animate={{
-                      x: transform.x,
-                      y: transform.y,
-                      z: transform.z,
-                      rotateY: transform.rotateY,
-                      rotateZ: transform.rotateZ,
-                      scale: transform.scale,
-                      opacity: transform.opacity,
-                    }}
-                    transition={springTransition}
-                    onClick={() => handleCardClick(index)}
-                    whileHover={
-                      isCenter
-                        ? { scale: 1.03, z: 110 }
-                        : { scale: transform.scale * 1.06, opacity: 0.95 }
+              return (
+                <motion.div
+                  key={cert.id}
+                  className={`cert-3d-card-wrapper absolute ${isCenter ? 'is-active-card' : 'is-side-card'}`}
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    zIndex: transform.zIndex,
+                  }}
+                  animate={{
+                    x: transform.x,
+                    y: transform.y,
+                    z: transform.z,
+                    rotateY: transform.rotateY,
+                    rotateZ: transform.rotateZ,
+                    scale: transform.scale,
+                    opacity: transform.opacity,
+                  }}
+                  transition={springTransition}
+                  onClick={() => {
+                    if (!isCenter) {
+                      handleCardClick(index)
                     }
-                  >
-                    <div className={`cert-preview-frame ${isCenter ? 'cert-frame-active' : ''}`}>
-                      <div className="cert-img-container">
-                        <Image
-                          src={cert.imageUrl}
-                          alt={cert.title}
-                          fill
-                          sizes="(max-width: 640px) 300px, (max-width: 1024px) 420px, 500px"
-                          className="cert-display-img"
-                          priority={index === 0}
-                        />
-                        <div className="cert-img-gloss" />
+                  }}
+                  whileHover={
+                    isCenter
+                      ? { scale: 1.015, z: 95 }
+                      : { scale: transform.scale * 1.05, opacity: 0.85 }
+                  }
+                >
+                  <div className={`cert-card ${isCenter ? 'cert-card-center' : 'cert-card-side'}`}>
+                    {/* Top Header Row (Issued Date & Validity Badge) */}
+                    <div className="cert-header">
+                      <div className="cert-badge cert-date">
+                        <span>📅</span>
+                        <span>Issued: {cert.issuedDate}</span>
                       </div>
-                      <div className="cert-frame-caption">
-                        <span className="cert-caption-title truncate">{cert.title}</span>
-                        <span className="cert-caption-issuer">{cert.issuer}</span>
+
+                      <div className="cert-badge cert-validity">
+                        <span>⏳</span>
+                        <span>Valid: {cert.expiryDate}</span>
                       </div>
                     </div>
-                  </motion.div>
-                )
-              })}
-            </div>
+
+                    {/* Certificate Title */}
+                    <h3 className="cert-title">
+                      <span className="cert-award-icon">
+                        <FaAward />
+                      </span>
+                      <span>{cert.title}</span>
+                    </h3>
+
+                    {/* Issuer & Location */}
+                    <div className="cert-location">
+                      <span>🏛️</span>
+                      <span>{cert.issuer}</span>
+                      <span className="cert-location-sep">•</span>
+                      <span>📍</span>
+                      <span>{cert.location}</span>
+                    </div>
+
+                    <div className="cert-divider" />
+
+                    {/* Description */}
+                    <p className="cert-desc">{cert.description}</p>
+
+                    {/* Tech Tags Row */}
+                    <div className="cert-tags-row">
+                      {cert.tags.map((tag, idx) => (
+                        <span key={idx} className="cert-tag-pill">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* View Certificate Button (No Photo Preview, Direct PDF Link) */}
+                    <div className="cert-actions">
+                      <a
+                        href={cert.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-cert-view"
+                        onClick={(e) => {
+                          if (!isCenter) {
+                            e.preventDefault()
+                            handleCardClick(index)
+                          }
+                        }}
+                      >
+                        <FaFilePdf />
+                        <span>View Certificate</span>
+                        <FaExternalLinkAlt className="text-xs opacity-75" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            })}
           </div>
 
-          {/* Navigation Controls (Left & Right Circular Buttons) */}
-          <div className="flex items-center gap-4 mt-4 sm:mt-6 z-20">
+          {/* Navigation Controls (Left & Right Circular Buttons & Pagination Dots) */}
+          <div className="flex items-center gap-4 mt-8 sm:mt-10 z-30">
             <button
               type="button"
               aria-label="Previous Certificate"
@@ -354,77 +391,6 @@ const Certificate = () => {
             >
               <FaArrowRight className="text-white/80 group-hover:text-white transition-colors duration-200 text-sm" />
             </button>
-          </div>
-
-          {/* Detailed Active Certificate Metadata Card */}
-          <div className="w-full max-w-2xl mt-6 sm:mt-8 px-2 z-20">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCert.id}
-                initial={{ opacity: 0, y: 16, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -16, scale: 0.98 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="cert-detail-card"
-              >
-                {/* Header Row: Issued Date & Validity */}
-                <div className="cert-header">
-                  <div className="cert-badge cert-date">
-                    <span>📅</span>
-                    <span>Issued: {activeCert.issuedDate}</span>
-                  </div>
-                  <div className="cert-badge cert-validity">
-                    <span>⏳</span>
-                    <span>Valid: {activeCert.expiryDate}</span>
-                  </div>
-                </div>
-
-                {/* Certificate Title */}
-                <h3 className="cert-title">
-                  <span className="cert-award-icon">
-                    <FaAward />
-                  </span>
-                  <span>{activeCert.title}</span>
-                </h3>
-
-                {/* Issuer & Location */}
-                <div className="cert-location">
-                  <span>🏛️</span>
-                  <span>{activeCert.issuer}</span>
-                  <span className="cert-location-sep">•</span>
-                  <span>📍</span>
-                  <span>{activeCert.location}</span>
-                </div>
-
-                <div className="cert-divider" />
-
-                {/* Description */}
-                <p className="cert-desc">{activeCert.description}</p>
-
-                {/* Tech Tags Row */}
-                <div className="cert-tags-row">
-                  {activeCert.tags.map((tag, idx) => (
-                    <span key={idx} className="cert-tag-pill">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* View Certificate PDF Button */}
-                <div className="cert-actions">
-                  <a
-                    href={activeCert.pdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-cert-view"
-                  >
-                    <FaFilePdf />
-                    <span>View Certificate PDF</span>
-                    <FaExternalLinkAlt className="text-xs opacity-75" />
-                  </a>
-                </div>
-              </motion.div>
-            </AnimatePresence>
           </div>
         </div>
       </div>
