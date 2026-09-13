@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
+import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
 import { useInView } from 'react-intersection-observer'
 import gsap from 'gsap'
-import { FaFilePdf, FaAward, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { FaFilePdf, FaAward, FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import '@/styles/certificateCard.css'
 
 type CertificateItem = {
@@ -17,6 +18,7 @@ type CertificateItem = {
   description: string
   tags: string[]
   pdfUrl: string
+  imageUrl: string
 }
 
 const Certificate = () => {
@@ -39,20 +41,19 @@ const Certificate = () => {
   useEffect(() => {
     if (!sectionRef.current || !inView) return
 
-    const cards = sectionRef.current.querySelectorAll('.cert-card')
+    const cards = sectionRef.current.querySelectorAll('.cert-3d-card')
     const badges = sectionRef.current.querySelectorAll('.cert-badge')
     const buttons = sectionRef.current.querySelectorAll('.btn-cert-view')
 
     if (cards.length > 0) {
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 50, scale: 0.95 },
+        { opacity: 0, y: 50, scale: 0.9 },
         {
           opacity: 1,
           y: 0,
-          scale: 1,
           duration: 0.8,
-          stagger: 0.15,
+          stagger: 0.12,
           ease: 'power3.out',
         }
       )
@@ -90,7 +91,7 @@ const Certificate = () => {
     }
   }, [inView])
 
-  // Complete list of certificates (Telkom University & Microsoft)
+  // Complete list of certificates with preview images
   const certificates: CertificateItem[] = [
     {
       id: 'eprt-2025',
@@ -103,6 +104,7 @@ const Certificate = () => {
         'Official English Proficiency Test (EPrT) certificate issued by Telkom University, certifying English language proficiency for academic and professional communication.',
       tags: ['English Proficiency', 'Telkom University', 'Certificate'],
       pdfUrl: '/certificate/EPRT_Steven_2025.pdf',
+      imageUrl: '/certificate/EPRT_Steven_2025.png',
     },
     {
       id: 'power-bi-achievement-2025',
@@ -115,6 +117,7 @@ const Certificate = () => {
         'Official achievement from Microsoft for completing data analytics and business intelligence training using Microsoft Power BI, mastering data modeling, interactive dashboards, and reporting.',
       tags: ['Microsoft', 'Power BI', 'Data Analytics', 'Business Intelligence', 'Data Modeling'],
       pdfUrl: '/certificate/Power_BI_Data_Analytics_Steven.pdf',
+      imageUrl: '/certificate/Power_BI_Data_Analytics_Steven.png',
     },
     {
       id: 'explore-core-data-concepts-2025',
@@ -127,10 +130,11 @@ const Certificate = () => {
         'Official Microsoft achievement certifying foundational mastery of core data concepts, data roles, relational and non-relational database fundamentals, and cloud analytics architectures.',
       tags: ['Microsoft', 'Data Engineering', 'Database Fundamentals', 'Cloud Analytics', 'Big Data'],
       pdfUrl: '/certificate/Explore_Core_Data_Concepts_Steven.pdf',
+      imageUrl: '/certificate/Explore_Core_Data_Concepts_Steven.png',
     },
   ]
 
-  // Slideshow state
+  // 3D Coverflow State
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
@@ -144,7 +148,7 @@ const Certificate = () => {
     setCurrentIndex((prev) => (prev - 1 + certificates.length) % certificates.length)
   }, [certificates.length])
 
-  // Auto slide to the left every 5 seconds (paused when hovering)
+  // Auto slide every 5 seconds (paused when hovering)
   useEffect(() => {
     if (isPaused) return
     const interval = setInterval(() => {
@@ -153,7 +157,7 @@ const Certificate = () => {
     return () => clearInterval(interval)
   }, [isPaused, nextSlide])
 
-  // Touch swipe support for mobile
+  // Mobile touch swipe support
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX)
   }
@@ -173,6 +177,24 @@ const Certificate = () => {
     }
     setTouchStart(null)
     setTouchEnd(null)
+  }
+
+  // Calculate 3D position class for each certificate
+  const getCardPositionClass = (index: number) => {
+    const diff = (index - currentIndex + certificates.length) % certificates.length
+    if (diff === 0) return 'card-center'
+    if (diff === 1) return 'card-right'
+    if (diff === 2) return 'card-left'
+    return 'card-hidden'
+  }
+
+  const handleCardClick = (index: number) => {
+    const diff = (index - currentIndex + certificates.length) % certificates.length
+    if (diff === 1) {
+      nextSlide()
+    } else if (diff === 2) {
+      prevSlide()
+    }
   }
 
   const getTitleSize = () => {
@@ -201,7 +223,7 @@ const Certificate = () => {
         inViewRef(el)
       }}
       id="certificates"
-      className="bg-transparent text-white min-h-screen w-full flex flex-col justify-start items-center border-0 outline-none"
+      className="bg-transparent text-white min-h-screen w-full flex flex-col justify-start items-center border-0 outline-none overflow-x-hidden"
       style={{
         paddingTop: '90px',
         paddingBottom: '60px',
@@ -225,40 +247,43 @@ const Certificate = () => {
           triggerOnce={false}
         />
 
-        {/* Carousel Showcase Container — 1 card displayed in center with smooth auto-slide */}
+        {/* 3D Fan Coverflow Stage */}
         <div
-          className="cert-carousel-wrapper"
+          className="cert-3d-stage-wrapper"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Previous Arrow Button */}
-          <button
-            type="button"
-            className="cert-nav-btn cert-nav-prev"
-            onClick={prevSlide}
-            aria-label="Previous Certificate"
-          >
-            <FaChevronLeft />
-          </button>
+          <div className="cert-3d-stage">
+            {certificates.map((cert, index) => {
+              const posClass = getCardPositionClass(index)
+              const isCenter = posClass === 'card-center'
 
-          {/* Carousel Viewport */}
-          <div className="cert-carousel-viewport">
-            <div
-              className="cert-carousel-track"
-              style={{
-                transform: `translateX(-${currentIndex * 100}%)`,
-              }}
-            >
-              {certificates.map((cert, index) => (
+              return (
                 <div
                   key={cert.id}
-                  className={`cert-carousel-slide ${index === currentIndex ? 'is-active' : ''}`}
-                  aria-hidden={index !== currentIndex}
+                  className={`cert-3d-card ${posClass}`}
+                  onClick={() => handleCardClick(index)}
+                  role={isCenter ? 'region' : 'button'}
+                  tabIndex={isCenter ? 0 : -1}
+                  aria-label={cert.title}
                 >
                   <div className="cert-card">
+                    {/* Certificate Preview Image Box */}
+                    <div className="cert-preview-box">
+                      <Image
+                        src={cert.imageUrl}
+                        alt={cert.title}
+                        fill
+                        sizes="(max-width: 640px) 340px, 520px"
+                        className="cert-preview-img"
+                        priority={index === 0}
+                      />
+                      <div className="cert-preview-overlay" />
+                    </div>
+
                     {/* Top Header Row (Issued Date & Validity Badge) */}
                     <div className="cert-header">
                       <div className="cert-badge cert-date">
@@ -268,7 +293,7 @@ const Certificate = () => {
 
                       <div className="cert-badge cert-validity">
                         <span>⏳</span>
-                        <span>Valid until {cert.expiryDate}</span>
+                        <span>Valid: {cert.expiryDate}</span>
                       </div>
                     </div>
 
@@ -303,46 +328,61 @@ const Certificate = () => {
                       ))}
                     </div>
 
-                    {/* View Certificate Button */}
+                    {/* View Certificate PDF Button */}
                     <div className="cert-actions">
                       <a
                         href={cert.pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-cert-view"
+                        onClick={(e) => {
+                          if (!isCenter) {
+                            e.preventDefault()
+                          }
+                        }}
                       >
                         <FaFilePdf />
-                        <span>Certificate</span>
+                        <span>View Certificate PDF</span>
                       </a>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              )
+            })}
           </div>
 
-          {/* Next Arrow Button */}
-          <button
-            type="button"
-            className="cert-nav-btn cert-nav-next"
-            onClick={nextSlide}
-            aria-label="Next Certificate"
-          >
-            <FaChevronRight />
-          </button>
-        </div>
-
-        {/* Carousel Pagination Dots */}
-        <div className="cert-dots-container">
-          {certificates.map((cert, index) => (
+          {/* Bottom Circular Navigation Controls (Matching Reference Image) */}
+          <div className="cert-3d-controls">
             <button
-              key={cert.id}
               type="button"
-              className={`cert-dot ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(index)}
-              aria-label={`Go to certificate ${index + 1}: ${cert.title}`}
-            />
-          ))}
+              className="cert-3d-circle-btn"
+              onClick={prevSlide}
+              aria-label="Previous Certificate"
+            >
+              <FaArrowLeft />
+            </button>
+            <button
+              type="button"
+              className="cert-3d-circle-btn"
+              onClick={nextSlide}
+              aria-label="Next Certificate"
+            >
+              <FaArrowRight />
+            </button>
+          </div>
+
+          {/* Pagination Indicators */}
+          <div className="cert-dots-container">
+            {certificates.map((cert, index) => (
+              <button
+                key={cert.id}
+                type="button"
+                className={`cert-dot ${index === currentIndex ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(index)}
+                aria-label={`Go to certificate ${index + 1}: ${cert.title}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
