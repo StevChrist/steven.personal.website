@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import AnimatedText from '@/components/AnimatedText'
 import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
-import { FaFilePdf, FaAward, FaArrowLeft, FaArrowRight, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaFilePdf, FaAward, FaExternalLinkAlt } from 'react-icons/fa'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import '@/styles/certificateCard.css'
 
 type CertificateItem = {
@@ -360,15 +361,15 @@ const Certificate = () => {
             })}
           </div>
 
-          {/* Navigation Controls: Left and Right buttons shifted further apart, dots removed */}
-          <div className="flex items-center justify-center gap-16 sm:gap-24 md:gap-32 mt-8 sm:mt-12 z-30">
+          {/* Navigation Controls: Chevron buttons spaced widely apart framing the card */}
+          <div className="cert-nav-container flex items-center justify-between w-full max-w-[420px] sm:max-w-[480px] mt-8 sm:mt-12 z-30 px-4">
             <button
               type="button"
               aria-label="Previous Certificate"
               onClick={prevSlide}
               className="cert-nav-circle-btn group cursor-pointer"
             >
-              <FaArrowLeft className="text-white/80 group-hover:text-white transition-colors duration-200 text-base" />
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200 group-hover:-translate-x-0.5" strokeWidth={2.6} />
             </button>
 
             <button
@@ -377,7 +378,7 @@ const Certificate = () => {
               onClick={nextSlide}
               className="cert-nav-circle-btn group cursor-pointer"
             >
-              <FaArrowRight className="text-white/80 group-hover:text-white transition-colors duration-200 text-base" />
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform duration-200 group-hover:translate-x-0.5" strokeWidth={2.6} />
             </button>
           </div>
         </div>
