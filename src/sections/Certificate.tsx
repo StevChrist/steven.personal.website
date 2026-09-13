@@ -144,49 +144,50 @@ const Certificate = () => {
   }
 
   // Calculate 3D position styling for each card relative to currentIndex
+  // Center card is kept at z: 0, scale: 1, rotate: 0 for 100% pixel-perfect HD font clarity!
   const getCardTransform = (index: number) => {
     const diff = (index - currentIndex + certificates.length) % certificates.length
     const isMobile = screenWidth < 640
     const isTablet = screenWidth >= 640 && screenWidth < 1024
 
     if (diff === 0) {
-      // Active center card
+      // Active center card: 1:1 pixel grid, zero texture rescaling for razor-sharp HD text
       return {
         x: 0,
         y: 0,
-        z: 80,
+        z: 0,
         rotateY: 0,
         rotateZ: 0,
         scale: 1,
         opacity: 1,
-        zIndex: 10,
+        zIndex: 20,
         pointerEvents: 'auto' as const,
       }
     } else if (diff === 1) {
-      // Right tilted fan card
-      const xOffset = isMobile ? 85 : isTablet ? 240 : 330
+      // Right tilted fan card: spaced nicely to the right
+      const xOffset = isMobile ? 100 : isTablet ? 270 : 380
       return {
         x: xOffset,
-        y: isMobile ? 8 : 12,
-        z: -50,
-        rotateY: isMobile ? -12 : -18,
-        rotateZ: isMobile ? 5 : 8,
-        scale: isMobile ? 0.72 : isTablet ? 0.78 : 0.82,
-        opacity: isMobile ? 0.38 : 0.55,
+        y: isMobile ? 8 : 10,
+        z: -60,
+        rotateY: isMobile ? -10 : -16,
+        rotateZ: isMobile ? 4 : 7,
+        scale: isMobile ? 0.74 : isTablet ? 0.8 : 0.85,
+        opacity: isMobile ? 0.35 : 0.6,
         zIndex: 5,
         pointerEvents: 'auto' as const,
       }
     } else if (diff === 2) {
-      // Left tilted fan card
-      const xOffset = isMobile ? -85 : isTablet ? -240 : -330
+      // Left tilted fan card: spaced nicely to the left
+      const xOffset = isMobile ? -100 : isTablet ? -270 : -380
       return {
         x: xOffset,
-        y: isMobile ? 8 : 12,
-        z: -50,
-        rotateY: isMobile ? 12 : 18,
-        rotateZ: isMobile ? -5 : -8,
-        scale: isMobile ? 0.72 : isTablet ? 0.78 : 0.82,
-        opacity: isMobile ? 0.38 : 0.55,
+        y: isMobile ? 8 : 10,
+        z: -60,
+        rotateY: isMobile ? 10 : 16,
+        rotateZ: isMobile ? -4 : -7,
+        scale: isMobile ? 0.74 : isTablet ? 0.8 : 0.85,
+        opacity: isMobile ? 0.35 : 0.6,
         zIndex: 5,
         pointerEvents: 'auto' as const,
       }
@@ -285,8 +286,8 @@ const Certificate = () => {
                   }}
                   whileHover={
                     isCenter
-                      ? { scale: 1.015, z: 95 }
-                      : { scale: transform.scale * 1.05, opacity: 0.85 }
+                      ? { scale: 1.01 }
+                      : { scale: transform.scale * 1.04, opacity: 0.85 }
                   }
                 >
                   <div className={`cert-card ${isCenter ? 'cert-card-center' : 'cert-card-side'}`}>
@@ -359,29 +360,16 @@ const Certificate = () => {
             })}
           </div>
 
-          {/* Navigation Controls (Left & Right Circular Buttons & Pagination Dots) */}
-          <div className="flex items-center gap-4 mt-8 sm:mt-10 z-30">
+          {/* Navigation Controls: Left and Right buttons shifted further apart, dots removed */}
+          <div className="flex items-center justify-center gap-16 sm:gap-24 md:gap-32 mt-8 sm:mt-12 z-30">
             <button
               type="button"
               aria-label="Previous Certificate"
               onClick={prevSlide}
               className="cert-nav-circle-btn group cursor-pointer"
             >
-              <FaArrowLeft className="text-white/80 group-hover:text-white transition-colors duration-200 text-sm" />
+              <FaArrowLeft className="text-white/80 group-hover:text-white transition-colors duration-200 text-base" />
             </button>
-
-            {/* Pagination Indicator Pills */}
-            <div className="flex items-center gap-2 px-2">
-              {certificates.map((cert, index) => (
-                <button
-                  key={cert.id}
-                  type="button"
-                  aria-label={`Go to ${cert.title}`}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`cert-pill-dot ${index === currentIndex ? 'active' : ''}`}
-                />
-              ))}
-            </div>
 
             <button
               type="button"
@@ -389,7 +377,7 @@ const Certificate = () => {
               onClick={nextSlide}
               className="cert-nav-circle-btn group cursor-pointer"
             >
-              <FaArrowRight className="text-white/80 group-hover:text-white transition-colors duration-200 text-sm" />
+              <FaArrowRight className="text-white/80 group-hover:text-white transition-colors duration-200 text-base" />
             </button>
           </div>
         </div>
