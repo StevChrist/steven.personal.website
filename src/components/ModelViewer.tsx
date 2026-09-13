@@ -40,6 +40,8 @@ function Model({ isGlitching }: { isGlitching?: boolean }) {
 }
 
 export default function ModelViewer({ isGlitching }: ModelViewerProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isInView, setIsInView] = useState(true)
   const [isSupported, setIsSupported] = useState(false)
 
   useEffect(() => {
@@ -57,21 +59,39 @@ export default function ModelViewer({ isGlitching }: ModelViewerProps) {
     }
   }, [])
 
+  // Pause Three.js rendering when model is scrolled out of view to save GPU and battery
+  useEffect(() => {
+    if (!containerRef.current || !('IntersectionObserver' in window)) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting)
+      },
+      { threshold: 0.05 }
+    )
+
+    observer.observe(containerRef.current)
+    return () => observer.disconnect()
+  }, [isSupported])
+
   if (!isSupported) {
     return <div className="w-full h-full" />
   }
 
   return (
-    <Canvas
-      style={{ width: '100%', height: '100%' }}
-      camera={{ position: [0, 2, 7], fov: 30 }}
-      gl={{ powerPreference: 'high-performance', alpha: true, antialias: true }}
-    >
-      <ambientLight intensity={1} />
-      <directionalLight position={[5, 5, 5]} />
-      <Suspense fallback={null}>
-        <Model isGlitching={isGlitching} />
-      </Suspense>
-    </Canvas>
+    <div ref={containerRef} className="w-full h-full">
+      <Canvas
+        frameloop={isInView ? 'always' : 'never'}
+        style={{ width: '100%', height: '100%' }}
+        camera={{ position: [0, 2, 7], fov: 30 }}
+        gl={{ powerPreference: 'high-performance', alpha: true, antialias: true }}
+      >
+        <ambientLight intensity={1} />
+        <directionalLight position={[5, 5, 5]} />
+        <Suspense fallback={null}>
+          <Model isGlitching={isGlitching} />
+        </Suspense>
+      </Canvas>
+    </div>
   )
 }

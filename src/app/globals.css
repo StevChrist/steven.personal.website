@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+button,
+a,
+svg,
+canvas,
+.select-none {
   user-select: none;
-  /* Disable text selection */
+  -webkit-user-select: none;
 }
 
 :root {
@@ -68,7 +72,13 @@ body {
 
 @media print {
   body {
-    display: none;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .site-loader,
+  .global-particles-layer,
+  .hero-3d-showcase-container {
+    display: none !important;
   }
 }
 

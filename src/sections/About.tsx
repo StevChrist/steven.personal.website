@@ -179,15 +179,18 @@ const About = () => {
                 <span className="ready-text">
                   Ready for full-time Data Science & Analytics roles
                 </span>
-                <button
-                  onClick={() => window.open('/cv/steven-cv.pdf', '_blank')}
-                  className="btn-cv"
+                <a
+                  href="/cv/steven-cv.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-cv inline-flex items-center cursor-pointer"
+                  title="View and Download Steven Immanuel C. Girsang Full CV (PDF)"
                 >
                   <svg className="btn-cv-icon" viewBox="0 0 24 24">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
                   </svg>
                   <span>VIEW FULL CV</span>
-                </button>
+                </a>
               </div>
             </div>
 

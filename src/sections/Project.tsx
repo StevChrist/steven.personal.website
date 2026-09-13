@@ -185,6 +185,11 @@ const UiUxCard = ({
     setActiveImgIndex((prev) => (prev + 1) % project.images.length)
   }
 
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveImgIndex((prev) => (prev - 1 + project.images.length) % project.images.length)
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 25 }}
@@ -226,7 +231,7 @@ const UiUxCard = ({
         {project.images.length > 1 && (
           <>
             <button
-              onClick={nextImage}
+              onClick={prevImage}
               aria-label="Previous Design Image"
               className="slider-arrow arrow-left"
             >
@@ -306,19 +311,19 @@ const Project = () => {
   ]
 
   const row1Images = [
-    '/image/Design/1.png',
-    '/image/Design/2.png',
-    '/image/Design/3.png',
-    '/image/Design/4.png',
-    '/image/Design/5.png',
+    '/image/Design/1.webp',
+    '/image/Design/2.webp',
+    '/image/Design/3.webp',
+    '/image/Design/4.webp',
+    '/image/Design/5.webp',
   ]
 
   const row2Images = [
-    '/image/Design/6.png',
-    '/image/Design/7.jpg',
-    '/image/Design/8.png',
-    '/image/Design/9.png',
-    '/image/Photo/1.jpg',
+    '/image/Design/6.webp',
+    '/image/Design/7.webp',
+    '/image/Design/8.webp',
+    '/image/Design/9.webp',
+    '/image/Photo/1.webp',
   ]
 
   const codeProjects: CodeProject[] = [
@@ -408,7 +413,7 @@ const Project = () => {
       description:
         'An enterprise data pipeline and interactive analytics dashboard monitoring ISP market share, network latency, and regional broadband performance across Indonesia.',
       link: 'https://github.com/StevChrist/Indonesia-ISP-Analytics-Dashboard',
-      siteLink: '#',
+      siteLink: 'https://github.com/StevChrist/Indonesia-ISP-Analytics-Dashboard',
       previewImage: '',
       tags: ['Python', 'Playwright', 'Data Pipeline', 'Analytics'],
       isOngoing: true,

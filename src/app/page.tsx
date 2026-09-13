@@ -7,13 +7,10 @@ import Project from '@/sections/Project'
 import Certificate from '@/sections/Certificate'
 import Contact from '@/sections/Contact'
 import Education from '@/sections/Education'
-import FloatingParticles from '@/components/FloatingParticles'
 
 export default function Home() {
   return (
     <main className="bg-tech-canvas min-h-screen text-white relative">
-      {/* Global continuous particle background - spans entire page height */}
-      <FloatingParticles />
       <Navbar />
       <Main />
       <About />

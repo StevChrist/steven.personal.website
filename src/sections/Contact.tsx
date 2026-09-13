@@ -20,6 +20,7 @@ import '@/styles/contactCard.css'
 const Contact = () => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [copied, setCopied] = useState(false)
+  const [discordCopied, setDiscordCopied] = useState(false)
   const [screenWidth, setScreenWidth] = useState(0)
   const emailAddress = 'stevenimmanuelcgirsang@gmail.com'
 
@@ -93,12 +94,23 @@ const Contact = () => {
         '-=0.2'
       )
     }
+
+    return () => {
+      tl.kill()
+    }
   }, [inView])
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(emailAddress)
     setCopied(true)
     setTimeout(() => setCopied(false), 2500)
+  }
+
+  const handleCopyDiscord = (e: React.MouseEvent) => {
+    e.preventDefault()
+    navigator.clipboard.writeText('stevchrist')
+    setDiscordCopied(true)
+    setTimeout(() => setDiscordCopied(false), 2500)
   }
 
   const getTitleSize = () => {
@@ -226,24 +238,30 @@ const Contact = () => {
               </a>
 
               <a
-                href="https://drive.google.com/drive/u/0/my-drive"
+                href="/cv/steven-cv.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon-circle"
-                aria-label="Google Drive"
+                aria-label="Resume & Portfolio Drive"
+                title="View Resume / Portfolio PDF"
               >
                 <FaGoogleDrive />
               </a>
 
-              <a
-                href="https://discord.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-icon-circle"
-                aria-label="Discord"
+              <button
+                type="button"
+                onClick={handleCopyDiscord}
+                className="social-icon-circle relative"
+                aria-label="Discord: stevchrist"
+                title={discordCopied ? "Copied Discord username!" : "Discord: stevchrist (Click to copy)"}
               >
                 <FaDiscord />
-              </a>
+                {discordCopied && (
+                  <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#2e624c] border border-[#64b59b] text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg whitespace-nowrap pointer-events-none">
+                    Copied!
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>
