@@ -39,9 +39,9 @@ export const metadata: Metadata = {
   },
   description: 'Official personal website and portfolio of Steven Immanuel C. Girsang (Steven Girsang / StevChrist) — Data Scientist & Data Engineer, fresh graduate from Telkom University Bandung. Specializing in Machine Learning, Data Analytics, and Web Development.',
   icons: {
-    icon: '/image/Logo PEN White 1x1.png',
-    shortcut: '/image/Logo PEN White 1x1.png',
-    apple: '/image/Logo PEN White 1x1.png',
+    icon: '/image/Photo Profile.jpg',
+    shortcut: '/image/Photo Profile.jpg',
+    apple: '/image/Photo Profile.jpg',
   },
   keywords: [
     'Steven Girsang',
@@ -126,7 +126,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/image/Photo Profile.jpg" />
         <meta name="format-detection" content="telephone=no" />
       </head>
       <body className={`${roboto.className} antialiased`}>

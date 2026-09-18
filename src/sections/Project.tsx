@@ -5,7 +5,7 @@ import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaTimes, FaDownload } from 'react-icons/fa'
 import '@/styles/projectCard.css'
 
 type FilterTab = {
@@ -28,7 +28,7 @@ type CodeProject = {
   isComingSoon?: boolean
 }
 
-type UiUxProject = {
+type LightboxProject = {
   id: string
   title: string
   description: string
@@ -37,12 +37,26 @@ type UiUxProject = {
   isNew?: boolean
 }
 
-// Full-Screen Enlarged Lightbox Modal Component for Web Design & UI/UX
+type UiUxProject = LightboxProject
+
+type DashboardProject = {
+  id: string
+  title: string
+  description: string
+  images: string[]
+  tags: string[]
+  downloadLink?: string
+  siteLink?: string
+  codeLink?: string
+  isNew?: boolean
+}
+
+// Full-Screen Enlarged Lightbox Modal Component for Web Design & UI/UX and Dashboards
 const UiUxModal = ({
   project,
   onClose,
 }: {
-  project: UiUxProject
+  project: LightboxProject
   onClose: () => void
 }) => {
   const [activeImgIndex, setActiveImgIndex] = useState(0)
@@ -285,10 +299,194 @@ const UiUxCard = ({
   )
 }
 
+// Interactive Dashboard Card Component combining Slider, Badges, Tags, and Action Buttons
+const DashboardCard = ({
+  project,
+  index,
+  onOpenModal,
+}: {
+  project: DashboardProject
+  index: number
+  onOpenModal: () => void
+}) => {
+  const [activeImgIndex, setActiveImgIndex] = useState(0)
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveImgIndex((prev) => (prev + 1) % project.images.length)
+  }
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveImgIndex((prev) => (prev - 1 + project.images.length) % project.images.length)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.045, y: -6 }}
+      viewport={{ amount: 0.1, once: false }}
+      transition={{
+        duration: 0.55,
+        delay: (index % 2) * 0.08,
+        ease: 'easeOut',
+      }}
+      className="proj-card"
+    >
+      {/* Interactive Image Slider Area */}
+      <div
+        className="proj-uiux-slider-wrapper"
+        onClick={onOpenModal}
+        style={{ cursor: 'pointer' }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeImgIndex}
+            initial={{ opacity: 0.3, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0.3, scale: 0.98 }}
+            transition={{ duration: 0.25 }}
+            className="w-full h-full relative flex items-center justify-center"
+          >
+            <Image
+              src={project.images[activeImgIndex]}
+              alt={`${project.title} Preview ${activeImgIndex + 1}`}
+              width={700}
+              height={280}
+              quality={90}
+              priority={index === 0}
+              className="uiux-slider-img"
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Top-Right Badge */}
+        {project.isNew && (
+          <div className="proj-badge-new">✦ POWER BI</div>
+        )}
+
+        {/* Navigation Arrows */}
+        {project.images.length > 1 && (
+          <>
+            <button
+              onClick={prevImage}
+              aria-label="Previous Dashboard Page"
+              className="slider-arrow arrow-left"
+            >
+              <FaChevronLeft />
+            </button>
+            <button
+              onClick={nextImage}
+              aria-label="Next Dashboard Page"
+              className="slider-arrow arrow-right"
+            >
+              <FaChevronRight />
+            </button>
+
+            {/* Slider Indicator Dots */}
+            <div className="slider-dots-container">
+              {project.images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setActiveImgIndex(idx)
+                  }}
+                  className={`slider-dot ${idx === activeImgIndex ? 'active' : ''}`}
+                  aria-label={`Go to page ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Card Content Area */}
+      <div className="proj-content">
+        <div>
+          <h3
+            className="proj-title cursor-pointer"
+            onClick={onOpenModal}
+          >
+            {project.title}
+          </h3>
+          <div className="proj-desc-container">
+            <p className="proj-desc">{project.description}</p>
+          </div>
+        </div>
+
+        {/* Bottom Group (Tags + Divider + Buttons) */}
+        <div className="proj-bottom-group">
+          {/* Tech Tags Row */}
+          <div className="proj-tags-row">
+            {project.tags.map((tag, idx) => (
+              <span key={idx} className="proj-tag-pill">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="proj-divider" />
+
+          {/* Action Buttons */}
+          <div className="proj-actions">
+            {project.downloadLink && (
+              <a
+                href={project.downloadLink}
+                download
+                className="btn-proj-code"
+                title="Download Power BI .PBIX File"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FaDownload />
+                <span>Download .PBIX</span>
+              </a>
+            )}
+            {project.codeLink && (
+              <a
+                href={project.codeLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-proj-code"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FaGithub />
+                <span>See Code</span>
+              </a>
+            )}
+            {project.siteLink && (
+              <a
+                href={project.siteLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-proj-site"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FaExternalLinkAlt />
+                <span>Live Report</span>
+              </a>
+            )}
+            <button
+              type="button"
+              onClick={onOpenModal}
+              className="btn-proj-site"
+              title="Enlarge Visuals"
+            >
+              <FaExternalLinkAlt />
+              <span>Preview</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 const Project = () => {
   const [activeTab, setActiveTab] = useState<string>('code')
   const [screenWidth, setScreenWidth] = useState(0)
-  const [selectedUiUxProject, setSelectedUiUxProject] = useState<UiUxProject | null>(null)
+  const [selectedLightboxProject, setSelectedLightboxProject] = useState<LightboxProject | null>(null)
   const sectionRef = useRef<HTMLElement | null>(null)
 
   const { ref: inViewRef } = useInView({
@@ -417,6 +615,36 @@ const Project = () => {
       previewImage: '',
       tags: ['Python', 'Playwright', 'Data Pipeline', 'Analytics'],
       isOngoing: true,
+    },
+  ]
+
+  const dashboardProjects: DashboardProject[] = [
+    {
+      id: 'global-superstore',
+      title: 'Global Executive Sales & Profitability Dashboard',
+      description:
+        'Executive-level interactive Business Intelligence dashboard in Microsoft Power BI analyzing 51,290 transactions across 147 countries ($12.64M Sales, $1.47M Profit). Features Star Schema modeling, advanced DAX time intelligence (YoY, SPLY), profit margin diagnostics, discount erosion analysis, and geospatial logistics analytics.',
+      images: [
+        '/dashboard/global_superstore/Page_1_Executive_Overview.png',
+        '/dashboard/global_superstore/Page_2_Product_Profitability.png',
+        '/dashboard/global_superstore/Page_3_Customer_Logistics.png',
+      ],
+      downloadLink: '/dashboard/global_superstore/Global Superstore Sales Dashboard.pbix',
+      tags: ['Power BI', 'DAX', 'Star Schema', 'Executive KPI', 'Sales Analytics', 'Logistics'],
+      isNew: true,
+    },
+    {
+      id: 'dwbi-dash',
+      title: 'Data Warehouse & Business Intelligence (Kerja Praktik)',
+      description:
+        'Interactive enterprise Data Warehouse and Business Intelligence dashboard supporting monitoring, evaluation, and executive decision-making for university faculty internships (Kerja Praktik).',
+      images: [
+        '/web_preview/Dw_Bi_1.png',
+      ],
+      siteLink:
+        'https://app.powerbi.com/view?r=eyJrIjoiYjgxODQxNWYtYzRkNi00YWFjLWI1NzktMGMxNzgyOWRiMDgwIiwidCI6IjkwYWZmZTBmLWMyYTMtNDEwOC1iYjk4LTZjZWI0ZTk0ZWYxNSIsImMiOjEwfQ%3D%3D',
+      codeLink: 'https://github.com/StevChrist/dw_bi',
+      tags: ['Power BI', 'Data Warehouse', 'ETL', 'Business Intelligence', 'Analytics'],
     },
   ]
 
@@ -643,36 +871,18 @@ const Project = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3 }}
-                className="w-full flex justify-center py-4"
+                className="w-full"
               >
-                <motion.div
-                  initial={{ opacity: 0, y: 25 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ amount: 0.1, once: false }}
-                  transition={{ duration: 0.55, ease: 'easeOut' }}
-                  className="dashboard-tab-card"
-                >
-                  <div className="dashboard-status-pill">
-                    <span className="pulse-dot-green" />
-                    <span>DEVELOPMENT IN PROGRESS</span>
-                  </div>
-
-                  <h3 className="dashboard-card-title">
-                    Analytics & Business Intelligence Dashboards
-                  </h3>
-
-                  <p className="dashboard-card-desc">
-                    High-impact interactive dashboards, data warehousing models, real-time metrics tracking, and automated business intelligence visualizations are currently being prepared for deployment.
-                  </p>
-
-                  <div className="dashboard-tech-tags">
-                    <span className="dashboard-tech-pill">📊 Power BI</span>
-                    <span className="dashboard-tech-pill">📈 Tableau</span>
-                    <span className="dashboard-tech-pill">🐍 Python Streamlit</span>
-                    <span className="dashboard-tech-pill">⚡ Real-Time Analytics</span>
-                    <span className="dashboard-tech-pill">📦 Big Data BI</span>
-                  </div>
-                </motion.div>
+                <div className="proj-grid">
+                  {dashboardProjects.map((project, index) => (
+                    <DashboardCard
+                      key={project.id}
+                      project={project}
+                      index={index}
+                      onOpenModal={() => setSelectedLightboxProject(project)}
+                    />
+                  ))}
+                </div>
               </motion.div>
             )}
 
@@ -692,7 +902,7 @@ const Project = () => {
                       key={project.id}
                       project={project}
                       index={index}
-                      onOpenModal={() => setSelectedUiUxProject(project)}
+                      onOpenModal={() => setSelectedLightboxProject(project)}
                     />
                   ))}
                 </div>
@@ -775,11 +985,11 @@ const Project = () => {
         </div>
       </div>
 
-      {/* Full-Screen Web Design & UI/UX Lightbox Modal */}
-      {selectedUiUxProject && (
+      {/* Full-Screen Web Design & UI/UX / Dashboard Lightbox Modal */}
+      {selectedLightboxProject && (
         <UiUxModal
-          project={selectedUiUxProject}
-          onClose={() => setSelectedUiUxProject(null)}
+          project={selectedLightboxProject}
+          onClose={() => setSelectedLightboxProject(null)}
         />
       )}
     </section>
