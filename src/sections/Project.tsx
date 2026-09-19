@@ -496,6 +496,7 @@ const Project = () => {
   const [isTableModalOpen, setIsTableModalOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const sectionRef = useRef<HTMLElement | null>(null)
+  const tableScrollRef = useRef<HTMLDivElement | null>(null)
 
   const { ref: inViewRef } = useInView({
     triggerOnce: false,
@@ -510,14 +511,23 @@ const Project = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Lock body scroll when modal is open to ensure scrolling only happens inside pop-up
+  // Lock body and html scroll when modal is open to ensure scrolling only happens inside pop-up
   useEffect(() => {
     if (isTableModalOpen || selectedLightboxProject) {
+      document.documentElement.classList.add('modal-open')
+      document.body.classList.add('modal-open')
+      document.documentElement.style.overflow = 'hidden'
       document.body.style.overflow = 'hidden'
     } else {
+      document.documentElement.classList.remove('modal-open')
+      document.body.classList.remove('modal-open')
+      document.documentElement.style.overflow = ''
       document.body.style.overflow = ''
     }
     return () => {
+      document.documentElement.classList.remove('modal-open')
+      document.body.classList.remove('modal-open')
+      document.documentElement.style.overflow = ''
       document.body.style.overflow = ''
     }
   }, [isTableModalOpen, selectedLightboxProject])
@@ -778,6 +788,42 @@ const Project = () => {
       tags: ['Next.js', 'Tailwind CSS', 'Vercel', 'DevOps'],
       link: 'https://github.com/StevChrist/maintenance-page',
       siteLink: 'https://maintenance-page-two-gamma.vercel.app',
+    },
+    {
+      id: 'pen-platform',
+      title: 'Pen Platform — Server Observability & Telemetry Hub',
+      description:
+        'Centralized server telemetry, real-time daemon worker monitoring, and automated event alert platform with Three.js status visuals and system health probes.',
+      category: 'Full-Stack',
+      tags: ['Next.js', 'Three.js', 'PostgreSQL', 'Docker', 'System Daemons', 'TypeScript'],
+      link: 'https://github.com/StevChrist',
+    },
+    {
+      id: 'vps-infra',
+      title: 'Production VPS Infrastructure & CI/CD Mesh',
+      description:
+        'Containerized microservices orchestration on Ubuntu VPS featuring automated self-hosted GitHub Actions runner, Nginx reverse proxy, and zero-downtime rebuild pipelines.',
+      category: 'DevOps / Tools',
+      tags: ['Docker Compose', 'CI/CD', 'GitHub Actions', 'Nginx', 'Linux VPS', 'Bash'],
+      link: 'https://github.com/StevChrist',
+    },
+    {
+      id: 'tbh-notifier',
+      title: 'Task Bar Hero Market Watchdog & Telegram Alert Bot',
+      description:
+        'Autonomous background polling daemon tracking Steam market liquidity and inventory valuation shifts with instant Telegram webhook notifications.',
+      category: 'Bot & Automation',
+      tags: ['Node.js', 'Telegram API', 'Steam API', 'Automation', 'Cron Daemons'],
+      link: 'https://github.com/StevChrist',
+    },
+    {
+      id: 'telemetry-anomaly',
+      title: 'Industrial Sensor IoT Pipeline & Anomaly Classifier',
+      description:
+        'High-frequency multivariate telemetry ingestion pipeline with automated preprocessing and ML-based operational hazard detection.',
+      category: 'AI / Machine Learning',
+      tags: ['Python', 'Pandas', 'Scikit-Learn', 'IoT Sensors', 'Time Series'],
+      link: 'https://github.com/StevChrist',
     },
   ]
 
@@ -1117,6 +1163,12 @@ const Project = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsTableModalOpen(false)}
+            onWheel={(e) => {
+              e.stopPropagation()
+              if (tableScrollRef.current && !tableScrollRef.current.contains(e.target as Node)) {
+                tableScrollRef.current.scrollTop += e.deltaY
+              }
+            }}
             className="proj-table-modal-overlay"
           >
             <motion.div
@@ -1125,6 +1177,9 @@ const Project = () => {
               exit={{ opacity: 0, scale: 0.93, y: 25 }}
               transition={{ type: 'spring', damping: 26, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
+              onWheel={(e) => {
+                e.stopPropagation()
+              }}
               className="proj-table-modal-card"
             >
               {/* Modal Header */}
@@ -1145,7 +1200,7 @@ const Project = () => {
               </div>
 
               {/* Table Container */}
-              <div className="proj-table-scroll-container">
+              <div ref={tableScrollRef} className="proj-table-scroll-container">
                 <table className="proj-table">
                   <thead>
                     <tr>

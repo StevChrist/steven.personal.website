@@ -35,6 +35,13 @@ body {
   width: 100%;
 }
 
+html.modal-open,
+body.modal-open {
+  overflow: hidden !important;
+  height: 100% !important;
+  touch-action: none;
+}
+
 section[id] {
   scroll-margin-top: 80px;
 }
