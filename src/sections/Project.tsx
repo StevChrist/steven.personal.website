@@ -5,8 +5,19 @@ import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaTimes, FaSearch, FaLayerGroup } from 'react-icons/fa'
 import '@/styles/projectCard.css'
+
+type TableProject = {
+  id: string
+  title: string
+  description: string
+  category: string
+  tags: string[]
+  previewImage?: string
+  link?: string
+  siteLink?: string
+}
 
 type FilterTab = {
   id: string
@@ -481,6 +492,8 @@ const Project = () => {
   const [activeTab, setActiveTab] = useState<string>('code')
   const [screenWidth, setScreenWidth] = useState(0)
   const [selectedLightboxProject, setSelectedLightboxProject] = useState<LightboxProject | null>(null)
+  const [isTableModalOpen, setIsTableModalOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const sectionRef = useRef<HTMLElement | null>(null)
 
   const { ref: inViewRef } = useInView({
@@ -493,6 +506,17 @@ const Project = () => {
     handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedLightboxProject(null)
+        setIsTableModalOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
   const filterTabs: FilterTab[] = [
@@ -647,19 +671,112 @@ const Project = () => {
       tags: ['UI/UX', 'Figma', 'Web Design', 'Prototyping'],
       isNew: true,
     },
-    // {
-    //   id: 'uiux-dwbi',
-    //   title: 'Enterprise Analytics Dashboard UI/UX Design',
-    //   description:
-    //     'A sleek, high-tech dark mode dashboard design focusing on data visualization, telemetry monitoring, and interactive BI reporting layout.',
-    //   images: [
-    //     '/web_preview/Dw_Bi_1.png',
-    //     '/web_preview/Lumenalyze.png',
-    //     '/web_preview/TBH-Price.png',
-    //   ],
-    //   tags: ['Figma', 'UI/UX Design', 'Dashboard', 'Dark Mode'],
-    // },
   ]
+
+  const tableProjects: TableProject[] = [
+    {
+      id: 'fsb',
+      title: 'FSB — Fragen Sie Bot (German Cuisine Assistant)',
+      description:
+        'AI-powered culinary assistant answering questions about traditional German cuisine with real-time NLP and curated recipe recommendations.',
+      category: 'Full-Stack',
+      tags: ['Next.js', 'AI Assistant', 'NLP', 'Tailwind CSS', 'Vercel'],
+      link: 'https://github.com/StevChrist/FSB',
+      siteLink: 'https://fsb-515p.vercel.app/',
+    },
+    {
+      id: 'flixzy',
+      title: 'Flixzy — Movie Streaming & Discovery Platform',
+      description:
+        'Interactive movie streaming catalog and trailer recommendation web platform powered by the TMDb API with responsive UI.',
+      category: 'Web App',
+      tags: ['React', 'TMDb API', 'Streaming UI', 'CSS Modules', 'Vercel'],
+      link: 'https://github.com/StevChrist/flixzy',
+      siteLink: 'https://flixzy.vercel.app',
+    },
+    {
+      id: 'anomaly-transformer',
+      title: 'Anomaly Detection Using Transformer on Oil & Gas Telemetry',
+      description:
+        'Undergraduate thesis implementing a Transformer-based temporal anomaly detection architecture on industrial multi-sensor telemetry time series.',
+      category: 'AI / Machine Learning',
+      tags: ['Deep Learning', 'Transformers', 'PyTorch', 'Time Series', 'Industrial IoT'],
+      link: 'https://github.com/StevChrist/Anomaly-Detection-Using-Transformer-Method-on-Oil-and-Gas-Operational-Data',
+    },
+    {
+      id: 'penbot',
+      title: 'PenBot — 24/7 Discord Radio & Utility Bot',
+      description:
+        'High-performance Discord bot featuring 24/7 Indonesian radio streaming, voice channel audio management, moderation, and utility commands.',
+      category: 'Bot & Automation',
+      tags: ['Discord.js', 'TypeScript', 'Node.js', 'Audio Streaming', 'Automation'],
+      previewImage: '/web_preview/penbot.jpg',
+      link: 'https://github.com/StevChrist/PenBot',
+    },
+    {
+      id: 'food-order',
+      title: 'Food Order — Restaurant & Delivery System',
+      description:
+        'Full-stack food ordering platform with real-time shopping cart state, menu catalog management, and responsive order checkout flow.',
+      category: 'Full-Stack',
+      tags: ['React', 'Node.js', 'Express', 'MongoDB', 'REST API'],
+      link: 'https://github.com/StevChrist/Food-Order',
+    },
+    {
+      id: 'penforge-agent',
+      title: 'PenForge — Autonomous Agent Engineering Framework',
+      description:
+        'Autonomous software engineering multi-agent framework orchestrating LLM agents with specialized tool calling and sandboxed code execution.',
+      category: 'AI / Machine Learning',
+      tags: ['Autonomous Agents', 'LLM', 'Multi-Agent', 'TypeScript', 'Docker'],
+    },
+    {
+      id: 'craftrelay',
+      title: 'CraftRelay — High-Throughput Messaging Relay',
+      description:
+        'High-performance relay and distributed messaging infrastructure with real-time observability and web status dashboard.',
+      category: 'DevOps / Tools',
+      tags: ['Go', 'Distributed Systems', 'Relay Engine', 'Networking'],
+      link: 'https://github.com/StevChrist/craftrelay',
+    },
+    {
+      id: 'instasentiment',
+      title: 'InstaSentiment — Social Media NLP Analysis',
+      description:
+        'Multilingual sentiment analysis system fine-tuned on mBERT (Multilingual BERT) achieving 0.91 accuracy on social media comments.',
+      category: 'AI / Machine Learning',
+      tags: ['mBERT', 'NLP', 'Transformers', 'Python', 'Analytics'],
+    },
+    {
+      id: 'nexushub',
+      title: 'NexusHub — 9-Router AI Gateway & Reverse Proxy',
+      description:
+        'Enterprise multi-model LLM router and reverse proxy providing unified API routing, load balancing, and failover across 9+ AI providers.',
+      category: 'Full-Stack',
+      tags: ['AI Gateway', 'Reverse Proxy', 'Full-Stack', 'Next.js'],
+    },
+    {
+      id: 'maintenance-page',
+      title: 'Sleek Maintenance & Service Standby Portal',
+      description:
+        'Glassmorphic real-time system status and maintenance notification portal for production service downtime and incident alerts.',
+      category: 'Web App',
+      tags: ['Next.js', 'Tailwind CSS', 'Vercel', 'DevOps'],
+      link: 'https://github.com/StevChrist/maintenance-page',
+      siteLink: 'https://maintenance-page-two-gamma.vercel.app',
+    },
+  ]
+
+  const filteredTableProjects = tableProjects.filter((p) => {
+    if (!searchTerm.trim()) return true
+    const term = searchTerm.toLowerCase()
+    return (
+      p.title.toLowerCase().includes(term) ||
+      p.description.toLowerCase().includes(term) ||
+      p.category.toLowerCase().includes(term) ||
+      p.tags.some((t) => t.toLowerCase().includes(term))
+    )
+  })
 
   const getTitleSize = () => {
     if (screenWidth >= 2560) return '110px'
@@ -950,21 +1067,33 @@ const Project = () => {
         <div className="project-github-callout">
           <div className="project-github-callout-text">
             <h3 className="project-github-callout-title">
-              Want to see other projects? They are all on GitHub.
+              Want to see other projects?
             </h3>
             <p className="project-github-callout-desc">
-              Clean commits, READMEs, and live demos for each project.
+              Explore the complete archive of builds, experiments, and open-source repositories.
             </p>
           </div>
-          <a
-            href="https://github.com/StevChrist"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-github-btn"
-          >
-            <span>Visit GitHub</span>
-            <FaExternalLinkAlt className="project-github-btn-icon" />
-          </a>
+          <div className="project-callout-actions">
+            <button
+              type="button"
+              onClick={() => setIsTableModalOpen(true)}
+              className="project-seemore-btn"
+              title="View all projects in table format"
+            >
+              <FaLayerGroup className="project-seemore-btn-icon" />
+              <span>See More</span>
+            </button>
+            <a
+              href="https://github.com/StevChrist"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-github-btn"
+              title="Visit Steven's GitHub Profile"
+            >
+              <span>Visit GitHub</span>
+              <FaExternalLinkAlt className="project-github-btn-icon" />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -975,6 +1104,206 @@ const Project = () => {
           onClose={() => setSelectedLightboxProject(null)}
         />
       )}
+
+      {/* Pop-up Table Modal for All Other Projects */}
+      <AnimatePresence>
+        {isTableModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsTableModalOpen(false)}
+            className="proj-table-modal-overlay"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 25 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 25 }}
+              transition={{ type: 'spring', damping: 26, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="proj-table-modal-card"
+            >
+              {/* Modal Header */}
+              <div className="proj-table-modal-header">
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="proj-badge-new text-xs">✦ PROJECT ARCHIVE</span>
+                    <span className="text-xs text-emerald-400 font-semibold">
+                      ({tableProjects.length} Projects)
+                    </span>
+                  </div>
+                  <h2 className="proj-table-modal-title">All Other Projects</h2>
+                  <p className="proj-table-modal-subtitle">
+                    Complete list of additional repositories, tools, experiments, and production builds.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsTableModalOpen(false)}
+                  aria-label="Close Project List"
+                  className="uiux-modal-close-btn"
+                >
+                  <FaTimes />
+                </button>
+              </div>
+
+              {/* Search Bar */}
+              <div className="proj-table-search-bar">
+                <div className="relative flex-1">
+                  <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 text-sm" />
+                  <input
+                    type="text"
+                    placeholder="Search projects by title, tech stack, or description..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="proj-table-search-input"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm('')}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-white/50 hover:text-white"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Table Container */}
+              <div className="proj-table-scroll-container">
+                <table className="proj-table">
+                  <thead>
+                    <tr>
+                      <th className="th-project">Project</th>
+                      <th className="th-tech">Tech Stack / Features</th>
+                      <th className="th-actions">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredTableProjects.length > 0 ? (
+                      filteredTableProjects.map((project) => (
+                        <tr key={project.id} className="proj-table-row">
+                          {/* Column 1: Image + Title + Description */}
+                          <td className="td-project">
+                            <div className="proj-table-project-cell">
+                              <div className="proj-table-thumb-wrapper">
+                                {project.previewImage ? (
+                                  <Image
+                                    src={project.previewImage}
+                                    alt={project.title}
+                                    width={84}
+                                    height={52}
+                                    className="proj-table-thumb-img"
+                                  />
+                                ) : (
+                                  <div className="proj-table-thumb-fallback">
+                                    <FaLayerGroup className="text-emerald-400 text-lg opacity-80" />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="proj-table-info">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="proj-table-project-title">
+                                    {project.title}
+                                  </span>
+                                  {project.category && (
+                                    <span className="proj-table-category-badge">
+                                      {project.category}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="proj-table-project-desc">
+                                  {project.description}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* Column 2: Tech Stack / Features */}
+                          <td className="td-tech">
+                            <div className="proj-table-tags">
+                              {project.tags.map((t, idx) => (
+                                <span key={idx} className="proj-table-tag-pill">
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+
+                          {/* Column 3: Actions (See Code & Visit Site) */}
+                          <td className="td-actions">
+                            <div className="proj-table-actions-cell">
+                              {project.link ? (
+                                <a
+                                  href={project.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="btn-table-code"
+                                  title="View source code on GitHub"
+                                >
+                                  <FaGithub />
+                                  <span>See Code</span>
+                                </a>
+                              ) : (
+                                <span
+                                  className="btn-table-disabled"
+                                  title="Repository is private or academic"
+                                >
+                                  <FaGithub />
+                                  <span>Internal</span>
+                                </span>
+                              )}
+
+                              {project.siteLink ? (
+                                <a
+                                  href={project.siteLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="btn-table-site"
+                                  title="Visit live deployment"
+                                >
+                                  <FaExternalLinkAlt />
+                                  <span>Visit Site</span>
+                                </a>
+                              ) : (
+                                <span
+                                  className="btn-table-disabled opacity-50"
+                                  title="No public live deployment"
+                                >
+                                  <FaExternalLinkAlt />
+                                  <span>Visit Site</span>
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={3} className="text-center py-12 text-white/50 text-sm">
+                          No projects found matching &ldquo;{searchTerm}&rdquo;
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="proj-table-modal-footer">
+                <span className="text-xs text-white/50">
+                  Showing {filteredTableProjects.length} of {tableProjects.length} projects
+                </span>
+                <button
+                  onClick={() => setIsTableModalOpen(false)}
+                  className="proj-table-footer-close"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
