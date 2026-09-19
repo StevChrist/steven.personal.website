@@ -171,21 +171,6 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.proj-dashboard-slider-wrapper {
-  height: 270px !important;
-}
-
-@media (min-width: 640px) {
-  .proj-dashboard-slider-wrapper {
-    height: 300px !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  .proj-dashboard-slider-wrapper {
-    height: 320px !important;
-  }
-}
 
 .uiux-slider-img {
   width: 100% !important;
@@ -327,7 +312,7 @@
 .uiux-modal-card {
   position: relative;
   width: 100%;
-  max-width: 1440px;
+  max-width: 1140px;
   background-color: rgba(14, 28, 22, 0.98);
   border: 1px solid rgba(100, 181, 155, 0.35);
   border-radius: 20px;
@@ -335,19 +320,7 @@
   box-shadow: 0 25px 90px rgba(0, 0, 0, 0.88), 0 0 50px rgba(64, 138, 113, 0.35);
   display: flex;
   flex-direction: column;
-  max-height: 96vh;
-}
-
-@media (min-width: 1536px) {
-  .uiux-modal-card {
-    max-width: 1600px;
-  }
-}
-
-@media (min-width: 1920px) {
-  .uiux-modal-card {
-    max-width: 1720px;
-  }
+  max-height: 94vh;
 }
 
 .uiux-modal-close-btn {
@@ -380,13 +353,13 @@
   box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
 }
 
-/* Maximized Image Area (76vh height) with 32px Symmetrical Inset Arrows */
+/* Maximized Image Area with 32px Symmetrical Inset Arrows */
 .uiux-modal-image-wrapper {
   position: relative;
   width: 100%;
-  height: 76vh;
-  min-height: 440px;
-  max-height: 840px;
+  height: 68vh;
+  min-height: 380px;
+  max-height: 700px;
   background-color: #05040a;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -396,18 +369,11 @@
   box-sizing: border-box;
 }
 
-@media (min-width: 1920px) {
-  .uiux-modal-image-wrapper {
-    height: 78vh;
-    max-height: 960px;
-  }
-}
-
 .uiux-modal-img {
+  width: 100% !important;
+  height: 100% !important;
   max-width: 100% !important;
   max-height: 100% !important;
-  width: auto !important;
-  height: auto !important;
   object-fit: contain !important;
   display: block;
   margin: 0 auto !important;

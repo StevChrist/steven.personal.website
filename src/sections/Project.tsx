@@ -119,11 +119,11 @@ const UiUxModal = ({
                 <Image
                   src={project.images[activeImgIndex]}
                   alt={`${project.title} Large Preview ${activeImgIndex + 1}`}
-                  width={1920}
-                  height={1080}
+                  fill
+                  sizes="(max-width: 1200px) 100vw, 1200px"
                   quality={95}
                   priority
-                  className="uiux-modal-img"
+                  className="uiux-modal-img object-contain"
                 />
               </motion.div>
             </AnimatePresence>
@@ -336,7 +336,7 @@ const DashboardCard = ({
     >
       {/* Interactive Image Slider Area */}
       <div
-        className="proj-uiux-slider-wrapper proj-dashboard-slider-wrapper"
+        className="proj-uiux-slider-wrapper"
         onClick={onOpenModal}
         style={{ cursor: 'pointer' }}
       >
@@ -352,8 +352,8 @@ const DashboardCard = ({
             <Image
               src={project.images[activeImgIndex]}
               alt={`${project.title} Preview ${activeImgIndex + 1}`}
-              width={900}
-              height={506}
+              width={700}
+              height={280}
               quality={90}
               priority={index === 0}
               className="uiux-slider-img"
