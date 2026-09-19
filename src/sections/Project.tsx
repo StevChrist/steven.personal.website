@@ -5,7 +5,7 @@ import Image from 'next/image'
 import AnimatedText from '@/components/AnimatedText'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaTimes, FaDownload } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa'
 import '@/styles/projectCard.css'
 
 type FilterTab = {
@@ -119,8 +119,8 @@ const UiUxModal = ({
                 <Image
                   src={project.images[activeImgIndex]}
                   alt={`${project.title} Large Preview ${activeImgIndex + 1}`}
-                  width={1200}
-                  height={750}
+                  width={1920}
+                  height={1080}
                   quality={95}
                   priority
                   className="uiux-modal-img"
@@ -336,7 +336,7 @@ const DashboardCard = ({
     >
       {/* Interactive Image Slider Area */}
       <div
-        className="proj-uiux-slider-wrapper"
+        className="proj-uiux-slider-wrapper proj-dashboard-slider-wrapper"
         onClick={onOpenModal}
         style={{ cursor: 'pointer' }}
       >
@@ -352,8 +352,8 @@ const DashboardCard = ({
             <Image
               src={project.images[activeImgIndex]}
               alt={`${project.title} Preview ${activeImgIndex + 1}`}
-              width={700}
-              height={280}
+              width={900}
+              height={506}
               quality={90}
               priority={index === 0}
               className="uiux-slider-img"
@@ -431,18 +431,6 @@ const DashboardCard = ({
 
           {/* Action Buttons */}
           <div className="proj-actions">
-            {project.downloadLink && (
-              <a
-                href={project.downloadLink}
-                download
-                className="btn-proj-code"
-                title="Download Power BI .PBIX File"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <FaDownload />
-                <span>Download .PBIX</span>
-              </a>
-            )}
             {project.codeLink && (
               <a
                 href={project.codeLink}
@@ -455,13 +443,19 @@ const DashboardCard = ({
                 <span>See Code</span>
               </a>
             )}
-            {project.siteLink && (
+            {project.siteLink !== undefined && (
               <a
-                href={project.siteLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-proj-site"
-                onClick={(e) => e.stopPropagation()}
+                href={project.siteLink || '#'}
+                target={project.siteLink ? "_blank" : undefined}
+                rel={project.siteLink ? "noopener noreferrer" : undefined}
+                className={`btn-proj-site ${!project.siteLink ? 'opacity-70 cursor-pointer' : ''}`}
+                title={project.siteLink ? "Open Live Report" : "Live Report URL coming soon"}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  if (!project.siteLink) {
+                    e.preventDefault()
+                  }
+                }}
               >
                 <FaExternalLinkAlt />
                 <span>Live Report</span>
@@ -549,18 +543,6 @@ const Project = () => {
       tags: ['AI Assistant', 'Semantic Search', 'TMDb API', 'Next.js', 'NLP'],
     },
     {
-      id: 'dwbi',
-      category: 'code',
-      title: 'Data Warehouse & Business Intelligence',
-      description:
-        'This project focuses on designing and implementing an enterprise Data Warehouse (DW) and Business Intelligence (BI) system to support monitoring, evaluation, and decision-making for Kerja Praktik (KP) activities at the faculty level.',
-      link: 'https://github.com/StevChrist/dw_bi',
-      siteLink:
-        'https://app.powerbi.com/view?r=eyJrIjoiYjgxODQxNWYtYzRkNi00YWFjLWI1NzktMGMxNzgyOWRiMDgwIiwidCI6IjkwYWZmZTBmLWMyYTMtNDEwOC1iYjk4LTZjZWI0ZTk0ZWYxNSIsImMiOjEwfQ%3D%3D',
-      previewImage: '/web_preview/Dw_Bi_1.png',
-      tags: ['Power BI', 'Data Warehouse', 'ETL', 'Business Intelligence', 'Analytics'],
-    },
-    {
       id: 'sentiment',
       category: 'code',
       title: 'Social Sentiment',
@@ -629,7 +611,8 @@ const Project = () => {
         '/dashboard/global_superstore/Page_2_Product_Profitability.png',
         '/dashboard/global_superstore/Page_3_Customer_Logistics.png',
       ],
-      downloadLink: '/dashboard/global_superstore/Global Superstore Sales Dashboard.pbix',
+      codeLink: 'https://github.com/StevChrist/Global-Superstore-Sales-Dashboard',
+      siteLink: '',
       tags: ['Power BI', 'DAX', 'Star Schema', 'Executive KPI', 'Sales Analytics', 'Logistics'],
       isNew: true,
     },
